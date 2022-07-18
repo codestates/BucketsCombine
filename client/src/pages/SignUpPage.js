@@ -168,10 +168,11 @@ export default function SignUpPage() {
       userinfo.password === "" ||
       userinfo.username === ""
     ) {
+      console.log("test-----");
       setErrorMessage("모든 항목은 필수입니다");
     } else {
       axios
-        .post("http://localhost:4000/signup", {
+        .post("http://localhost:4000/users/signup", {
           email: userinfo.email,
           password: userinfo.password,
           username: userinfo.username,

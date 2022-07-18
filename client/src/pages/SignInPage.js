@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import styled from "styled-components";
 
 const SignInPageWrap = styled.div`
   .body {
@@ -46,7 +46,7 @@ const SignInPageWrap = styled.div`
     margin: 20px;
     border-radius: 5px;
   }
-  .login_signupbox{
+  .login_signupbox {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -54,10 +54,10 @@ const SignInPageWrap = styled.div`
     margin: 2px 100px;
     width: 400px;
     border-radius: 5px;
-    height: 200px; 
+    height: 200px;
   }
-  a{
-    text-decoration-line : none;
+  a {
+    text-decoration-line: none;
   }
   #login_email {
     padding: 5px 40px;
@@ -112,63 +112,96 @@ const SignInPageWrap = styled.div`
     margin: 4px;
     border-radius: 5px;
   }
-`
+`;
 
 export default function SignInPage({ handleResponseSuccess }) {
   const [loginInfo, setLoginInfo] = useState({
-    login_email: '',
-    login_password: ''
+    email: "",
+    password: "",
   });
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
   };
   const handleLogin = () => {
     // TODO : 서버에 로그인을 요청하고, props로 전달된 callback을 호출합니다.
     // TODO : 이메일 및 비밀번호를 입력하지 않았을 경우 에러를 표시해야 합니다.
-    if(loginInfo.login_email === '' || loginInfo.login_password === ''){
-      setErrorMessage('이메일과 비밀번호를 입력하세요')
+    if (loginInfo.email === "" || loginInfo.password === "") {
+      setErrorMessage("이메일과 비밀번호를 입력하세요");
     } else {
-      axios.post("http://localhost:4000/signin", {
-        email: loginInfo.login_email,
-        password: loginInfo.login_password
-      })
-      .then(res => {
-        handleResponseSuccess()
-      })
+      axios
+        .post("http://localhost:4000/users/login", {
+          email: loginInfo.email,
+          password: loginInfo.password,
+        })
+        .then((res) => {
+          handleResponseSuccess();
+        });
     }
   };
 
-
-	return (
+  return (
     <SignInPageWrap>
       <div className="body">
-      <div>
-      <div className="signin_section">
-      <button id="login_cancle">취소</button>
-      <div className="signin_container">
-        <img src="images/bucketscombine_logo.png" alt="no" width="120px" height="120px"></img>
-        <p />
-          <div className="login_title">BucketsCombine</div>
-          <input id="login_email" type="email" placeholder="이메일" onChange={handleInputValue("login_email")} />
-          <input id="login_password" type="password" placeholder="비밀번호" onChange={handleInputValue("login_password")}/>
-          <input id="login_button" type="submit" value="로그인" onSubmit={(e) => e.preventDefault}/>
-          <div className='alert-box'>{errorMessage}</div>
-          <li><Link to="/signup">아이디 / 비밀번호찾기</Link></li>
-          <div className="login_signupbox">
-            <button className="login_box" type="submit" value="로그인"onChange={handleLogin}>로그인</button>
-            <div className='alert-box'>{errorMessage}</div>
-            <button className="login_google">
-              <img src="images/unnamed.webp"
-              alt="사진이 없습니다." width="20px" height="20px"></img>
-              구글 로그인 / 회원가입
-              </button>
-            <button className="login_signup">회원가입</button>
+        <div>
+          <div className="signin_section">
+            <button id="login_cancle">취소</button>
+            <div className="signin_container">
+              <img
+                src="images/bucketscombine_logo.png"
+                alt="no"
+                width="120px"
+                height="120px"
+              ></img>
+              <p />
+              <div className="login_title">BucketsCombine</div>
+              <input
+                id="login_email"
+                type="email"
+                placeholder="이메일"
+                onChange={handleInputValue("login_email")}
+              />
+              <input
+                id="login_password"
+                type="password"
+                placeholder="비밀번호"
+                onChange={handleInputValue("login_password")}
+              />
+              <input
+                id="login_button"
+                type="submit"
+                value="로그인"
+                onSubmit={(e) => e.preventDefault}
+              />
+              <div className="alert-box">{errorMessage}</div>
+              <li>
+                <Link to="/signup">아이디 / 비밀번호찾기</Link>
+              </li>
+              <div className="login_signupbox">
+                <button
+                  className="login_box"
+                  type="submit"
+                  value="로그인"
+                  onChange={handleLogin}
+                >
+                  로그인
+                </button>
+                <div className="alert-box">{errorMessage}</div>
+                <button className="login_google">
+                  <img
+                    src="images/unnamed.webp"
+                    alt="사진이 없습니다."
+                    width="20px"
+                    height="20px"
+                  ></img>
+                  구글 로그인 / 회원가입
+                </button>
+                <button className="login_signup">회원가입</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      </div>
-      </div>
-		</SignInPageWrap>
-	)
+    </SignInPageWrap>
+  );
 }
