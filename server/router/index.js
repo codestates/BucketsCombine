@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const usersRouter = require("./users");
-// const mypagesRouter = require("./mypage");
+const mypagesRouter = require("./mypage");
 // const mainRouter = require("./mainpage");
 
 router.get("/", function (req, res) {
@@ -11,7 +11,7 @@ router.get("/", function (req, res) {
 });
 
 router.use("/users", usersRouter);
-// router.use("/mypages", mypagesRouter);
+router.use("/mypages", mypagesRouter);
 // router.use("/mainpage", mainRouter);
 //
 module.exports = router;

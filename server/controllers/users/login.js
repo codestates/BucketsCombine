@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
 
       const accessToken = generateAccessToken(payload);
       sendAccessToken(res, accessToken);
-
+      console.log("sendAccessToken", sendAccessToken(res, accessToken)); // sendAccessToken undefined
       res.status(200).json({ message: "로그인 성공" });
     }
   }
