@@ -6,9 +6,9 @@ module.exports = async (req, res) => {
   const newCard = {
     title: req.body.title,
     cardtext: req.body.cardtext,
-    users_id: req.body.users_id,
-    hashname: req.body.hashname,
-    background: req.body.background,
+    users_id: req.body.users_id, //userid 바디에 담아서 받기
+    hashname: req.body.hashname, // ["공부","연애","운동"]
+    background: req.body.background, // 태영님
   };
   const createCard = await cards.create({
     title: newCard.title,
