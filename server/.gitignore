@@ -3,4 +3,4 @@ node_modules
 .DS_Store
 .prettierignore
 AWS_Buckets.pem
-/Users/dodonabi/Desktop/GIT 연습/BucketsCombine/AWS_Buckets.pem
+../AWS_Buckets.pem
