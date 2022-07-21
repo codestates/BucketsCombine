@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: { name: "users_id", allowNull: true },
         onDelete: "CASCADE",
       });
+      cards.hasMany(models.userCardJoins, {
+        foreignKey: "cards_id",
+        sourceKey: "id",
+      });
       cards.belongsToMany(models.hashtags, {
         through: "cardHashTag",
       }),

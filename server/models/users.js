@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "users_id",
         sourceKey: "id",
       });
+      users.hasMany(models.userCardJoins, {
+        foreignKey: "users_id",
+        sourceKey: "id",
+      });
       users.belongsToMany(models.cards, { through: "userCardJoin" });
     }
   }
