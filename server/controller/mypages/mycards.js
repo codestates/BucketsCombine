@@ -20,11 +20,11 @@ function joinCardids(joinrecode) {
 
 module.exports = async (req, res) => {
   //! dev 에서는 아래 주석코드 사용
-  //   const usersId = {
-  //     id: req.body.usersId,
-  //   }; // client 에서 주는 아이디
+  const usersId = {
+    id: req.body.users_id,
+  }; // client 에서 주는 아이디
   //!
-  const usersId = 1; // 임의의 유저아이디
+  // 임의의 유저아이디
   const mycards = await cards
     .findAll({
       // where { id : iserCardjoins.cards_id }
@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
         {
           model: userCardJoins,
           where: {
-            users_id: usersId, //! usersId.id 로 수정해야됌
+            users_id: usersId.id, //! usersId.id 로 수정해야됌
           },
           include: [
             {
