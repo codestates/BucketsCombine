@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: { name: "users_id", allowNull: true },
         onDelete: "CASCADE",
       });
+      userCardJoins.belongsTo(models.stampeds, {
+        foreignKey: { name: "stampeds_id", allowNull: true },
+        onDelete: "CASCADE",
+      });
     }
   }
   //n:m관계에서 Query문을 날릴 땐, through와 구체적인 attributes를 명시

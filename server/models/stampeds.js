@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      stampeds.hasMany(models.userCardJoins, {
+        foreignKey: "stampeds_id",
+        sourceKey: "id",
+      });
     }
   }
   stampeds.init(
