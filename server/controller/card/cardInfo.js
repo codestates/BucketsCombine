@@ -7,7 +7,6 @@ const {
 
 const addtegs = (C, CH, H, UCJ) => {
   let result = [];
-
   for (let card of C) {
     const matchedCH = CH.filter((el) => el.cards_id === card.id);
 
@@ -19,6 +18,10 @@ const addtegs = (C, CH, H, UCJ) => {
     }
 
     const matchedUJ = UCJ.filter((el) => el.cards_id === card.id);
+
+    const stamped = matchedUJ.map((el) => el.stampeds_id);
+    const set = new Set(stamped);
+    const stampedset = [...set];
 
     const matchedUsers = matchedUJ.map((el) => el.users_id);
 
@@ -33,6 +36,7 @@ const addtegs = (C, CH, H, UCJ) => {
       membersID: matchedUsers,
       createdAt: card.createdAt,
       updatedAt: card.updatedAt,
+      stamped: stampedset,
     });
   }
   return result;
