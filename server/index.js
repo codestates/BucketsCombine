@@ -12,6 +12,7 @@ const mysql = require("mysql");
 // const controllers = require("./controllers");
 const cookieParser = require("cookie-parser");
 const { result } = require("lodash");
+const router = require("./router");
 require("dotenv").config();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -23,7 +24,10 @@ app.use(
   })
 );
 app.use(cookieParser());
-
+function a(req, res) {
+  res.send("안녕하세요 정확한 패쓰루트를 써보세요");
+}
+router.get("/", a);
 app.use("/", indexRouter);
 
 // if (document.location.protocol == "http:") {

@@ -43,14 +43,21 @@ const addtegs = (C, CH, H, UCJ) => {
 };
 
 module.exports = async (req, res) => {
-  const userCardJoinsinfo = await userCardJoins.findAll({});
-  const cardHashtagsinfo = await cardHashtags.findAll({});
-  const hashtagsinfo = await hashtags.findAll({});
+  const userCardJoinsinfo = await userCardJoins
+    .findAll({})
+    .catch((err) => console.log(err));
+  const cardHashtagsinfo = await cardHashtags
+    .findAll({})
+    .catch((err) => console.log(err));
+  const hashtagsinfo = await hashtags
+    .findAll({})
+    .catch((err) => console.log(err));
   const cardinfo = await cards
     .findAll({})
     .then((el) =>
       addtegs(el, cardHashtagsinfo, hashtagsinfo, userCardJoinsinfo)
-    );
+    )
+    .catch((err) => console.log(err));
 
   res.send(cardinfo);
 };

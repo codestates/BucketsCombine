@@ -1,6 +1,9 @@
 node_modules
 .env
 .DS_Store
+./DS_Store
+../ADS_Store
 .prettierignore
-AWS_Buckets.pem
 ../AWS_Buckets.pem
+./AWS_Buckets.pem
+AWS_Buckets.pem
