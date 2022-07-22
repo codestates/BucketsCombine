@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
       usertext: DataTypes.TEXT,
       oauthlogin: DataTypes.STRING,
       userphotourl: DataTypes.STRING,
+      gender: DataTypes.STRING, // 연령대
+      age: DataTypes.STRING, // 성별
     },
     {
       sequelize,

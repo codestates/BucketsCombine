@@ -5,4 +5,4 @@ module.exports = async (req, res) => {
   res.send(usersinfo);
 };
 
-// /mapage
+// 비밀번호 제거
