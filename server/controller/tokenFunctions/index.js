@@ -11,7 +11,7 @@ module.exports = {
     res.cookie("jwtAccessToken", accessToken);
   },
 
-  isAuthorized: (req) => {
+  isAuthorized: (req, res) => {
     // const authorization = req.headers["authorization"];
     // const token = authorization.split(" ")[1];
     // return verify(token, process.env.ACCESS_SECRET);
@@ -22,7 +22,8 @@ module.exports = {
     // if (!token) return null;
     // return verify(token, process.env.ACCESS_SECRET);
     const authorization = req.headers.cookie;
-    console.log("------", authorization); // ------ undefined 로그아웃 두번 눌렀을 시. 메세지가 안뜨는데 일단 로그아웃 두번 눌를일 없다 생각하고 넘어가
+    console.log("------", authorization);
+    // res.send("여기서 멈춤"); // ------ undefined 로그아웃 두번 눌렀을 시. 메세지가 안뜨는데 일단 로그아웃 두번 눌를일 없다 생각하고 넘어가
     const token = authorization.split("=")[1];
     return verify(token, process.env.ACCESS_SECRET);
   },

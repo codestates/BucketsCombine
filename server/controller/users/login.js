@@ -5,9 +5,13 @@ module.exports = async (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({ message: "이메일, 비밀번호를 확인해주세요" });
   } else {
-    const userinfo = await users.findOne({
-      where: { email: req.body.email },
-    });
+    const userinfo = await users
+      .findOne({
+        where: { email: req.body.email },
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     if (!userinfo) {
       return res.status(409).json({ message: "없는 사용자입니다" });
     }
