@@ -22,13 +22,8 @@ module.exports = {
     // if (!token) return null;
     // return verify(token, process.env.ACCESS_SECRET);
     const authorization = req.headers.cookie;
-<<<<<<< HEAD
-    console.log("------", authorization);
-    // res.send("여기서 멈춤"); // ------ undefined 로그아웃 두번 눌렀을 시. 메세지가 안뜨는데 일단 로그아웃 두번 눌를일 없다 생각하고 넘어가
-=======
     console.log("sendAccessToken", req.headers);
     console.log("------", authorization); // ------ undefined 로그아웃 두번 눌렀을 시. 메세지가 안뜨는데 일단 로그아웃 두번 눌를일 없다 생각하고 넘어가
->>>>>>> 5a9316a814781f7a1dec4490fc492ab1a945a710
     const token = authorization.split("=")[1];
     return verify(token, process.env.ACCESS_SECRET);
   },
