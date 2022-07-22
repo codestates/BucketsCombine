@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
   const newCard = {
     title: req.body.title,
     cardtext: req.body.cardtext,
-    users_id: req.body.users_id, //userid 바디에 담아서 받기
+    users_id: req.body.users_id, //userid
     hashname: req.body.hashname, // ["공부","연애","운동"]
     background: req.body.background, // 태영님
   };
