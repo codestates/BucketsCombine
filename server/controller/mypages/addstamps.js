@@ -1,11 +1,13 @@
 const { userCardJoins } = require("../../models");
 const { stampeds } = require("../../models");
 module.exports = async (req, res) => {
-  const userstampid = await userCardJoins.findAll({
-    where: {
-      cards_id: req.body.cards_id,
-    },
-  });
+  const userstampid = await userCardJoins
+    .findAll({
+      where: {
+        cards_id: req.body.cards_id,
+      },
+    })
+    .catch((err) => console.log(err));
 
   if (userstampid[0].stampeds_id === null) {
     const createStampid = await stampeds.create({}); // 새로만든 스탬프의 아이디
