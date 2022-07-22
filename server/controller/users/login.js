@@ -12,6 +12,7 @@ module.exports = async (req, res) => {
       return res.status(409).json({ message: "없는 사용자입니다" });
     }
     if (req.body.password !== userinfo.password) {
+      console.log(req.body.password);
       return res.status(401).json({ message: "비밀번호가 일치하지 않습니다" });
     } else {
       const payload = {
@@ -20,7 +21,6 @@ module.exports = async (req, res) => {
 
       const accessToken = generateAccessToken(payload);
       sendAccessToken(res, accessToken);
-      console.log("sendAccessToken", sendAccessToken(res, accessToken)); // sendAccessToken undefined
       res.status(200).json({ message: "로그인 성공" });
     }
   }
