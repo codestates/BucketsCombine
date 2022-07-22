@@ -4,3 +4,5 @@ node_modules
 .prettierignore
 AWS_Buckets.pem
 ../AWS_Buckets.pem
+./AWS_Buckets.pem
+AWS_Buckets.pem
