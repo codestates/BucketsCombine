@@ -10,12 +10,14 @@ module.exports = async (req, res) => {
     hashname: req.body.hashname, // ["공부","연애","운동"]
     background: req.body.background, // 태영님
   };
-  const createCard = await cards.create({
-    title: newCard.title,
-    cardtext: newCard.cardtext,
-    users_id: newCard.users_id,
-    background: newCard.background,
-  });
+  const createCard = await cards
+    .create({
+      title: newCard.title,
+      cardtext: newCard.cardtext,
+      users_id: newCard.users_id,
+      background: newCard.background,
+    })
+    .catch((err) => console.log(err));
   const createJoin = await userCardJoins.create({
     // 본인카드는 담기버튼이 안나와야됌
     cards_id: createCard.id,
