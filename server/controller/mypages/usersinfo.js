@@ -1,21 +1,11 @@
 const { users } = require("../../models");
 
 module.exports = async (req, res) => {
-  const usersinfo = await users.findAll({});
-  const payload = {
-    id: usersinfo.id,
-    username: usersinfo.username,
-    email: usersinfo.email,
-    usertext: usersinfo.usertext,
-    oauthlogin: usersinfo.oauthlogin,
-    userphotourl: usersinfo.userphotourl,
-    gender: usersinfo.gender,
-    age: usersinfo.age,
-    createdAt: usersinfo.createdAt,
-    updatedAt: usersinfo.updatedAt,
-  };
+  const usersinfo = await users.findAll({
+    attributes: { exclude: ["password"] },
+  });
 
-  res.send(payload);
+  res.send(usersinfo);
 };
 
 // 비밀번호 제거

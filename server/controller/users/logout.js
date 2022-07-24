@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     return res.status(400).json({ message: "이미 로그아웃되었습니다" });
   }
   // auth(req)
-  const verify = isAuthorized(req);
+  const verify = await isAuthorized(req);
   if (verify) {
     res
       .status(200)

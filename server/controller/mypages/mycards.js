@@ -15,9 +15,10 @@ function joinCardids(joinrecode) {
       }
     }
   }
+
   return result;
 }
-
+// 아이디 순으로 정렬
 module.exports = async (req, res) => {
   //! dev 에서는 아래 주석코드 사용
   const usersId = {

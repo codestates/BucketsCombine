@@ -22,9 +22,16 @@ module.exports = async (req, res) => {
         id: userinfo.id,
       };
 
+      const usersinfos = await users.findOne({
+        where: {
+          id: userinfo.id,
+        },
+        attributes: { exclude: ["password"] },
+      });
+
       const accessToken = generateAccessToken(payload);
       sendAccessToken(res, accessToken);
-      res.status(200).json({ message: "로그인 성공", userID: userinfo.id });
+      res.status(200).json({ message: "로그인 성공", userInfo: usersinfos });
     }
   }
 };
