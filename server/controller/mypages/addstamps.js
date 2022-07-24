@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     console.log(result);
   } else {
     console.log(result);
-    res.send("이미 스탬프 된 카드입니다.");
+    res.status(409).send("이미 스탬프 된 카드입니다.");
   }
 
   // console.log(userstampid[0].stampeds_id);

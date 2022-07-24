@@ -25,11 +25,11 @@ module.exports = {
       // 관리자 검증 할 수 있는 조건
       // 특정 id값인지, 지정된 경로(path)인지, 지정한 메소드(get)인지
       if (userInfo.oauthlogin === "local") {
-        res.json({ message: "local 로그인" });
+        console.log({ message: "local 로그인" });
       } else if (userInfo.oauthlogin === "google") {
-        res.json({ message: "google 로그인" });
+        console.log({ message: "google 로그인" });
       } else if (userInfo.oauthlogin === "kakao") {
-        res.json({ message: "kakao 로그인" });
+        console.log({ message: "kakao 로그인" });
       }
     } else {
       return res.status(500).json({ message: "토큰 검증에 실패하였습니다" });
