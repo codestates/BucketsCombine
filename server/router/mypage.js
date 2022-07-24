@@ -11,7 +11,7 @@ const cardsedit = require("../controller/card/edit");
 const userdelete = require("../controller/users/deleteuser.js");
 
 router.post("/addstamps", addstamp);
-router.post("/create", createCard); //카드 생성 및 태그 생성, 유저카드조인에 생성한 카드 추가
+router.post("/create", createCard);
 router.post("/mycards", mycards);
 router.get("/usersinfo", usersinfo);
 router.delete("/deletecard", deletecard);

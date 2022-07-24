@@ -7,5 +7,4 @@ module.exports = async (req, res) => {
 
   res.send(usersinfo);
 };
-
 // 비밀번호 제거

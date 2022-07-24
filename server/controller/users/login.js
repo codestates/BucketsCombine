@@ -10,13 +10,7 @@ module.exports = async (req, res) => {
       .findOne({
         where: { email: req.body.email },
       })
-<<<<<<< HEAD
-      .catch((err) => {
-        console.log(err);
-      });
-=======
       .catch((err) => console.log(err));
->>>>>>> 5a9316a814781f7a1dec4490fc492ab1a945a710
     if (!userinfo) {
       return res.status(409).json({ message: "없는 사용자입니다" });
     }
