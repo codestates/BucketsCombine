@@ -39,21 +39,3 @@ module.exports = async (req, res) => {
   });
   res.send("카드가 삭제되었습니다.");
 };
-// stamped id / hashtags
-
-// const mycards = await cards.findAll({
-//   // where { id : iserCardjoins.cards_id }
-//   include: [
-//     {
-//       model: userCardJoins,
-//       where: {
-//         users_id: usersId.id, //! usersId.id 로 수정해야됌
-//       },
-//       include: [
-//         {
-//           model: users,
-//         },
-//       ],
-//     },
-//   ],
-// });

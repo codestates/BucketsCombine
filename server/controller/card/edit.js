@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
       {
         title: req.body.title,
         cardtext: req.body.cardtext,
-        background: req.body.background, // 사진
+        background: req.body.background,
         hashname: req.body.hashname,
         completed: req.body.completed,
       },

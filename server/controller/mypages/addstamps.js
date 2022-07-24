@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
     console.log(result);
   } else {
     console.log(result);
-    res.send("이미 스탬프 된 카드입니다.");
+    res.status(409).send("이미 스탬프 된 카드입니다.");
   }
 
   // console.log(userstampid[0].stampeds_id);
@@ -38,5 +38,3 @@ module.exports = async (req, res) => {
 // cards id가 들어왔을때
 // 해당하는userCardjoins.cards_id를 찾고 stamped id 가  Null값이면 스템프아이디 생성 스템프 아이디 넣고
 // id 순차적으로 넣어줌
-
-//

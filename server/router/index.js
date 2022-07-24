@@ -10,5 +10,4 @@ router.use("/mypage", mypagesRouter);
 router.use("/users", usersRouter);
 
 // router.use("/mainpage", mainRouter);
-//
 module.exports = router;

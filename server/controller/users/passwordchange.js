@@ -4,20 +4,18 @@ module.exports = async (req, res) => {
   if (!isAuthorized(req, res)) {
     return;
   }
-  const usersinfo = await users
+  const userid = await isAuthorized(req, res);
+  await users
     .update(
       {
-        username: req.body.username,
-        age: req.body.age,
-        gender: req.body.gender,
-        usertext: req.body.usertext,
-        userphotourl: req.body.userphotourl,
+        password: req.body.password,
       },
-      { where: { email: req.body.email } }
+      { where: { id: userid.id } }
     )
     .catch((err) => {
       console.error(err);
     });
-  res.send("유저정보가 수정되었습니다");
+
   //기본적으로 변경페이지에 들어가면 내용이 다 적혀있어야됌
+  res.send("패스워드가 변경되었습니다.");
 };
