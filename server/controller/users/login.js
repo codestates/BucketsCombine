@@ -2,6 +2,7 @@ const { users } = require("../../models");
 const { generateAccessToken, sendAccessToken } = require("../tokenFunctions");
 
 module.exports = async (req, res) => {
+  // 로그인인지에 대한 상태가 확인이 없어요
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({ message: "이메일, 비밀번호를 확인해주세요" });
   } else {
@@ -25,12 +26,18 @@ module.exports = async (req, res) => {
     } else {
       const payload = {
         id: userinfo.id,
-        email: userinfo.email,
       };
+
+      const usersinfos = await users.findOne({
+        where: {
+          id: userinfo.id,
+        },
+        attributes: { exclude: ["password"] },
+      });
 
       const accessToken = generateAccessToken(payload);
       sendAccessToken(res, accessToken);
-      res.status(200).json({ message: "로그인 성공" });
+      res.status(200).json({ message: "로그인 성공", userInfo: usersinfos });
     }
   }
 };

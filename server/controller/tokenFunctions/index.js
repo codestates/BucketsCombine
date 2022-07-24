@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { sign, verify } = require("jsonwebtoken");
+const { users } = require("../../models");
 
 module.exports = {
   // 토큰 생성(sign)
@@ -11,23 +12,58 @@ module.exports = {
     res.cookie("jwtAccessToken", accessToken);
   },
 
-  isAuthorized: (req, res) => {
-    // const authorization = req.headers["authorization"];
-    // const token = authorization.split(" ")[1];
-    // return verify(token, process.env.ACCESS_SECRET);
+  isAuthorized: async (req, res) => {
+    if (!req.headers.cookie) {
+      return res.status(401).json({ message: "권한이 없습니다" });
+    }
 
-    // const authorization = req.headers["authorization"];
-    // if (!authorization) return null;
-    // const token = authorization.split(" ")[2];
-    // if (!token) return null;
-    // return verify(token, process.env.ACCESS_SECRET);
     const authorization = req.headers.cookie;
-    console.log("sendAccessToken", req.headers);
-    console.log("------", authorization); // ------ undefined 로그아웃 두번 눌렀을 시. 메세지가 안뜨는데 일단 로그아웃 두번 눌를일 없다 생각하고 넘어가
     const token = authorization.split("=")[1];
-    return verify(token, process.env.ACCESS_SECRET);
+    const decoded = verify(token, process.env.ACCESS_SECRET);
+    const userInfo = await users.findByPk(decoded.id);
+    if (userInfo) {
+      // 관리자 검증 할 수 있는 조건
+      // 특정 id값인지, 지정된 경로(path)인지, 지정한 메소드(get)인지
+      if (userInfo.oauthlogin === "local") {
+        res.json({ message: "local 로그인" });
+      } else if (userInfo.oauthlogin === "google") {
+        res.json({ message: "google 로그인" });
+      } else if (userInfo.oauthlogin === "kakao") {
+        res.json({ message: "kakao 로그인" });
+      }
+    } else {
+      return res.status(500).json({ message: "토큰 검증에 실패하였습니다" });
+    }
+
+    return decoded;
   },
 };
+
+// module.exports = async (req, res) => {
+//   const { jwtAccessToken } = req.cookies;
+
+//   console.log("jwtAccessToken", jwtAccessToken);
+//   if (!jwtAccessToken) {
+//     return res.status(401).json({ message: "권한이 없습니다" });
+//   } else {
+//     const decoded = verify(jwtAccessToken, process.env.ACCESS_SECRET);
+//     const userInfo = await users.findByPk(decoded.id);
+//     if (userInfo) {
+//       // 관리자 검증 할 수 있는 조건
+//       // 특정 id값인지, 지정된 경로(path)인지, 지정한 메소드(get)인지
+//       if (userInfo.oauthlogin === "local") {
+//         return res.json({ message: "local 로그인" });
+//       } else if (userInfo.oauthlogin === "google") {
+//         return res.json({ message: "google 로그인" });
+//       } else if (userInfo.oauthlogin === "kakao") {
+//         return res.json({ message: "kakao 로그인" });
+//       }
+//     } else {
+//       return res.status(500).json({ message: "토큰 검증에 실패하였습니다" });
+//     }
+//   }
+// };
+
 // JWT를 해독하여 얻은 payload 안의 값으로 DB에 유저를 조회합니다.
 // console.log(req.headers)
 // const authorization = req.headers['authorization']; // .authorization 이랑 같아

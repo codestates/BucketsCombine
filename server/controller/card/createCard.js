@@ -18,8 +18,7 @@ module.exports = async (req, res) => {
       background: newCard.background,
     })
     .catch((err) => console.log(err));
-  const createJoin = await userCardJoins.create({
-    // 본인카드는 담기버튼이 안나와야됌
+  await userCardJoins.create({
     cards_id: createCard.id,
     users_id: newCard.users_id,
   }); // userCardJoin table에 작성자 카드가 들어감 /
@@ -33,15 +32,11 @@ module.exports = async (req, res) => {
         },
       });
       if (!checkHashName || Object.keys(checkHashName).length === 0) {
-        await hashtags.create({
-          hashname: req.body.hashname[i],
-        });
-        const newhashtagId = await hashtags.findOne({
+        const newhashtagId = await hashtags.findOrCreate({
           where: {
             hashname: req.body.hashname[i],
           },
-        }); // 생성한 해쉬태그의 아이디를 찾는다
-        console.log("만든해쉬네임아이디", newhashtagId.id);
+        });
         await cardHashtags.create({
           cards_id: createCard.id,
           hashtags_id: newhashtagId.id,
