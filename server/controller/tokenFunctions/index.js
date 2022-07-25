@@ -8,7 +8,10 @@ module.exports = {
   },
 
   sendAccessToken: (res, accessToken) => {
-    res.cookie("jwtAccessToken", accessToken);
+    res.cookie("jwtAccessToken", accessToken, {
+      sameSite: "none",
+      secure: true,
+    });
   },
 
   isAuthorized: async (req, res) => {
