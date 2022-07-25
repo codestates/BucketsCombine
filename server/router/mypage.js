@@ -18,7 +18,7 @@ router.post("/mycards", mycards); //get 으로바꿔야댐
 router.patch("/cardsedit", cardsedit);
 router.delete("/deletecard", deletecard);
 
-router.get("/passwordcheck", passwordcheck);
+router.post("/passwordcheck", passwordcheck);
 router.patch("/passwordchange", passwordchange);
 router.patch("/edit", edit);
 router.get("/usersinfo", usersinfo);

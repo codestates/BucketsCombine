@@ -18,11 +18,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:80"],
+    origin: true,
     credentials: true,
     methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
+    allowedHeaders:['Content-Type','authorization'],
   })
 );
+
+
 app.use(cookieParser());
 function a(req, res) {
   res.send("안녕하세요 정확한 패쓰루트를 써보세요");

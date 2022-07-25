@@ -8,10 +8,16 @@ module.exports = {
   },
 
   sendAccessToken: (res, accessToken) => {
-    res.cookie("jwtAccessToken", accessToken);
+    res.cookie("jwtAccessToken", accessToken,{
+      httpOnly: 'true',
+	SameSite : "None",
+	secure:"true",
+	expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
+    });
   },
 
   isAuthorized: async (req, res) => {
+	console.log("요청 받은 헤더 내역 : ",req.headers)
     if (!req.headers.cookie) {
       return res.status(401).json({ message: "권한이 없습니다" });
     }

@@ -3,8 +3,11 @@ const { isAuthorized } = require("../tokenFunctions");
 module.exports = async (req, res) => {
   if (!isAuthorized(req, res)) {
     return;
-  }
+  }else{
   const userid = await isAuthorized(req, res);
+
+console.log(userid)
+console.log(req.body.password)
   const passwordcheck = await users
     .findOne({
       where: {
@@ -27,4 +30,5 @@ module.exports = async (req, res) => {
     console.log("비밀번호가 확인되었습니다.");
     res.send(result);
   }
+}
 };
