@@ -12,7 +12,6 @@ module.exports = {
       httpOnly: "true",
       SameSite: "None",
       secure: "true",
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 48),
     });
   },
 

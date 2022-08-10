@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
           },
         }); // 생성한 해쉬태그의 아이디를 찾는다
         await cardHashtags.create({
-          cards_id: cardsinfo.cards_id,
+          cards_id: req.body.cards_id,
           hashtags_id: newhashtagId.id,
         }); // cardHashtags 의 N번째 인덱스에 card_id(태그를 작성한 카드의 아이디) 와 hashtag_id(생성된 태그의 아이디)생성
       } else {

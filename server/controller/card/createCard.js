@@ -23,35 +23,32 @@ module.exports = async (req, res) => {
     users_id: newCard.users_id,
   }); // userCardJoin table에 작성자 카드가 들어감 /
   console.log("만든카드아이디", createCard.id);
-  if (!req.body.hashname.length) {
-  } else {
-    for (let i = 0; i < req.body.hashname.length; i++) {
-      const checkHashName = await hashtags.findOne({
+  for (let i = 0; i < req.body.hashname.length; i++) {
+    const checkHashName = await hashtags.findOne({
+      where: {
+        hashname: req.body.hashname[i],
+      },
+    });
+    if (!checkHashName || Object.keys(checkHashName).length === 0) {
+      const newhashtagId = await hashtags.findOrCreate({
         where: {
           hashname: req.body.hashname[i],
         },
       });
-      if (!checkHashName || Object.keys(checkHashName).length === 0) {
-        const newhashtagId = await hashtags.findOrCreate({
-          where: {
-            hashname: req.body.hashname[i],
-          },
-        });
-        await cardHashtags.create({
-          cards_id: createCard.id,
-          hashtags_id: newhashtagId.id,
-        }); // cardHashtags 의 N번째 인덱스에 card_id(태그를 작성한 카드의 아이디) 와 hashtag_id(생성된 태그의 아이디)생성
-      } else {
-        const newhashtagId = await hashtags.findOne({
-          where: {
-            hashname: req.body.hashname[i],
-          }, // 해쉬네임에 해당하는 해쉬태그 아이디를 구한다음
-        });
-        await cardHashtags.create({
-          cards_id: createCard.id, //카드 아이디와
-          hashtags_id: newhashtagId.id, // 해쉬태그 아이디를 생성
-        });
-      }
+      await cardHashtags.create({
+        cards_id: createCard.id,
+        hashtags_id: newhashtagId[0].id,
+      }); // cardHashtags 의 N번째 인덱스에 card_id(태그를 작성한 카드의 아이디) 와 hashtag_id(생성된 태그의 아이디)생성
+    } else {
+      const newhashtagId = await hashtags.findOne({
+        where: {
+          hashname: req.body.hashname[i],
+        }, // 해쉬네임에 해당하는 해쉬태그 아이디를 구한다음
+      });
+      await cardHashtags.create({
+        cards_id: createCard.id, //카드 아이디와
+        hashtags_id: newhashtagId.id, // 해쉬태그 아이디를 생성
+      });
     }
   }
   res.send("성공");
