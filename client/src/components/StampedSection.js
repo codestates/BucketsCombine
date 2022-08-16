@@ -23,7 +23,7 @@ const CardsWrap = styled.div`
   }
 
   .ment-title {
-    font-size: 48px;
+    font-size: 42px;
     margin-bottom: 20px;
   }
 
@@ -125,10 +125,10 @@ const StampedModal = () => {
       <div id={isDesktop?'card-section' : 'card-section-mobile'}>
         <div className={isDesktop? "cards-ment" : "cards-ment-mobile"}>
           <div className={isDesktop? 'ment-title' : 'ment-title-mobile'}>
-          여러분의 성취담을<br/> 공유해보세요.
+          여러분의 성취담을{isDesktop? '': <br/> } 공유해보세요.
           </div>
           <div className={isDesktop? 'ment-description' : 'ment-description-mobile'}>
-          달성하신 카드는 도장을 찍어드려요.<br/> 여러분의 후기를 담아 공유할 수 있습니다.
+          달성하신 카드는 도장을 찍어드려요.{isDesktop? '': <br/> }여러분의 후기를 담아 공유할 수 있습니다.
           </div>
         </div>
         <div id={isDesktop? 'cards-list-row' : 'cards-list-row-mobile'}>

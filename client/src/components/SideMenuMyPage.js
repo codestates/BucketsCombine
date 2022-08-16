@@ -186,8 +186,6 @@ export default function SideMenu(){
   const history = useHistory()
 
   const goToMain = () => {
-    console.log('d')
-    let vh = window.innerHeight
     history.push('/')
     window.scrollTo({ left: 0, top: 0 });
   }

@@ -191,10 +191,10 @@ export default function Topmenu({location}){
     if(isUsernameclick === true){
       setIsUsernameclick(false)
     } else {
-      setTimeout(()=>{setIsBoardOpen(!isBoardOpen)}, 100)
+      setTimeout(()=>{setIsBoardOpen(!isBoardOpen)}, 50)
     }
   };
-  useOutSideClick(modalRef, handleClose);
+  useOutSideClick(modalRef, ()=> setTimeout(handleClose, 100));
 
   const history = useHistory()
   

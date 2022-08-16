@@ -144,6 +144,7 @@ const SideMenuWrap = styled.div`
 
 export default function SideMenu(){
   const isDesktop = useMediaQuery({ minWidth: 921 })
+  
 
   function changeLogoPosition (logo, scrollPosition, vh) {
     
@@ -198,6 +199,12 @@ export default function SideMenu(){
     }
   });
 
+  const moveToHome = () => {
+    let vh = window.innerHeight
+    //window.scrollTo(0, 2 * vh);
+    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  }
+
   const moveToMain = () => {
     let vh = window.innerHeight
     //window.scrollTo(0, 2 * vh);
@@ -219,7 +226,7 @@ export default function SideMenu(){
     <SideMenuWrap>
       <div className={isDesktop? 'sidemenu' : 'sidemenu-mobile'}>
       <img className={isDesktop? 'logo-part' : 'logo-part-mobile'} src='images/logo-part.png' />
-          <img className={isDesktop?'logo' : 'logo-mobile'} src='images/logo-small.png' onClick={() => {console.log('qwe')}}/>
+          <img className={isDesktop?'logo' : 'logo-mobile'} src='images/logo-small.png' onClick={moveToHome}/>
           <button className={isDesktop?'sidemenu-button-main' : 'sidemenu-button-main-mobile'} onClick={moveToMain}>Main</button>
           <button className={isDesktop? 'sidemenu-button-cards' : 'sidemenu-button-cards-mobile'} onClick={moveToCards}>Cards</button>
           <button className={isDesktop? 'sidemenu-button-stamped' : 'sidemenu-button-stamped-mobile' }onClick={moveToStmaped}>Stamped</button>

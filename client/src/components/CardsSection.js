@@ -23,7 +23,7 @@ const CardsWrap = styled.div`
   }
 
   .ment-title {
-    font-size: 48px;
+    font-size: 42px;
     margin-bottom: 20px;
   }
 
@@ -130,7 +130,7 @@ export default function CardsSection(){
             카드는 여러분의 목표입니다.
           </div>
           <div className={isDesktop? 'ment-description' : 'ment-description-mobile'}>
-            카드를 공유하고 카드를 나의 버킷리스트에 담아<br/> 함께 달성해보세요.
+            카드를 공유하고 카드를 나의 버킷리스트에 담아{isDesktop? '': <br/> } 함께 달성해보세요.
           </div>
         </div>
         <div id={isDesktop? 'cards-list-row' : 'cards-list-row-mobile'}>

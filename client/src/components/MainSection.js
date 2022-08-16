@@ -24,7 +24,7 @@ const MainSectionWrap = styled.div`
     left: 120px;
   }
   .ment-title {
-    font-size: 48px;
+    font-size: 42px;
     margin-bottom: 20px;
   }
 
@@ -136,7 +136,7 @@ const MainSectionWrap = styled.div`
   .video-mobile {
     width: 30%;
     height: 100%;
-    margin: 10px;
+    margin: 5px;
     object-fit: cover;
     border-radius: 1.8vh;
   }
@@ -165,15 +165,16 @@ export default function MainSection(){
       </div>
       {isDesktop? <div className='fog'/> : <div/>}
       <div className={isDesktop?'videos-container' : 'videos-container-mobile'}>
-        {isExtend? <video className="video" autoPlay muted loop>
+        {isExtend? 
+        <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop>
           <source src="/videos/A.mp4" type="video/mp4"></source>
-        </video> : isDesktop? <div className='whiteboard'/> :  <video className="video" autoPlay muted loop>
+        </video> : isDesktop? <div className='whiteboard'/> :  <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop>
           <source src="/videos/A.mp4" type="video/mp4"></source>
         </video>}
-        <video className="video" autoPlay muted loop>
+        <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop>
           <source src="/videos/B.mp4" type="video/mp4"></source>
         </video>
-        <video className="video" autoPlay muted loop>
+        <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop>
           <source src="/videos/C.mp4" type="video/mp4"></source>
         </video>
       </div>
