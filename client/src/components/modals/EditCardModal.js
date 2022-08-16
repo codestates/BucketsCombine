@@ -480,17 +480,34 @@ const EditCardModal = ({
       }
     }
   }
+
+  const confirmClosing = () => {
+    if (inputTitle === modalCardInfo.title && JSON.stringify(tags) === JSON.stringify(modalCardInfo.tag) && inputInfo === modalCardInfo.cardtext && bgImageStyle === modalCardInfo.background){
+      
+      dispatch(closeEditCardModal())
+    } else {
+      if(window.confirm("변경하신 내용이 삭제됩니다. 닫으시겠습니까?") === true){
+        dispatch(closeEditCardModal())
+      } else {
+        return ;
+      }
+    }
+  }
+
+
   const handleClose = () => {
-    dispatch(closeEditCardModal())
+    // dispatch(closeEditCardModal())
+    confirmClosing()
   };
   useOutSideClick(modalRef, handleClose);
+  
   
 
   const editCard = () => {
     if (inputTitle === '' || inputInfo === '' || tags.length === 0) {
       setMessage(true)
     } else {
-      if(inputTitle === modalCardInfo.title && JSON.stringify(tags) === JSON.stringify(modalCardInfo.tag) && inputInfo === modalCardInfo.cardtext){
+      if(inputTitle === modalCardInfo.title && JSON.stringify(tags) === JSON.stringify(modalCardInfo.tag) && inputInfo === modalCardInfo.cardtext && bgImageStyle === modalCardInfo.background){
         dispatch(closeEditCardModal())
       } else {
         const payload = {

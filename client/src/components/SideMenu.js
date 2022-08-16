@@ -77,7 +77,7 @@ const SideMenuWrap = styled.div`
 
   .sidemenu-mobile {
     position: fixed;
-    height: 120px;
+    height: 100px;
     width: 100%;
     background-color: rgb(41, 41, 41);
     display: flex;
@@ -126,18 +126,17 @@ const SideMenuWrap = styled.div`
 
   .logo-mobile {
     display: flex;
-    height: 60px;
+    height: 50px;
     align-self: start;
-    margin-top: 10px;
-    margin-left: 30px;
+    margin-top: 20px;
+    margin-left: 20px;
   }
 
   .logo-part-mobile {
     display: flex;
-    left: 42px;
+    left: 33px;
     position: absolute;
-    width: 35px;
-    height: 35px;
+    width: 25px;
     top: 70px;
     transition: all 300ms;
   }
@@ -149,7 +148,7 @@ export default function SideMenu(){
   function changeLogoPosition (logo, scrollPosition, vh) {
     
     if(isDesktop) {
-      logo.style.left = '43px'
+      logo.style.left = '33px'
       logo.style.transition = 'all 300ms'
 
       if(scrollPosition === 0){
@@ -166,7 +165,7 @@ export default function SideMenu(){
       logo.style.transition = 'all 150ms'
 
       if(scrollPosition === 0){
-        logo.style.left = '43px'
+        logo.style.left = '33px'
       } else if(scrollPosition <= 0.75 * vh ){
         logo.style.left = 'calc(25vw + 10px)'
       } else if(scrollPosition <= 1.75 * vh){
@@ -190,11 +189,11 @@ export default function SideMenu(){
     let logo = document.querySelector('.logo-part') || document.querySelector('.logo-part-mobile')
     if(logo){
       if(isDesktop){
-        logo.style.left = '43px'
+        logo.style.left = '33px'
         logo.style.top = '70px'
       } else {
         logo.style.top = '70px'
-        logo.style.left = '43px'
+        logo.style.left = '33px'
       }
     }
   });

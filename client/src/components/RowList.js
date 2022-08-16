@@ -74,7 +74,8 @@ const RowListWrap = styled.div`
     position: relative;
     top: 10px;
     margin-left: 0px;
-    width: 400px;
+    width: 80%;
+    min-width: 260px;
     z-index: 1;
   }
   .dummyarea {

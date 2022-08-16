@@ -41,7 +41,7 @@ const ColumnCardWrap = styled.div`
     max-width: 940px;
     height: 60px;
     border-radius: 15px;
-    background-image: url("https://source.unsplash.com/random");
+    background-position: center center;
     background-size: cover;
     margin: 5px;
     padding: 10px;
@@ -86,11 +86,19 @@ const ColumnCardWrap = styled.div`
     line-height: 60px;
   }
 
+  .ColumnCard-tag {
+    position: relative;
+    overflow-x: auto;
+    white-space: nowrap;
+    ::-webkit-scrollbar {
+        display: none;
+        }
+  }
+
   .ColumnCard-info-mobile {
     width: calc(95vw - 60px);
     height: 60px;
     border-radius: 15px;
-    background-image: url("https://source.unsplash.com/random");
     background-size: cover;
     margin: 5px;
     padding: 10px;
@@ -98,12 +106,17 @@ const ColumnCardWrap = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    background-position: center center;
   }
 
   .ColumnCard-title-mobile {
     font-size: 18px;
     font-weight: bold;
     overflow-x: auto;
+    white-space: nowrap;
+    ::-webkit-scrollbar {
+        display: none;
+        }
   }
 `;
 

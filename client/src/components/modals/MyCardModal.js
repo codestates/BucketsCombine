@@ -251,7 +251,7 @@ const MainPageModal = styled.div`
         position: absolute;
         width: calc(100% - 70px);
         left: 30px;
-        top: 120px;
+        top: 130px;
         font-size: 18px;
     }
 

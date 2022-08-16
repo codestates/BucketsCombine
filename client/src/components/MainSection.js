@@ -106,26 +106,30 @@ const MainSectionWrap = styled.div`
 
   .main-ment-mobile {
     z-index: 3;
-    width: 500px;
-    margin-left: 60px;
+    width: 100%;
     position: absolute;
     top: 20%;
     left: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .ment-title-mobile {
-    font-size: 40px;
+    font-size: 32px;
     margin-bottom: 20px;
+    text-align: center;
   }
 
   .ment-description-mobile {
     font-size: 16px;
     line-height: 32px;
+    text-align: center;
   }
   .videos-container-mobile {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
+    width: 90%;
     height: 30%;
     margin-bottom: 50px;
   }

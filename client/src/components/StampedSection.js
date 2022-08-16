@@ -68,14 +68,20 @@ const CardsWrap = styled.div`
   }
 
   .cards-ment-mobile {
-    margin-left: 35px;
     height: 150px;
+    width: 100%;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    bottom: 50px;
   }
 
   .ment-title-mobile {
-    font-size: 35px;
+    font-size: 32px;
     margin-bottom: 20px;
+    text-align: center;
   }
 
   #cards-list-row-mobile {
@@ -101,6 +107,12 @@ const CardsWrap = styled.div`
     height: 350px;
     background: -webkit-linear-gradient(right,white 0%,rgba(0,0,0,0) 100%);
   }
+
+  .ment-description-mobile {
+    font-size: 16px;
+    line-height: 32px;
+    text-align: center;
+  }
 `
 
 
@@ -113,9 +125,9 @@ const StampedModal = () => {
       <div id={isDesktop?'card-section' : 'card-section-mobile'}>
         <div className={isDesktop? "cards-ment" : "cards-ment-mobile"}>
           <div className={isDesktop? 'ment-title' : 'ment-title-mobile'}>
-          여러분의 성취담을 공유해보세요.
+          여러분의 성취담을<br/> 공유해보세요.
           </div>
-          <div className='ment-description'>
+          <div className={isDesktop? 'ment-description' : 'ment-description-mobile'}>
           달성하신 카드는 도장을 찍어드려요.<br/> 여러분의 후기를 담아 공유할 수 있습니다.
           </div>
         </div>

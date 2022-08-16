@@ -220,9 +220,6 @@ const MakeCardeModalWrap = styled.div`
         font-size: 18px;
         overflow: auto;
         white-space: nowrap;
-        ::-webkit-scrollbar {
-        display: none;
-        }
     }
     
 
@@ -417,6 +414,7 @@ const MakeCardeModalWrap = styled.div`
         color: white;
         text-align : center;
         line-height: 350px;
+        font-size: 14px;
     }
 
     .card-img-mobile {
@@ -432,6 +430,7 @@ const MakeCardeModalWrap = styled.div`
         color: white;
         text-align : center;
         line-height: 30px;
+        font-size: 14px;
     }
 `
 
@@ -460,7 +459,7 @@ const MakeCardModal = ({
     setTags(tags.filter((el) => {
       return el !== tags[indexToRemove];
     }))
-    setInputInfo(tags)
+    // setInputInfo(tags)
   };
 
   const addTags = (event) => {
@@ -478,16 +477,21 @@ const MakeCardModal = ({
       }
     }
   }
+
   const handleClose = () => {
     confirmClosing()
     // dispatch(closeMakeCardModal())
   };
+
   useOutSideClick(modalRef, handleClose);
   
   const buildCard = () => {
     if (inputTitle === '' || inputInfo === '' || tags.length === 0) {
       setMessage(true);
     } else {
+      if(!Array.isArray(tags)){
+        return
+      }
       const payload = {
         "title": inputTitle,
         "cardtext": inputInfo,
@@ -503,6 +507,7 @@ const MakeCardModal = ({
       .catch((err) => {
         alert(err)
       })
+      // console.log(payload)
     }
   }
 
@@ -512,20 +517,23 @@ const MakeCardModal = ({
   }
 
   useEffect(() => {
-    if(inputTitle!=='' && !inputInfo !==''&& tags.length !== 0){
+    if(inputTitle!=='' && inputInfo !==''&& tags.length !== 0){
       setMessage(false)
-    } 
-    
+    }
   }, [inputTitle, inputInfo, tags])
 
 
   const [ment, setMent] = useState(`배경을 변경하려면 클릭하세요.`)
 
   const confirmClosing = () => {
-    if(window.confirm("작성하신 내용이 삭제됩니다. 닫으시겠습니까?") === true){
-      dispatch(closeMakeCardModal())
+    if (inputTitle !== '' || inputInfo !== '' || tags.length !== 0){
+      if(window.confirm("작성하신 내용이 삭제됩니다. 닫으시겠습니까?") === true){
+        dispatch(closeMakeCardModal())
+      } else {
+        return ;
+      }
     } else {
-      return ;
+      dispatch(closeMakeCardModal())
     }
   }
 

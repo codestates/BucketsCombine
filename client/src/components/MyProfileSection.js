@@ -72,6 +72,7 @@ const MyProfileWrap = styled.div`
 
   .partition {
     display: flex;
+    min-height: 200px;
     flex-direction: row;
     justify-content: space-between;
     margin: 28px;
@@ -95,6 +96,11 @@ const MyProfileWrap = styled.div`
     color: white;
     line-height: 40px;
     padding: 0px 0px 0px 8px;
+    overflow-x: auto;
+    white-space: nowrap;
+    ::-webkit-scrollbar {
+        display: none;
+        }
   }
   .profile-info-nickname {
     height: 40px;
@@ -183,9 +189,10 @@ const MyProfileWrap = styled.div`
     color: #969696;
     background-color: transparent;
     border: none;
-    top: 70px;
+    top: 60px;
     position: relative;
     margin-right: auto;
+    min-width: 80px;
   }
 
   #myprofile-section-mobile {
@@ -214,7 +221,7 @@ const MyProfileWrap = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 200px;
+    width: 40%;
     height: 200px;
   }
 

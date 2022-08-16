@@ -71,7 +71,8 @@ const UserInfoModalWrap = styled.div`
     }
 
     .UserInfoCard-mobile {
-        width: 450px;
+        width: 90vw;
+        max-width: 450px;
         height: 60vh;
         min-height: 460px;
         max-height: 600px;
@@ -144,7 +145,7 @@ const UserInfoModalWrap = styled.div`
         border-width: 2px;
         border-radius: 10px;
         text-align: center;
-        width: 70px;
+        width: 60px;
         height: 20px;
         left: 200px;
         top: 140px;
@@ -156,9 +157,9 @@ const UserInfoModalWrap = styled.div`
         border-width: 2px;
         border-radius: 10px;
         text-align: center;
-        width: 70px;
+        width: 60px;
         height: 20px;
-        left: 280px;
+        left: 270px;
         top: 140px;
     }
 
