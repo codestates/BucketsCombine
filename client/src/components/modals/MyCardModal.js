@@ -410,6 +410,7 @@ const MainPageModal = styled.div`
     border: none;
     color:white;
     background-color: #FF5C00;
+    text-align: center;
   }
 
   .imgUploadButton label {

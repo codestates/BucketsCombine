@@ -418,6 +418,7 @@ const EditCardeModalWrap = styled.div`
         color: white;
         text-align : center;
         line-height: 30px;
+        font-size: 14px;
     }
 
     .edit-button {

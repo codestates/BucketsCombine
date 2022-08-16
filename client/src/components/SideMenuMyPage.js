@@ -83,10 +83,9 @@ const SideMenuWrap = styled.div`
     left:25vw;
     border: none;
     box-shadow: none;
-    font-size: 18px;
     color: white;
     background-color: transparent;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 100;
   }
 
@@ -98,7 +97,6 @@ const SideMenuWrap = styled.div`
     font-size: 18px;
     color: white;
     background-color: transparent;
-    font-size: 20px;
     font-weight: 100;
   }
 
