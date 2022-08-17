@@ -3,9 +3,18 @@ const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "uploadimages/" });
 
-const imageUpload = require("../controller/function/imageUpload");
+const ImageUpload = require("../controller/function/ImageUpload");
 const util = require("../controller/function/util");
 
-router.post("/imageUpload", imageUpload.single("image"), util.uploadImage);
+router.post(
+  "/cardImageUpload",
+  ImageUpload.single("image"),
+  util.carduploadImage
+);
+router.post(
+  "/userImageUpload",
+  ImageUpload.single("image"),
+  util.useruploadImage
+);
 
 module.exports = router;
