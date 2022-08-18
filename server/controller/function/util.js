@@ -39,5 +39,7 @@ module.exports = {
     res.status(200).send(path);
   },
 };
+//!  "multer-s3": "^2.10.0" -> 멀터 사용시 버전 확인시켜줘야한다. 오류시 검색 호환 안될시 오류발생
 
-//  const cardsinfo = await cards
+// api 문서 -> card 경우 파일 + 바디에는 cards_id 와 image
+// api 문서 -> user 경우 파일 + 바디에는 users_id 와 image
