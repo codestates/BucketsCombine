@@ -96,7 +96,7 @@ const CardsWrap = styled.div`
     left: 50px;
     width: 20px;
     height: 350px;
-    background: -webkit-linear-gradient(left,white 0%,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(left, white 0%,rgba(0,0,0,0) 100%);
   }
 
   .fog-right-mobile {
@@ -105,7 +105,7 @@ const CardsWrap = styled.div`
     right: 50px;
     width: 40px;
     height: 350px;
-    background: -webkit-linear-gradient(right,white 0%,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(right, white 0%,rgba(0,0,0,0) 100%);
   }
 
   .ment-description-mobile {

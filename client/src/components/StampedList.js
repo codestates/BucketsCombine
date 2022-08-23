@@ -12,7 +12,7 @@ import { setStampedData, setUsersData } from '../redux/reducers/ModalReducer'
 const StampedListWrap = styled.div`
   #card-list {
     width: calc(100vw - 240px);
-    height: 400px;
+    height: 420px;
     margin-left: 30px;
     display: flex;
     flex-direction: column;
@@ -63,16 +63,17 @@ const StampedListWrap = styled.div`
 
   #card-list-mobile {
     width: calc(100vw - 100px);
-    height: 400px;
+    height: 420px;
     margin-left: 30px;
     display: flex;
     flex-direction: column;
+    position: relative;
   }
 
   .search-bar-mobile {
     align-self: center;
     position: relative;
-    top: 10px;
+    top: 0px;
     margin-left: 0px;
     width: 80%;
     min-width: 260px;
@@ -81,6 +82,15 @@ const StampedListWrap = styled.div`
   .dummyarea2 {
     height: 100%;
     width: calc(100vw - 240px);
+  }
+  .card-list-line {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    ::-webkit-scrollbar {
+        display: none;
+        }
   }
 `;
 
@@ -190,7 +200,7 @@ export default function StampedList () {
   return (
     <StampedListWrap >
       <div id={isDesktop ? 'card-list' : 'card-list-mobile'} >
-        <HorizontalScroll
+        {/* <HorizontalScroll
           className='horizontalScroll'
           pageLock={false}
           reverseScroll={true}
@@ -200,7 +210,10 @@ export default function StampedList () {
           {stamped}
           <div className="dummy" />
           <div className="dummyarea2"/>
-        </HorizontalScroll>
+        </HorizontalScroll> */}
+        <div className="card-list-line">
+        {stamped}
+        </div>
         <div className={isDesktop? 'search-bar' : 'search-bar-mobile'}>
           <input className='search-input' type="text" placeholder="제목 및 태그" onChange={(e) => {
             setSearch(e.target.value)

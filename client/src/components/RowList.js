@@ -82,6 +82,16 @@ const RowListWrap = styled.div`
     height: 100%;
     width: calc(0vw - 240px);
   }
+
+  .card-list-line {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    ::-webkit-scrollbar {
+        display: none;
+        }
+  }
 `;
 
 
@@ -183,8 +193,8 @@ export default function RowList () {
       />;
     })
     setCards(searchedCards)
-    const w = (searchedCards.length * 220) + 240
-    dummyarea.style.width = `calc(100vw - ${w}px)`
+    // const w = (searchedCards.length * 220) + 240
+    // dummyarea.style.width = `calc(100vw - ${w}px)`
   }
 
   const enterSearchCard = (e) => {
@@ -211,8 +221,8 @@ export default function RowList () {
         />;
       })
       setCards(searchedCards)
-      const w = (searchedCards.length * 220) + 240
-      dummyarea.style.width = `calc(100vw - ${w}px)`
+      // const w = (searchedCards.length * 220) + 240
+      // dummyarea.style.width = `calc(100vw - ${w}px)`
     }
   }
   
@@ -221,7 +231,7 @@ export default function RowList () {
   return (
     <RowListWrap >
       <div id={isDesktop ? 'card-list' : 'card-list-mobile'} >
-        <HorizontalScroll
+        {/* <HorizontalScroll
           className='horizontalScroll'
           pageLock={false}
           reverseScroll={true}
@@ -231,7 +241,10 @@ export default function RowList () {
           {cards}
           <div className="dummy" />
           <div className="dummyarea"/>
-        </HorizontalScroll>
+        </HorizontalScroll> */}
+        <div className="card-list-line">
+        {cards}
+        </div>
         <div className={isDesktop? 'search-bar' : 'search-bar-mobile'}>
           <input className='search-input' type="text" placeholder="제목 및 태그" onChange={(e) => {
             setSearch(e.target.value)

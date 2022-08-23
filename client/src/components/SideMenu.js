@@ -146,7 +146,7 @@ export default function SideMenu(){
   function changeLogoPosition (logo, scrollPosition, vh) {
     
     if(isDesktop) {
-      logo.style.left = '33px'
+      logo.style.left = '43px'
       logo.style.transition = 'all 300ms'
 
       if(scrollPosition === 0){
@@ -187,7 +187,7 @@ export default function SideMenu(){
     let logo = document.querySelector('.logo-part') || document.querySelector('.logo-part-mobile')
     if(logo){
       if(isDesktop){
-        logo.style.left = '33px'
+        logo.style.left = '43px'
         logo.style.top = '70px'
       } else {
         logo.style.top = '70px'

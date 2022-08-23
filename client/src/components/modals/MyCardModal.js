@@ -671,7 +671,16 @@ const MyCardModal = ({
     backgroundPosition: 'center center',
   };
 
-  const makeStamped = async () => {
+  
+
+  const isStamped = cardData[0].stamped[0] !== null
+
+  const openUserInfo = (seletUserID) => {
+    dispatch(setSelectUserID(seletUserID))
+    dispatch(openUserInfoModal())
+  }
+
+  const makeStamped = async (res) => {
     await axios.post(`${process.env.REACT_APP_API_URL}/mypage/addstamps`, {
       cards_id: modalCardID,
     })
@@ -679,7 +688,7 @@ const MyCardModal = ({
       cards_id: modalCardID,
       title: title,
       cardtext: cardtext,
-      background: imageSrc,
+      background: res,
       hashname: tags,
       completed:complete,
     })
@@ -689,12 +698,58 @@ const MyCardModal = ({
     })
   }
 
-  const isStamped = cardData[0].stamped[0] !== null
 
-  const openUserInfo = (seletUserID) => {
-    dispatch(setSelectUserID(seletUserID))
-    dispatch(openUserInfoModal())
-  }
+
+  const [imageFile, setImageFile] = useState("");
+
+  // const updateImageFile = (res) => {
+  //   axios
+  //     .put(`${process.env.REACT_APP_API_URL}/`
+  //       + userId,
+  //       { profileImg: res },
+  //       {
+  //         headers: { "Content-Type": "application/json", token: token },
+  //         withCredentials: true,
+  //       },
+  //     )
+  //     .then((res) => {
+  //       if (res.data.profileImg[0] !== "/") {
+  //         res.data.profileImg = "/" + res.data.profileImg;
+  //       }
+  //       setProfileImg(
+  //         (process.env.REACT_APP_DEPLOYSERVER_URL ||
+  //           process.env.REACT_APP_LOCALSERVER_URL) + res.data.profileImg,
+  //       );
+  //     })
+  //     .catch((err) => err);
+  // };
+
+  const updateImageFile = async (e) => {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    formData.append("cards_id", modalCardID)
+    console.log(formData)
+    const config = {
+        Headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/image/cardImageUpload`,
+        // {
+        //   "image": formData,
+        //   "cards_id": modalCardID,
+        // },
+        formData,
+        config,
+      )
+      .then((res) => {
+        makeStamped(res)
+      })
+      .catch((err) => alert(err));
+  };
+
+  
 
   if(cardWriterID === signInUserID){
     return (
@@ -702,13 +757,17 @@ const MyCardModal = ({
         <MainPageModal ref={modalRef}>
           <div className={isDesktop ? "modal-container" : "modal-container-mobile"} >
             <div className="mainPageCard" >
-              {imageSrc === ''? <div/> : <div className="stampedButton" onClick={makeStamped}>도장 찍기</div>}
+              {imageSrc === ''? <div/> : <div className="stampedButton" onClick={updateImageFile}>도장 찍기</div>}
             {isStamped? <div/>
             : complete === '2'? 
             <div className="imgUploadButton">
             <label htmlFor="ex_file">{imageSrc === ""? '사진 올리기' : '사진 변경' }</label>
+            {/* <input type='file' id='ex_file' accept='image/*' onChange={(e) => {
+              encodeFileToBase64(e.target.files[0]);
+            }} placeholder='사진'/> */}
             <input type='file' id='ex_file' accept='image/*' onChange={(e) => {
               encodeFileToBase64(e.target.files[0]);
+              setImageFile(e.target.files[0]);
             }} placeholder='사진'/>
             </div>
             : <div/>}
@@ -717,8 +776,6 @@ const MyCardModal = ({
                   : complete === '1' ? 'ColumnCard-progress-1'
                     : 'ColumnCard-progress-2'
               } />
-              {/* {complete === '2'? <button className="stampedButton">도장 찍기</button>
-              : <div/>} */}
               {isStamped? <div/> 
               : <div className={
                 complete === '0' ? 'progress-board-0'

@@ -130,14 +130,19 @@ export default function ColumnCard ({
   completed,
   tags,
   membersID,
+  stamped,
 }) {
   const isDesktop = useMediaQuery({ minWidth: 921 })
 
   const tagLine = tags.map(tag => {
-    return `#${tag}`
- })
+      return `#${tag}`
+  })
  
-  let backgroundImageStyle = {
+  let backgroundImageStyle = Boolean(stamped)? 
+  {
+    backgroundImage: "url(" + background + ")",
+  } : 
+  {
     backgroundImage: "url(/images/card-" + background + ".jpg)",
   };
 

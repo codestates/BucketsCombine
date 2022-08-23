@@ -132,7 +132,6 @@ const ColumnListWrap = styled.div`
     overflow-y: auto;
     padding: 10px;
   }
-
 `;
 
 export default function ColumnList () {
@@ -179,6 +178,7 @@ export default function ColumnList () {
         completed={card.completed}
         tags={card.tag}
         membersID={card.membersID}
+        stamped={card.stamped[0]}
       />;
     }))
     setUsers(usersData)
@@ -214,6 +214,7 @@ export default function ColumnList () {
         completed={card.completed}
         tags={card.tag}
         membersID={card.membersID}
+        stamped={card.stamped[0]}
       />;
     })
     setCards(searchedCards)
@@ -239,6 +240,7 @@ export default function ColumnList () {
           completed={card.completed}
           tags={card.tag}
           membersID={card.membersID}
+          stamped={card.stamped[0]}
         />;
       })
       setCards(searchedCards)
