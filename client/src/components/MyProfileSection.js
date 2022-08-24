@@ -47,6 +47,8 @@ const MyProfileWrap = styled.div`
     text-align: center;
     line-height: 145px;
     color: #969696;
+    background-size: cover;
+    background-position: center center;
   }
 
   .image{
@@ -227,16 +229,40 @@ const MyProfileWrap = styled.div`
 
   .failure-message {
     color: #FF5C00;
-    
-    
     position: relative;
     width: 200px;
-    height: 30px;
     align-items: flex-end;
-    left: 20px;
+    left: 30px;
     top: 40px;
     font-size: 16px;
     z-index: 2;
+  }
+
+  .imgUploadButton {
+    position: relative;
+    left: 125px;
+    bottom: 30px;
+    height: 36px;
+    width: 36px;
+    background-image: url('images/upload-icon.png');
+    background-size: cover;
+    text-align: center;
+    color: transparent;
+  }
+
+  .imgUploadButton label {
+    font-size: 16px;
+  }
+
+  .imgUploadButton input[type="file"] { 
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
   }
 `
 
@@ -255,28 +281,12 @@ export default function MyProfileSection() {
   const [ isReload, setIsReload ] = useState();
 
   const userId = useSelector((state) => state.userId)
-  // const { userData } = useSelector((state) => state.userData)
   const withdrawal = '> 회원탈퇴'
 
   const reloadPage = () => {
       window.location.reload();
   }
-  const updateProfile = () => {
-    if(inputUsername === '' || inputAge === '' || inputGender === '' || inputUsertext === ''){
-      setMessage(true);
-    }else{
-      setMessage(false);
-      const payload = {
-        'email': signInUserInfo.email,
-        'username': inputUsername,
-        'usertext': inputUsertext,
-        'gender': inputGender,
-        'age': inputAge,
-      }
-      axios.patch(`${process.env.REACT_APP_API_URL}/mypage/edit`, payload)
-    }
-    reloadPage();
-  }
+  
   
   
 
@@ -324,16 +334,113 @@ export default function MyProfileSection() {
     };
     axios.post(`api`, formData, config);
   }
+
+
+  let backgroundImageStyle = {
+    backgroundImage: `url(${signInUserInfo.userphotourl})`,
+    backgroundPosition: 'center center',
+  };
+  let backgroundImageStyleUploaded = {
+    backgroundImage: `url(${imageSrc})`,
+    backgroundPosition: 'center center',
+  };
+
+
+
+
+  const [imageFile, setImageFile] = useState("");
+
+
+  const updateImageFile = async (e) => {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    formData.append("users_id", signInUserInfo.id)
+    const config = {
+        Headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/image/userImageUpload`,
+        formData,
+        config,
+      )
+      .then((res) => {
+        const currentSignInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
+        currentSignInUserInfo.userphotourl = res.data
+        localStorage.setItem('signInUserInfo', JSON.stringify(currentSignInUserInfo));
+      })
+      .catch((err) => alert(err));
+  };
+
+  const updateUserInfo = () => {
+    const payload = {
+      'email': signInUserInfo.email,
+      'username': inputUsername,
+      'usertext': inputUsertext,
+      'gender': inputGender,
+      'age': inputAge,
+    }
+    axios.patch(`${process.env.REACT_APP_API_URL}/mypage/edit`, payload)
+    .then(() => {
+      const currentSignInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
+      currentSignInUserInfo.username = inputUsername
+      currentSignInUserInfo.usertext = inputUsertext
+      currentSignInUserInfo.gender = inputGender
+      currentSignInUserInfo.age = inputAge
+      localStorage.setItem('signInUserInfo', JSON.stringify(currentSignInUserInfo));
+    })
+  }
+
+  const updateProfile = async () => {
+    const lastSignInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
+
+    if (inputUsername === '' || inputAge === '' || inputGender === '' || inputUsertext === '') {
+      setMessage(true);
+      return
+    } else if (inputUsername === lastSignInUserInfo.username &&
+      inputAge === lastSignInUserInfo.age &&
+      inputGender === lastSignInUserInfo.gender &&
+      inputUsertext === lastSignInUserInfo.usertext &&
+      imageSrc === '') {
+        setMessage(false);
+        return
+    } else {
+      setMessage(false);
+      if (imageSrc === '') {
+        updateUserInfo()
+        await alert('변경되었습니다.')
+        return
+      }
+      if (inputUsername === lastSignInUserInfo.username &&
+        inputAge === lastSignInUserInfo.age &&
+        inputGender === lastSignInUserInfo.gender &&
+        inputUsertext === lastSignInUserInfo.usertext) {
+          updateImageFile()
+          await alert('변경되었습니다.')
+          return
+      }
+      updateUserInfo()
+      updateImageFile()
+      await alert('변경되었습니다.')
+      return
+    }
+  }
+
   return (
     <MyProfileWrap>
       <div id={isDesktop? 'myprofile-section' : 'myprofile-section-mobile'}>
         <div className={isDesktop? "myprofile-container" : "myprofile-container-mobile"}>
           <div className='partition'>
             <div className='image-container'>
-            <div className="box-photo" placeholder='사진'>{imageSrc && <img className='user-img'src={imageSrc} alt="user-img" />}</div>
-            <input type='file' className='image' accept='image/*' onChange={(e) => {
+            <div className="box-photo" placeholder='사진' style={imageSrc === ''? backgroundImageStyle : backgroundImageStyleUploaded}></div>
+            <div className="imgUploadButton">
+            <label htmlFor="ex_file">업로드</label>
+            <input type='file' id='ex_file' accept='image/*' onChange={(e) => {
               encodeFileToBase64(e.target.files[0]);
+              setImageFile(e.target.files[0]);
             }} placeholder='사진'/>
+            </div>
             </div>
             <div className={isDesktop? "profile-info-section" : "profile-info-section-mobile"}>
                 <div className="profile-info-email">{signInUserInfo.email}</div>

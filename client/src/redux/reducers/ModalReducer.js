@@ -22,7 +22,7 @@ const initialState = {
     modalUserID: 0,
     isOpenEditCardModal: false,
     selectUserID : 0,
-    userinfo: [],
+    signInUserinfo: {},
 };
 
 const modalSlice = createSlice({
@@ -122,7 +122,9 @@ const modalSlice = createSlice({
         setSelectUserID: (state, action) => {
             state.selectUserID = action.payload;
         },
-        
+        setSignInUserinfo: (state, action) => {
+            state.signInUserinfo = action.payload;
+        }
     }
 });
 export const { 
@@ -157,5 +159,6 @@ export const {
     openEditCardModal,
     closeEditCardModal,
     setSelectUserID,
+    setSignInUserinfo,
     } = modalSlice.actions;
 export default modalSlice.reducer;

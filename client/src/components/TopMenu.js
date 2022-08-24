@@ -183,7 +183,7 @@ export default function Topmenu({location}){
   const usernameclick = () => {
     setIsUsernameclick(true)
     setIsBoardOpen(!isBoardOpen)
-    setTimeout(()=> {setIsUsernameclick(false)}, 50)
+    setTimeout(()=> {setIsUsernameclick(false)}, 25)
   }
 
   const modalRef = useRef(null);
@@ -191,10 +191,10 @@ export default function Topmenu({location}){
     if(isUsernameclick === true){
       setIsUsernameclick(false)
     } else {
-      setTimeout(()=>{setIsBoardOpen(!isBoardOpen)}, 50)
+      setTimeout(()=>{setIsBoardOpen(!isBoardOpen)}, 25)
     }
   };
-  useOutSideClick(modalRef, ()=> setTimeout(handleClose, 100));
+  useOutSideClick(modalRef, ()=> setTimeout(handleClose, 50));
 
   const history = useHistory()
   

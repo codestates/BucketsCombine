@@ -36,6 +36,14 @@ const ColumnCardWrap = styled.div`
     margin: 5px;
   }
 
+  .ColumnCard-progress-stamped {
+    background-color: transparent;
+    height: 80px;
+    width: 10px;
+    border-radius: 10px;
+    margin: 5px;
+  }
+
   .ColumnCard-info {
     width: calc(70vw - 60px);
     max-width: 940px;
@@ -148,6 +156,8 @@ export default function ColumnCard ({
 
 
  const dispatch = useDispatch();
+
+ const isStamped = stamped !== null
   
   return (
     <ColumnCardWrap>
@@ -158,11 +168,14 @@ export default function ColumnCard ({
           dispatch(setModalCardID(cardID));
         }}
         >
+        {isStamped? <div className="ColumnCard-progress-stamped"/> : 
         <div className={
           completed==='0'? 'ColumnCard-progress-0'
           : completed==='1'? 'ColumnCard-progress-1'
           : 'ColumnCard-progress-2'
         }/>
+        }
+        
         <div className={isDesktop?'ColumnCard-info' : 'ColumnCard-info-mobile' }style={backgroundImageStyle} >
         <div className='ColumnCard-info-text'>
             <div className={isDesktop? "ColumnCard-title" : "ColumnCard-title-mobile"}>{title}</div>

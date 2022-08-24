@@ -323,7 +323,8 @@ const MainPageStampedModal = ({
     const title = allCardData[0].title;
     const cardtext = allCardData[0].cardtext;
     let backgroundImageStyle = {
-        backgroundImage: "url(/images/card-" + allCardData[0].background + ".jpg)",
+        backgroundImage: "url(" + allCardData[0].background + ")",
+        backgroundPosition: 'center center',
     };
     const tags = allCardData[0].tag;
 

@@ -530,6 +530,9 @@ const MyCardModal = ({
   let backgroundImageStyle = {
       backgroundImage: "url(/images/card-" + cardData[0].background + ".jpg)",
   };
+  let stampedBackgroundImageStyle = {
+    backgroundImage: "url(" + cardData[0].background + ")",
+};
   const tags = cardData[0].tag;
 
   const tagLine = tags.map((tag) => {
@@ -702,27 +705,6 @@ const MyCardModal = ({
 
   const [imageFile, setImageFile] = useState("");
 
-  // const updateImageFile = (res) => {
-  //   axios
-  //     .put(`${process.env.REACT_APP_API_URL}/`
-  //       + userId,
-  //       { profileImg: res },
-  //       {
-  //         headers: { "Content-Type": "application/json", token: token },
-  //         withCredentials: true,
-  //       },
-  //     )
-  //     .then((res) => {
-  //       if (res.data.profileImg[0] !== "/") {
-  //         res.data.profileImg = "/" + res.data.profileImg;
-  //       }
-  //       setProfileImg(
-  //         (process.env.REACT_APP_DEPLOYSERVER_URL ||
-  //           process.env.REACT_APP_LOCALSERVER_URL) + res.data.profileImg,
-  //       );
-  //     })
-  //     .catch((err) => err);
-  // };
 
   const updateImageFile = async (e) => {
     const formData = new FormData();
@@ -736,10 +718,6 @@ const MyCardModal = ({
       };
     await axios
       .post(`${process.env.REACT_APP_API_URL}/image/cardImageUpload`,
-        // {
-        //   "image": formData,
-        //   "cards_id": modalCardID,
-        // },
         formData,
         config,
       )
@@ -762,20 +740,19 @@ const MyCardModal = ({
             : complete === '2'? 
             <div className="imgUploadButton">
             <label htmlFor="ex_file">{imageSrc === ""? '사진 올리기' : '사진 변경' }</label>
-            {/* <input type='file' id='ex_file' accept='image/*' onChange={(e) => {
-              encodeFileToBase64(e.target.files[0]);
-            }} placeholder='사진'/> */}
             <input type='file' id='ex_file' accept='image/*' onChange={(e) => {
               encodeFileToBase64(e.target.files[0]);
               setImageFile(e.target.files[0]);
             }} placeholder='사진'/>
             </div>
             : <div/>}
-            <div className={
+            {isStamped? <div/> :
+              <div className={
                 complete === '0' ? 'ColumnCard-progress-0'
                   : complete === '1' ? 'ColumnCard-progress-1'
                     : 'ColumnCard-progress-2'
               } />
+            }
               {isStamped? <div/> 
               : <div className={
                 complete === '0' ? 'progress-board-0'
@@ -809,9 +786,16 @@ const MyCardModal = ({
               <button type="button" className="delete-button" onClick={confirmDelete}>
                 {'카드 삭제 >'}
               </button>
-               <div className={isTablet ? "card-img" : "card-img-mobile"} style={imageSrc === ''? backgroundImageStyle : backgroundImageStyleUploaded}>
-               {isStamped && isTablet? <img className="complete-stamp" src="images/complete-stamp.png"/> : <div/>}
-               </div>
+              {isStamped? 
+              <div className={isTablet ? "card-img" : "card-img-mobile"} style={stampedBackgroundImageStyle}>
+              {isStamped && isTablet? <img className="complete-stamp" src="images/complete-stamp.png"/> : <div/>}
+              </div>
+              :
+              <div className={isTablet ? "card-img" : "card-img-mobile"} style={imageSrc === ''? backgroundImageStyle : backgroundImageStyleUploaded}>
+              {isStamped && isTablet? <img className="complete-stamp" src="images/complete-stamp.png"/> : <div/>}
+              </div>
+              }
+               
               <div className={isTablet ? "card-description" : "card-description-mobile"}>{cardtext}</div>
             </div>
           </div>
@@ -824,11 +808,13 @@ const MyCardModal = ({
         <MainPageModal ref={notMyCardModalRef}>
           <div className={isDesktop ? "modal-container" : "modal-container-mobile"} >
             <div className="mainPageCard" >
+            {isStamped? <div/> :
               <div className={
-                completed === '0' ? 'ColumnCard-progress-0'
-                  : completed === '1' ? 'ColumnCard-progress-1'
+                complete === '0' ? 'ColumnCard-progress-0'
+                  : complete === '1' ? 'ColumnCard-progress-1'
                     : 'ColumnCard-progress-2'
               } />
+            }
               <h4 className={isTablet ? " modal-title" : " modal-title-mobile"}>{title}</h4>
               <div className={isTablet ? "card-tag" : "card-tag-mobile"}>{tagLine.join(" ")}</div>
               <div className={isTablet ? "userinfo" : "userinfo-mobile"}>

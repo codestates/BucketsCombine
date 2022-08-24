@@ -7,6 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios'
 import { setCardsData, setAllcardsData, setUsersData } from '../redux/reducers/ModalReducer'
+import { useRef } from 'react';
 
 
 const RowListWrap = styled.div`
@@ -83,7 +84,7 @@ const RowListWrap = styled.div`
     width: calc(0vw - 240px);
   }
 
-  .card-list-line {
+  #card-list-line {
     display: flex;
     height: 100%;
     flex-direction: row;
@@ -92,20 +93,23 @@ const RowListWrap = styled.div`
         display: none;
         }
   }
+
+  .leftScroll {
+    position: absolute;
+    left: 0px;
+    bottom: 300px;
+    width: 30px;
+    height: 90px;
+    z-index: 10;
+  }
+
+  .rightScroll {
+    position: absolute;
+  }
 `;
 
 
 export default function RowList () {
-  
-
-  // useEffect(()=> {
-  //   let signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
-  //   const responseBucketID = axios.post(`${process.env.REACT_APP_API_URL}/mypage/mycards`,{
-  //     "users_id" : signInUserInfo.id,
-  //   }).then(()=> {
-  //     console.log(responseBucketID)
-  //   })
-  // }, [])
   
   let signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
   let isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
@@ -193,8 +197,6 @@ export default function RowList () {
       />;
     })
     setCards(searchedCards)
-    // const w = (searchedCards.length * 220) + 240
-    // dummyarea.style.width = `calc(100vw - ${w}px)`
   }
 
   const enterSearchCard = (e) => {
@@ -221,28 +223,28 @@ export default function RowList () {
         />;
       })
       setCards(searchedCards)
-      // const w = (searchedCards.length * 220) + 240
-      // dummyarea.style.width = `calc(100vw - ${w}px)`
     }
   }
   
-  
+
+  const ele = document.querySelector("#card-list-line");
+
+  const leftScroll = () => {
+    const currentScroll = ele.scrollLeft
+    const currentWidth = ele.offsetWidth
+    ele.scrollTo({ behavior: 'smooth', left:currentScroll - currentWidth });
+  }
+
+  const rightScroll = () => {
+    const currentScroll = ele.scrollLeft
+    const currentWidth = ele.offsetWidth
+    ele.scrollTo({ behavior: 'smooth', left:currentScroll + currentWidth });
+  }
 
   return (
     <RowListWrap >
       <div id={isDesktop ? 'card-list' : 'card-list-mobile'} >
-        {/* <HorizontalScroll
-          className='horizontalScroll'
-          pageLock={false}
-          reverseScroll={true}
-          style={{ height: "100%", width: "100%" }}
-        >
-          <div className="dummy" />
-          {cards}
-          <div className="dummy" />
-          <div className="dummyarea"/>
-        </HorizontalScroll> */}
-        <div className="card-list-line">
+        <div id="card-list-line">
         {cards}
         </div>
         <div className={isDesktop? 'search-bar' : 'search-bar-mobile'}>
@@ -250,7 +252,10 @@ export default function RowList () {
             setSearch(e.target.value)
           }} onKeyUp={enterSearchCard}/>
           <img className='search-icon' src='/images/search-icon.png' onClick={searchCard}/>
+          <button className="leftScroll" onClick={leftScroll}>{"<"}</button>
+        <button className="rightScroll" onClick={rightScroll}>{">"}</button>
         </div>
+        
       </div>
     </RowListWrap>
   );
