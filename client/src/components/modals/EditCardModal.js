@@ -552,7 +552,7 @@ const EditCardModal = ({
       <EditCardeModalWrap>
         <div className={isDesktop ? "modal-container" : "modal-container-mobile"} ref={modalRef} >
           <div className="mainPageCard" >
-            <input className={isTablet ? " modal-title" : " modal-title-mobile"} 
+            <input maxLength='18' className={isTablet ? " modal-title" : " modal-title-mobile"} 
             defaultValue={modalCardInfo.title} onChange={(e) => { setInputTitle(e.target.value) }} placeholder="제목을 입력해 주세요.">
             </input>
               <div className={isTablet ? "card-tags" : "card-tags-mobile"} >
@@ -581,7 +581,7 @@ const EditCardModal = ({
               {ment}
             </div>
           </div>
-          <textarea className={isTablet ? "card-description" : "card-description-mobile"} defaultValue={modalCardInfo.cardtext} onChange={(e) => { setInputInfo(e.target.value) } } placeholder="설명을 입력해 주세요."></textarea>
+          <textarea maxLength='1000' className={isTablet ? "card-description" : "card-description-mobile"} defaultValue={modalCardInfo.cardtext} onChange={(e) => { setInputInfo(e.target.value) } } placeholder="설명을 입력해 주세요."></textarea>
         </div>
       </EditCardeModalWrap>
     </ModalPortal>

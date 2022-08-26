@@ -192,8 +192,17 @@ const UserInfoCardModal = () => {
     const selectUserID = useSelector((state) =>state.modal.selectUserID)
     const [selectUserInfo] = usersData.filter((user) => user.id === selectUserID )
 
+    const checkUserImage = (url) => {
+        const urlForCheck = String(url)
+        if(urlForCheck.includes('http')){
+          return url
+        } else {
+          return 'images/base-user-image.jpg'
+        }
+      }
+
     let backgroundImageStyle = {
-        backgroundImage: `url(${selectUserInfo.userphotourl})`,
+        backgroundImage: `url(${checkUserImage(selectUserInfo.userphotourl)})`,
     };
 
     const dispatch = useDispatch();
