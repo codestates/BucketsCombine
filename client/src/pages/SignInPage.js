@@ -3,7 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 import axios from 'axios';
 import styled from 'styled-components';
 import { useCookies } from 'react-cookie';
-import { setSignInUserId, setIsSignIn, setCookie } from '../redux/reducers/ModalReducer'
+import { setSignInUserinfo } from '../redux/reducers/ModalReducer'
 import { useSelector, useDispatch } from "react-redux";
 
 
@@ -166,6 +166,7 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
   const [errormessage, setErrormessage] = useState('');
   const [cookies, setCookie] = useCookies(['id']);
   const history = useHistory();
+  const dispatch = useDispatch();
 
 
   const handleInputValue = (key) => (event) => {

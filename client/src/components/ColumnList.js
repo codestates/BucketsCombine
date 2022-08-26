@@ -99,6 +99,9 @@ const ColumnListWrap = styled.div`
     border-radius: 8px;
     padding: 10px 12px;
     font-size: 14px;
+    :focus {
+      outline: none;
+    }
   }
 
   .column-search-icon {
@@ -115,6 +118,19 @@ const ColumnListWrap = styled.div`
     position: absolute;
     bottom: -50px;
     left: 13%;
+  }
+
+  #columnList-mobile {
+    width: 92%;
+    margin-left: 2%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: center;
+    align-items: center;
+    overflow-y: auto;
+    padding: 10px;
   }
 `;
 
@@ -162,6 +178,7 @@ export default function ColumnList () {
         completed={card.completed}
         tags={card.tag}
         membersID={card.membersID}
+        stamped={card.stamped[0]}
       />;
     }))
     setUsers(usersData)
@@ -197,6 +214,7 @@ export default function ColumnList () {
         completed={card.completed}
         tags={card.tag}
         membersID={card.membersID}
+        stamped={card.stamped[0]}
       />;
     })
     setCards(searchedCards)
@@ -222,6 +240,7 @@ export default function ColumnList () {
           completed={card.completed}
           tags={card.tag}
           membersID={card.membersID}
+          stamped={card.stamped[0]}
         />;
       })
       setCards(searchedCards)
@@ -233,7 +252,7 @@ export default function ColumnList () {
     <>
       <ColumnListWrap>
         <div id={isDesktop ? 'card-list-column' : 'card-list-column-mobile'}>
-          <div id="columnList">
+          <div id={isDesktop ? "columnList" : "columnList-mobile"}>
             <button className={isDesktop ? 'create-card-button' : 'create-card-button-mobile'} onClick={() => { dispatch(openMakeCardModal()) }}>+</button>
             {/* {itemLists.map((item, i) => {
             return <ColumnCard title={item.title} tags={item.tags} writer={item.writer} memberCount={item.memberCount} background={item.background} key={i} />;

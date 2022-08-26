@@ -4,16 +4,26 @@ import SideMenu from '../components/SideMenu';
 import MyBucketSection from '../components/MyBucketSection';
 import MyProfileSection from '../components/MyProfileSection';
 import SideMenuMyPage from '../components/SideMenuMyPage'
+import { useHistory } from 'react-router-dom';
 
 export default function MyPage() {
-  return (
-    <div className='mainpage'>
-      <SideMenuMyPage />
-      <div>
-        <TopmenuMypage />
-        <MyBucketSection />
-        <MyProfileSection />
+  let isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+  const history = useHistory()
+
+  if(isSignIn){
+    return (
+      <div className='mainpage'>
+        <SideMenuMyPage />
+        <div>
+          <TopmenuMypage />
+          <MyBucketSection />
+          <MyProfileSection />
+        </div>
       </div>
-    </div>
-  )
+    )
+  } else {
+    history.push('/signin')
+    window.location.reload();
+  }
+  
 }

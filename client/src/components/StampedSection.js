@@ -23,7 +23,7 @@ const CardsWrap = styled.div`
   }
 
   .ment-title {
-    font-size: 48px;
+    font-size: 42px;
     margin-bottom: 20px;
   }
 
@@ -68,14 +68,20 @@ const CardsWrap = styled.div`
   }
 
   .cards-ment-mobile {
-    margin-left: 35px;
     height: 150px;
+    width: 100%;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    bottom: 50px;
   }
 
   .ment-title-mobile {
-    font-size: 35px;
+    font-size: 32px;
     margin-bottom: 20px;
+    text-align: center;
   }
 
   #cards-list-row-mobile {
@@ -90,7 +96,7 @@ const CardsWrap = styled.div`
     left: 50px;
     width: 20px;
     height: 350px;
-    background: -webkit-linear-gradient(left,white 0%,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(left, white 0%,rgba(0,0,0,0) 100%);
   }
 
   .fog-right-mobile {
@@ -99,7 +105,37 @@ const CardsWrap = styled.div`
     right: 50px;
     width: 40px;
     height: 350px;
-    background: -webkit-linear-gradient(right,white 0%,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(right, white 0%,rgba(0,0,0,0) 100%);
+  }
+
+  .ment-description-mobile {
+    font-size: 16px;
+    line-height: 32px;
+    text-align: center;
+  }
+
+  .leftScroll {
+    z-index: 4;
+    position: absolute;
+    left: 130px;
+    width: 30px;
+    height: 350px;
+    border: none;
+    background-color: transparent;
+    font-size: 30px;
+    color: gray;
+  }
+
+  .rightScroll {
+    z-index: 4;
+    position: absolute;
+    right: 30px;
+    width: 30px;
+    height: 350px;
+    border: none;
+    background-color: transparent;
+    font-size: 30px;
+    color: gray;
   }
 `
 
@@ -108,18 +144,35 @@ const CardsWrap = styled.div`
 const StampedModal = () => {
   const isDesktop = useMediaQuery({ minWidth: 921 })
   const  amount  = useSelector((state) => state.card);
+
+  const ele = document.querySelector("#stamp-list-line");
+
+  const leftScroll = () => {
+    const currentScroll = ele.scrollLeft
+    const currentWidth = ele.offsetWidth
+    ele.scrollTo({ behavior: 'smooth', left:currentScroll - currentWidth });
+  }
+
+  const rightScroll = () => {
+    const currentScroll = ele.scrollLeft
+    const currentWidth = ele.offsetWidth
+    ele.scrollTo({ behavior: 'smooth', left:currentScroll + currentWidth });
+  }
+
   return(
     <CardsWrap>
       <div id={isDesktop?'card-section' : 'card-section-mobile'}>
         <div className={isDesktop? "cards-ment" : "cards-ment-mobile"}>
           <div className={isDesktop? 'ment-title' : 'ment-title-mobile'}>
-          여러분의 성취담을 공유해보세요.
+          여러분의 성취담을{isDesktop? '': <br/> } 공유해보세요.
           </div>
-          <div className='ment-description'>
-          달성하신 카드는 도장을 찍어드려요.<br/> 여러분의 후기를 담아 공유할 수 있습니다.
+          <div className={isDesktop? 'ment-description' : 'ment-description-mobile'}>
+          달성하신 카드는 도장을 찍어드려요.{isDesktop? '': <br/> }여러분의 후기를 담아 공유할 수 있습니다.
           </div>
         </div>
         <div id={isDesktop? 'cards-list-row' : 'cards-list-row-mobile'}>
+        <button className="leftScroll" onClick={leftScroll}>{"<"}</button>
+        <button className="rightScroll" onClick={rightScroll}>{">"}</button>
         <div className={isDesktop? 'fog-left' : 'fog-left-mobile'}/>
         <div className={isDesktop? 'fog-right' : 'fog-right-mobile'}/>
           <StampedList/>

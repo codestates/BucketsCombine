@@ -251,7 +251,7 @@ const MainPageModal = styled.div`
         position: absolute;
         width: calc(100% - 70px);
         left: 30px;
-        top: 120px;
+        top: 130px;
         font-size: 18px;
     }
 
@@ -410,6 +410,7 @@ const MainPageModal = styled.div`
     border: none;
     color:white;
     background-color: #FF5C00;
+    text-align: center;
   }
 
   .imgUploadButton label {
@@ -529,6 +530,9 @@ const MyCardModal = ({
   let backgroundImageStyle = {
       backgroundImage: "url(/images/card-" + cardData[0].background + ".jpg)",
   };
+  let stampedBackgroundImageStyle = {
+    backgroundImage: "url(" + cardData[0].background + ")",
+};
   const tags = cardData[0].tag;
 
   const tagLine = tags.map((tag) => {
@@ -670,7 +674,16 @@ const MyCardModal = ({
     backgroundPosition: 'center center',
   };
 
-  const makeStamped = async () => {
+  
+
+  const isStamped = cardData[0].stamped[0] !== null
+
+  const openUserInfo = (seletUserID) => {
+    dispatch(setSelectUserID(seletUserID))
+    dispatch(openUserInfoModal())
+  }
+
+  const makeStamped = async (res) => {
     await axios.post(`${process.env.REACT_APP_API_URL}/mypage/addstamps`, {
       cards_id: modalCardID,
     })
@@ -678,7 +691,7 @@ const MyCardModal = ({
       cards_id: modalCardID,
       title: title,
       cardtext: cardtext,
-      background: imageSrc,
+      background: res,
       hashname: tags,
       completed:complete,
     })
@@ -688,12 +701,33 @@ const MyCardModal = ({
     })
   }
 
-  const isStamped = cardData[0].stamped[0] !== null
 
-  const openUserInfo = (seletUserID) => {
-    dispatch(setSelectUserID(seletUserID))
-    dispatch(openUserInfoModal())
-  }
+
+  const [imageFile, setImageFile] = useState("");
+
+
+  const updateImageFile = async (e) => {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+    formData.append("cards_id", modalCardID)
+    console.log(formData)
+    const config = {
+        Headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/image/cardImageUpload`,
+        formData,
+        config,
+      )
+      .then((res) => {
+        makeStamped(res)
+      })
+      .catch((err) => alert(err));
+  };
+
+  
 
   if(cardWriterID === signInUserID){
     return (
@@ -701,23 +735,24 @@ const MyCardModal = ({
         <MainPageModal ref={modalRef}>
           <div className={isDesktop ? "modal-container" : "modal-container-mobile"} >
             <div className="mainPageCard" >
-              {imageSrc === ''? <div/> : <div className="stampedButton" onClick={makeStamped}>도장 찍기</div>}
+              {imageSrc === ''? <div/> : <div className="stampedButton" onClick={updateImageFile}>도장 찍기</div>}
             {isStamped? <div/>
             : complete === '2'? 
             <div className="imgUploadButton">
             <label htmlFor="ex_file">{imageSrc === ""? '사진 올리기' : '사진 변경' }</label>
             <input type='file' id='ex_file' accept='image/*' onChange={(e) => {
               encodeFileToBase64(e.target.files[0]);
+              setImageFile(e.target.files[0]);
             }} placeholder='사진'/>
             </div>
             : <div/>}
-            <div className={
+            {isStamped? <div/> :
+              <div className={
                 complete === '0' ? 'ColumnCard-progress-0'
                   : complete === '1' ? 'ColumnCard-progress-1'
                     : 'ColumnCard-progress-2'
               } />
-              {/* {complete === '2'? <button className="stampedButton">도장 찍기</button>
-              : <div/>} */}
+            }
               {isStamped? <div/> 
               : <div className={
                 complete === '0' ? 'progress-board-0'
@@ -751,9 +786,16 @@ const MyCardModal = ({
               <button type="button" className="delete-button" onClick={confirmDelete}>
                 {'카드 삭제 >'}
               </button>
-               <div className={isTablet ? "card-img" : "card-img-mobile"} style={imageSrc === ''? backgroundImageStyle : backgroundImageStyleUploaded}>
-               {isStamped && isTablet? <img className="complete-stamp" src="images/complete-stamp.png"/> : <div/>}
-               </div>
+              {isStamped? 
+              <div className={isTablet ? "card-img" : "card-img-mobile"} style={stampedBackgroundImageStyle}>
+              {isStamped && isTablet? <img className="complete-stamp" src="images/complete-stamp.png"/> : <div/>}
+              </div>
+              :
+              <div className={isTablet ? "card-img" : "card-img-mobile"} style={imageSrc === ''? backgroundImageStyle : backgroundImageStyleUploaded}>
+              {isStamped && isTablet? <img className="complete-stamp" src="images/complete-stamp.png"/> : <div/>}
+              </div>
+              }
+               
               <div className={isTablet ? "card-description" : "card-description-mobile"}>{cardtext}</div>
             </div>
           </div>
@@ -766,11 +808,13 @@ const MyCardModal = ({
         <MainPageModal ref={notMyCardModalRef}>
           <div className={isDesktop ? "modal-container" : "modal-container-mobile"} >
             <div className="mainPageCard" >
+            {isStamped? <div/> :
               <div className={
-                completed === '0' ? 'ColumnCard-progress-0'
-                  : completed === '1' ? 'ColumnCard-progress-1'
+                complete === '0' ? 'ColumnCard-progress-0'
+                  : complete === '1' ? 'ColumnCard-progress-1'
                     : 'ColumnCard-progress-2'
               } />
+            }
               <h4 className={isTablet ? " modal-title" : " modal-title-mobile"}>{title}</h4>
               <div className={isTablet ? "card-tag" : "card-tag-mobile"}>{tagLine.join(" ")}</div>
               <div className={isTablet ? "userinfo" : "userinfo-mobile"}>

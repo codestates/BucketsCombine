@@ -160,7 +160,7 @@ export default function StampedCard({
   });
 
   let backgroundImageStyle = {
-    backgroundImage: "url(/images/card-" + background + ".jpg)",
+    backgroundImage: "url(" + background + ")",
   };
   return (
     <StampedCardWrap>

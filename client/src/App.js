@@ -33,6 +33,10 @@ const App = () => {
   const { isOpenEditCardModal } = useSelector((store) => store.modal);
   const { isOpenConfirmWithdrawal } = useSelector((store) => store.modal);
 
+  useEffect(() => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerHTML = `Buckets Combine`;
+  }, []);
 
   return (
     <div>

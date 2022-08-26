@@ -7,6 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { useSelector, useDispatch } from "react-redux";
 import axios from 'axios'
 import { setCardsData, setAllcardsData, setUsersData } from '../redux/reducers/ModalReducer'
+import { useRef } from 'react';
 
 
 const RowListWrap = styled.div`
@@ -74,27 +75,28 @@ const RowListWrap = styled.div`
     position: relative;
     top: 10px;
     margin-left: 0px;
-    width: 400px;
+    width: 80%;
+    min-width: 260px;
     z-index: 1;
   }
   .dummyarea {
     height: 100%;
     width: calc(0vw - 240px);
   }
+
+  #card-list-line {
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    ::-webkit-scrollbar {
+        display: none;
+        }
+  }
 `;
 
 
 export default function RowList () {
-  
-
-  // useEffect(()=> {
-  //   let signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
-  //   const responseBucketID = axios.post(`${process.env.REACT_APP_API_URL}/mypage/mycards`,{
-  //     "users_id" : signInUserInfo.id,
-  //   }).then(()=> {
-  //     console.log(responseBucketID)
-  //   })
-  // }, [])
   
   let signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
   let isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
@@ -182,8 +184,6 @@ export default function RowList () {
       />;
     })
     setCards(searchedCards)
-    const w = (searchedCards.length * 220) + 240
-    dummyarea.style.width = `calc(100vw - ${w}px)`
   }
 
   const enterSearchCard = (e) => {
@@ -210,27 +210,16 @@ export default function RowList () {
         />;
       })
       setCards(searchedCards)
-      const w = (searchedCards.length * 220) + 240
-      dummyarea.style.width = `calc(100vw - ${w}px)`
     }
   }
-  
   
 
   return (
     <RowListWrap >
       <div id={isDesktop ? 'card-list' : 'card-list-mobile'} >
-        <HorizontalScroll
-          className='horizontalScroll'
-          pageLock={false}
-          reverseScroll={true}
-          style={{ height: "100%", width: "100%" }}
-        >
-          <div className="dummy" />
-          {cards}
-          <div className="dummy" />
-          <div className="dummyarea"/>
-        </HorizontalScroll>
+        <div id="card-list-line">
+        {cards}
+        </div>
         <div className={isDesktop? 'search-bar' : 'search-bar-mobile'}>
           <input className='search-input' type="text" placeholder="제목 및 태그" onChange={(e) => {
             setSearch(e.target.value)

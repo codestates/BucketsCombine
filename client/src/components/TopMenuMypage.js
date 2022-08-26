@@ -103,30 +103,19 @@ const TopMenuWrap = styled.div`
 
   .topmenu-button-mobile {
     position: absolute;
-    top: 45px;
-    right: 20px;
+    top: 38px;
+    right: 12px;
     align-self: center;
     border: none;
-    width: 30px;
-    height: 30px;
-  }
-
-  .topmenu-button-mobile:hover {
-    position: absolute;
-    top: 45px;
-    right: 20px;
-    align-self: center;
-    border: none;
-    width: 30px;
-    height: 30px;
+    width: 22px;
   }
 
   .username-board-mobile {
-    top: 120px;
+    top: 100px;
     right: 0px;
     position: fixed;
-    width: 70px;
-    height: 200px;
+    width: 46px;
+    height: 180px;
     border-radius: 12px;
     z-index: 16;
     background-color: #D9D9D9;
@@ -140,10 +129,9 @@ const TopMenuWrap = styled.div`
   .board-button-mobile-c {
     border: none;
     box-shadow: none;
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    font-size: 15px;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
     color: black;
     background-image: url('/images/cards-icon.png');
     background-size: cover;
@@ -157,10 +145,9 @@ const TopMenuWrap = styled.div`
   .board-button-mobile-s {
     border: none;
     box-shadow: none;
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    font-size: 15px;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
     color: black;
     background-image: url('/images/stamped-icon.png');
     background-size: cover;
@@ -174,9 +161,9 @@ const TopMenuWrap = styled.div`
   .board-button-mobile-so {
     border: none;
     box-shadow: none;
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
     font-size: 15px;
     background-image: url('/images/sign-out-icon.png');
     background-size: cover;
@@ -192,17 +179,24 @@ export default function Topmenu({location}){
   // console.log(location)
   const isDesktop = useMediaQuery({ minWidth: 921 })
   const [isBoardOpen, setIsBoardOpen] = useState(false)
+  const [isUsernameclick, setIsUsernameclick] = useState(false)
 
 
   const usernameclick = () => {
+    setIsUsernameclick(true)
     setIsBoardOpen(!isBoardOpen)
+    setTimeout(()=> {setIsUsernameclick(false)}, 50)
   }
 
   const modalRef = useRef(null);
   const handleClose = () => {
-    setIsBoardOpen(false);
+    if(isUsernameclick === true){
+      setIsUsernameclick(false)
+    } else {
+      setTimeout(()=>{setIsBoardOpen(!isBoardOpen)}, 50)
+    }
   };
-  useOutSideClick(modalRef, handleClose);
+  useOutSideClick(modalRef, ()=> setTimeout(handleClose, 100));
 
   const history = useHistory()
   

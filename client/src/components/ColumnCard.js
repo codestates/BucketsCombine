@@ -36,12 +36,20 @@ const ColumnCardWrap = styled.div`
     margin: 5px;
   }
 
+  .ColumnCard-progress-stamped {
+    background-color: transparent;
+    height: 80px;
+    width: 10px;
+    border-radius: 10px;
+    margin: 5px;
+  }
+
   .ColumnCard-info {
     width: calc(70vw - 60px);
     max-width: 940px;
     height: 60px;
     border-radius: 15px;
-    background-image: url("https://source.unsplash.com/random");
+    background-position: center center;
     background-size: cover;
     margin: 5px;
     padding: 10px;
@@ -86,11 +94,19 @@ const ColumnCardWrap = styled.div`
     line-height: 60px;
   }
 
+  .ColumnCard-tag {
+    position: relative;
+    overflow-x: auto;
+    white-space: nowrap;
+    ::-webkit-scrollbar {
+        display: none;
+        }
+  }
+
   .ColumnCard-info-mobile {
     width: calc(95vw - 60px);
     height: 60px;
     border-radius: 15px;
-    background-image: url("https://source.unsplash.com/random");
     background-size: cover;
     margin: 5px;
     padding: 10px;
@@ -98,12 +114,17 @@ const ColumnCardWrap = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+    background-position: center center;
   }
 
   .ColumnCard-title-mobile {
     font-size: 18px;
     font-weight: bold;
     overflow-x: auto;
+    white-space: nowrap;
+    ::-webkit-scrollbar {
+        display: none;
+        }
   }
 `;
 
@@ -117,19 +138,26 @@ export default function ColumnCard ({
   completed,
   tags,
   membersID,
+  stamped,
 }) {
   const isDesktop = useMediaQuery({ minWidth: 921 })
 
   const tagLine = tags.map(tag => {
-    return `#${tag}`
- })
+      return `#${tag}`
+  })
  
-  let backgroundImageStyle = {
+  let backgroundImageStyle = Boolean(stamped)? 
+  {
+    backgroundImage: "url(" + background + ")",
+  } : 
+  {
     backgroundImage: "url(/images/card-" + background + ".jpg)",
   };
 
 
  const dispatch = useDispatch();
+
+ const isStamped = stamped !== null
   
   return (
     <ColumnCardWrap>
@@ -140,11 +168,14 @@ export default function ColumnCard ({
           dispatch(setModalCardID(cardID));
         }}
         >
+        {isStamped? <div className="ColumnCard-progress-stamped"/> : 
         <div className={
           completed==='0'? 'ColumnCard-progress-0'
           : completed==='1'? 'ColumnCard-progress-1'
           : 'ColumnCard-progress-2'
         }/>
+        }
+        
         <div className={isDesktop?'ColumnCard-info' : 'ColumnCard-info-mobile' }style={backgroundImageStyle} >
         <div className='ColumnCard-info-text'>
             <div className={isDesktop? "ColumnCard-title" : "ColumnCard-title-mobile"}>{title}</div>
