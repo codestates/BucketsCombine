@@ -93,19 +93,6 @@ const RowListWrap = styled.div`
         display: none;
         }
   }
-
-  .leftScroll {
-    position: absolute;
-    left: 0px;
-    bottom: 300px;
-    width: 30px;
-    height: 90px;
-    z-index: 10;
-  }
-
-  .rightScroll {
-    position: absolute;
-  }
 `;
 
 
@@ -227,20 +214,6 @@ export default function RowList () {
   }
   
 
-  const ele = document.querySelector("#card-list-line");
-
-  const leftScroll = () => {
-    const currentScroll = ele.scrollLeft
-    const currentWidth = ele.offsetWidth
-    ele.scrollTo({ behavior: 'smooth', left:currentScroll - currentWidth });
-  }
-
-  const rightScroll = () => {
-    const currentScroll = ele.scrollLeft
-    const currentWidth = ele.offsetWidth
-    ele.scrollTo({ behavior: 'smooth', left:currentScroll + currentWidth });
-  }
-
   return (
     <RowListWrap >
       <div id={isDesktop ? 'card-list' : 'card-list-mobile'} >
@@ -252,10 +225,7 @@ export default function RowList () {
             setSearch(e.target.value)
           }} onKeyUp={enterSearchCard}/>
           <img className='search-icon' src='/images/search-icon.png' onClick={searchCard}/>
-          <button className="leftScroll" onClick={leftScroll}>{"<"}</button>
-        <button className="rightScroll" onClick={rightScroll}>{">"}</button>
         </div>
-        
       </div>
     </RowListWrap>
   );

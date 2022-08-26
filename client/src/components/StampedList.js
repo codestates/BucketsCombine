@@ -83,7 +83,7 @@ const StampedListWrap = styled.div`
     height: 100%;
     width: calc(100vw - 240px);
   }
-  .card-list-line {
+  #stamp-list-line {
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -200,18 +200,7 @@ export default function StampedList () {
   return (
     <StampedListWrap >
       <div id={isDesktop ? 'card-list' : 'card-list-mobile'} >
-        {/* <HorizontalScroll
-          className='horizontalScroll'
-          pageLock={false}
-          reverseScroll={true}
-          style={{ height: "100%", width: "100%" }}
-        >
-          <div className="dummy" />
-          {stamped}
-          <div className="dummy" />
-          <div className="dummyarea2"/>
-        </HorizontalScroll> */}
-        <div className="card-list-line">
+        <div id="stamp-list-line">
         {stamped}
         </div>
         <div className={isDesktop? 'search-bar' : 'search-bar-mobile'}>

@@ -83,7 +83,7 @@ const RowListWrap = styled.div`
     width: calc(0vw - 240px);
   }
 
-  .card-list-line {
+  #card-list-line {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
@@ -198,18 +198,7 @@ export default function RowList () {
   return (
     <RowListWrap >
       <div id={isDesktop ? 'card-list' : 'card-list-mobile'} >
-        {/* <HorizontalScroll
-          className='horizontalScroll'
-          pageLock={false}
-          reverseScroll={true}
-          style={{ height: "100%", width: "100%" }}
-        >
-          <div className="dummy" />
-          {cards}
-          <div className="dummy" />
-          <div className="dummyarea"/>
-        </HorizontalScroll> */}
-        <div className="card-list-line">
+        <div id="card-list-line">
         {cards}
         </div>
         <div className={isDesktop? 'search-bar' : 'search-bar-mobile'}>
