@@ -374,16 +374,17 @@ export default function MyProfileSection() {
   };
 
   const updateUserInfo = () => {
+    const currentSignInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
     const payload = {
-      'email': signInUserInfo.email,
+      'email': currentSignInUserInfo.email,
       'username': inputUsername,
+      'userphotourl': currentSignInUserInfo.userphotourl,
       'usertext': inputUsertext,
       'gender': inputGender,
       'age': inputAge,
     }
     axios.patch(`${process.env.REACT_APP_API_URL}/mypage/edit`, payload)
     .then(() => {
-      const currentSignInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
       currentSignInUserInfo.username = inputUsername
       currentSignInUserInfo.usertext = inputUsertext
       currentSignInUserInfo.gender = inputGender
@@ -468,7 +469,7 @@ export default function MyProfileSection() {
           <div className="change-buttons">
             <button className="withdrawal-button" onClick={isSignIn ? () => {dispatch(openConfirmWithdrawal())}: alert('로그인 해주세요')}>{withdrawal}</button>
             <button className="change-password-button" onClick={isSignIn ? () => {dispatch(openConfirmChangeModal())}: alert('로그인 해주세요')} >비밀번호 변경</button>
-            <button className="change-profile-button" onClick={updateProfile}>변경</button>
+            <button className="change-profile-button" onClick={updateUserInfo}>변경</button>
           </div>
         </div>
       </div>
