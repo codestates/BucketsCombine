@@ -195,7 +195,7 @@ const StampedModal = () => {
           </div>
         </div>
         <div id={isDesktop? 'cards-list-row' : 'cards-list-row-mobile'}>
-          <button className={isDesktop? "leftScroll" : "leftScroll-mobile"} onClick={leftScroll}>{"<"}</button>
+        <button className={isDesktop? "leftScroll" : "leftScroll-mobile"} onClick={leftScroll}>{"<"}</button>
           <button className={isDesktop? "rightScroll" : "rightScroll-mobile"} onClick={rightScroll}>{">"}</button>
         <div className={isDesktop? 'fog-left' : 'fog-left-mobile'}/>
         <div className={isDesktop? 'fog-right' : 'fog-right-mobile'}/>

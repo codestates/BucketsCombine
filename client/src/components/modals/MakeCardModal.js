@@ -461,8 +461,15 @@ const MakeCardModal = ({
     }))
   };
 
+
   const addTags = (event) => {
-    const value = event.target.value;
+    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\$%&\'\"\\\(\=]/gi;
+    if(regExp.test(event.target.value)){
+      const inputValue = event.target.value.slice(0, event.target.value.length - 1)
+      event.target.value = inputValue
+    } 
+    
+    const value = event.target.value
     const tagforput = value.replace(/\#/g,'').replace(/\ /g,'')
     if (!tags.includes(tagforput) && value) {
       if(event.key === ' ' || event.key === 'Enter'){
@@ -545,7 +552,7 @@ const MakeCardModal = ({
   }
 
   const descriptionFilter = (value) => {
-    if(value.length > 100){
+    if(value.length > 1000){
       const inputValue = value.slice(0, value.length - 1)
       setInputInfo(inputValue)
       return
@@ -558,7 +565,7 @@ const MakeCardModal = ({
       <MakeCardeModalWrap>
         <div className={isDesktop ? "modal-container" : "modal-container-mobile"} ref={modalRef} >
           <div className="mainPageCard" >
-            <input maxLength='18' className={isTablet ? " modal-title" : " modal-title-mobile"} onChange={(e) => { titleFilter(e.target.value) }} placeholder="제목을 입력해 주세요."></input>
+            <input maxLength='18' className={isTablet ? " modal-title" : " modal-title-mobile"} onChange={(e) => { titleFilter(e.target.value) }} value={inputTitle} placeholder="제목을 입력해 주세요."></input>
               <div className={isTablet ? "card-tags" : "card-tags-mobile"} >
                 {tags.map((tag, index) => (
                   <div key={index} className='tag' onChange={(e) => { setInputTag(e.target.value) }}>
@@ -585,7 +592,7 @@ const MakeCardModal = ({
               {ment}
             </div>
           </div>
-          <textarea maxLength='1000' className={isTablet ? "card-description" : "card-description-mobile"} onChange={(e) => { descriptionFilter(e.target.value) }} placeholder="설명을 입력해 주세요."></textarea>
+          <textarea maxLength='1000' className={isTablet ? "card-description" : "card-description-mobile"} onChange={(e) => { descriptionFilter(e.target.value) }} value={inputInfo} placeholder="설명을 입력해 주세요."></textarea>
         </div>
       </MakeCardeModalWrap>
     </ModalPortal>
