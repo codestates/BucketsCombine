@@ -137,6 +137,30 @@ const CardsWrap = styled.div`
     font-size: 30px;
     color: gray;
   }
+
+  .leftScroll-mobile {
+    z-index: 4;
+    position: absolute;
+    left: 15px;
+    width: 30px;
+    height: 350px;
+    border: none;
+    background-color: transparent;
+    font-size: 30px;
+    color: gray;
+  }
+
+  .rightScroll-mobile {
+    z-index: 4;
+    position: absolute;
+    right: 15px;
+    width: 30px;
+    height: 350px;
+    border: none;
+    background-color: transparent;
+    font-size: 30px;
+    color: gray;
+  }
 `
 
 
@@ -171,8 +195,8 @@ const StampedModal = () => {
           </div>
         </div>
         <div id={isDesktop? 'cards-list-row' : 'cards-list-row-mobile'}>
-        <button className="leftScroll" onClick={leftScroll}>{"<"}</button>
-        <button className="rightScroll" onClick={rightScroll}>{">"}</button>
+        <button className={isDesktop? "leftScroll" : "leftScroll-mobile"} onClick={leftScroll}>{"<"}</button>
+          <button className={isDesktop? "rightScroll" : "rightScroll-mobile"} onClick={rightScroll}>{">"}</button>
         <div className={isDesktop? 'fog-left' : 'fog-left-mobile'}/>
         <div className={isDesktop? 'fog-right' : 'fog-right-mobile'}/>
           <StampedList/>

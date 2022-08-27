@@ -132,6 +132,24 @@ const ColumnListWrap = styled.div`
     overflow-y: auto;
     padding: 10px;
   }
+
+  .column-fog-bottom {
+    position: absolute;
+    bottom: 0px;
+    width: 80vw;
+    height: 40px;
+    background: -webkit-linear-gradient(bottom,white 0%,rgba(0,0,0,0) 100%);
+    z-index: 2;
+  }
+
+  .column-fog-bottom-mobile {
+    position: absolute;
+    bottom: -20px;
+    width: 100vw;
+    height: 40px;
+    background: -webkit-linear-gradient(bottom,white 0%,rgba(0,0,0,0) 100%);
+    z-index: 2;
+  }
 `;
 
 export default function ColumnList () {
@@ -254,11 +272,9 @@ export default function ColumnList () {
         <div id={isDesktop ? 'card-list-column' : 'card-list-column-mobile'}>
           <div id={isDesktop ? "columnList" : "columnList-mobile"}>
             <button className={isDesktop ? 'create-card-button' : 'create-card-button-mobile'} onClick={() => { dispatch(openMakeCardModal()) }}>+</button>
-            {/* {itemLists.map((item, i) => {
-            return <ColumnCard title={item.title} tags={item.tags} writer={item.writer} memberCount={item.memberCount} background={item.background} key={i} />;
-          })} */}
             {cards}
           </div>
+          <div className={isDesktop ? 'column-fog-bottom' : 'column-fog-bottom-mobile'} />
           <div className={isDesktop ? 'column-search-bar' : 'column-search-bar-mobile'}>
             <input className='column-search-input' type="text" placeholder="제목 및 태그" onChange={(e) => {
             setSearch(e.target.value)

@@ -112,7 +112,7 @@ const MyBucketWrap = styled.div `
     bottom: 150px;
     width: 100vw;
     height: 40px;
-    background: -webkit-linear-gradient(bottom,white 0%,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(bottom,blue 0%,rgba(0,0,0,0) 100%);
     z-index: 2;
   }
 `
@@ -125,7 +125,6 @@ export default function MyBucketSection(){
       <div id={isDesktop ? 'mybucket-section' : 'mybucket-section-mobile'}>
         <div className={isDesktop ? 'fog-top' : 'fog-top-mobile'} />
         <div className={isDesktop ? 'card-list-column' : 'card-list-column-mobile'}>
-          <div className={isDesktop ? 'fog-bottom' : 'fog-bottom-mobile'} />
           <ColumnList />
         </div>
       </div>
