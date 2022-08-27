@@ -4,7 +4,7 @@ import { openConfirmWithdrawal, openConfirmChangeModal, openChangePasswordModal,
 import styled from 'styled-components'
 import { useMediaQuery } from "react-responsive";
 import { useHistory } from 'react-router-dom';
-import { isDraft } from '@reduxjs/toolkit';
+import { $CombinedState, isDraft } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -162,7 +162,7 @@ const MyProfileWrap = styled.div`
     border-radius: 10px;
     font-family: 'Inter';
     font-style: normal;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     margin: 5px;
   }
@@ -180,14 +180,14 @@ const MyProfileWrap = styled.div`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 14px;
     margin: 5px;
   }
   .withdrawal-button {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 14px;
     color: #969696;
     background-color: transparent;
     border: none;
@@ -335,9 +335,17 @@ export default function MyProfileSection() {
     axios.post(`api`, formData, config);
   }
 
+  const checkUserImage = (url) => {
+    const urlForCheck = String(url)
+    if(urlForCheck.includes('http')){
+      return url
+    } else {
+      return 'images/base-user-image.jpg'
+    }
+  }
 
   let backgroundImageStyle = {
-    backgroundImage: `url(${signInUserInfo.userphotourl})`,
+    backgroundImage: `url(${checkUserImage(signInUserInfo.userphotourl)})`,
     backgroundPosition: 'center center',
   };
   let backgroundImageStyleUploaded = {
@@ -374,16 +382,17 @@ export default function MyProfileSection() {
   };
 
   const updateUserInfo = () => {
+    const currentSignInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
     const payload = {
-      'email': signInUserInfo.email,
+      'email': currentSignInUserInfo.email,
       'username': inputUsername,
+      'userphotourl': currentSignInUserInfo.userphotourl,
       'usertext': inputUsertext,
       'gender': inputGender,
       'age': inputAge,
     }
     axios.patch(`${process.env.REACT_APP_API_URL}/mypage/edit`, payload)
     .then(() => {
-      const currentSignInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
       currentSignInUserInfo.username = inputUsername
       currentSignInUserInfo.usertext = inputUsertext
       currentSignInUserInfo.gender = inputGender
@@ -427,6 +436,34 @@ export default function MyProfileSection() {
     }
   }
 
+  const nicknameFilter = (value) => {
+    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+
+    if(regExp.test(value)){
+      const inputValue = value.slice(0, value.length - 1)
+      setInputUsername(inputValue)
+      return
+    } 
+
+    if(value.length > 10){
+      const inputValue = value.slice(0, value.length - 1)
+      setInputUsername(inputValue)
+      return
+    }
+
+    setInputUsername(value)
+  }
+
+  const usertextFilter = (value) => {
+    if(value.length > 1000){
+      const inputValue = value.slice(0, value.length - 1)
+      setInputUsertext(inputValue)
+      return
+    }
+
+    setInputUsertext(value)
+  }
+
   return (
     <MyProfileWrap>
       <div id={isDesktop? 'myprofile-section' : 'myprofile-section-mobile'}>
@@ -444,7 +481,7 @@ export default function MyProfileSection() {
             </div>
             <div className={isDesktop? "profile-info-section" : "profile-info-section-mobile"}>
                 <div className="profile-info-email">{signInUserInfo.email}</div>
-                <input className="profile-info-nickname" onChange={(e) => {setInputUsername(e.target.value)}} defaultValue={signInUserInfo.username}></input>
+                <input maxLength='10' className="profile-info-nickname" onChange={(e) => {nicknameFilter(e.target.value)}}  value={inputUsername}></input>
                 <select className="profile-info-age" onChange={(e) => {setInputAge(e.target.value)}}>
                   <option value="DEFAULT" >{signInUserInfo.age}</option>
                   <option value="10대">10대</option>
@@ -454,6 +491,9 @@ export default function MyProfileSection() {
                   <option value="50대">50대</option>
                   <option value="60대">60대</option>
                   <option value="70대">70대</option>
+                  <option value="70대">80대</option>
+                  <option value="70대">90대</option>
+                  <option value="70대">100세 이상</option>
                 </select>
                 <select className="profile-info-gender" onChange={(e) => {setInputGender(e.target.value)}}>
                   <option value="DEFAULT">{signInUserInfo.gender}</option>
@@ -463,7 +503,7 @@ export default function MyProfileSection() {
                 </select>
             </div>
           </div>
-          <textarea className="profile-introducing" onChange={(e) => setInputUsertext(e.target.value)} defaultValue={signInUserInfo.usertext}></textarea>
+          <textarea maxLength='1000' className="profile-introducing" onChange={(e) => usertextFilter(e.target.value)} value={inputUsertext}></textarea>
           {message ? <div className="failure-message">비어있는 부분이 있습니다.</div> : <div />}
           <div className="change-buttons">
             <button className="withdrawal-button" onClick={isSignIn ? () => {dispatch(openConfirmWithdrawal())}: alert('로그인 해주세요')}>{withdrawal}</button>

@@ -341,6 +341,16 @@ const MainPageStampedModal = ({
         dispatch(closeMainStampedCardModal())
     };
     useOutSideClick(modalRef, handleClose);
+
+    const checkUserImage = (url) => {
+        const urlForCheck = String(url)
+        if(urlForCheck.includes('http')){
+          return url
+        } else {
+          return 'images/base-user-image.jpg'
+        }
+      }
+
     return (
         <ModalPortal>
             <StampedModalWrap ref={modalRef}>
@@ -352,7 +362,7 @@ const MainPageStampedModal = ({
                             {membersID.map((member, i) => {
                                 const username = usersData[member - 1].username;
                                 const userphoto = usersData[member - 1].userphotourl;
-                                return <div key={i} className="username">{username}<img className="profile-image" src={userphoto}/></div>
+                                return <div key={i} className="username">{username}<img className="profile-image" src={checkUserImage(userphoto)}/></div>
                             })}
                         </div>
                         <button className="close-btn" onClick={() => {

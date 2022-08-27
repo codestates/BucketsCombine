@@ -727,7 +727,14 @@ const MyCardModal = ({
       .catch((err) => alert(err));
   };
 
-  
+  const checkUserImage = (url) => {
+    const urlForCheck = String(url)
+    if(urlForCheck.includes('http')){
+      return url
+    } else {
+      return 'images/base-user-image.jpg'
+    }
+  }
 
   if(cardWriterID === signInUserID){
     return (
@@ -773,7 +780,7 @@ const MyCardModal = ({
                   return (
                     <div key={i} className="username" onClick={() => openUserInfo(seletUserID)}>
                     {usersData[member - 1].username}
-                    <img className="profile-image" src={usersData[member - 1].userphotourl} />
+                    <img className="profile-image" src={checkUserImage(usersData[member - 1].userphotourl)} />
                   </div>
                   )
                 })}
@@ -823,7 +830,7 @@ const MyCardModal = ({
                   return (
                     <div key={i} className="username" onClick={() => openUserInfo(seletUserID)}>
                     {usersData[member - 1].username}
-                    <img className="profile-image" src={usersData[member - 1].userphotourl} />
+                    <img className="profile-image" src={checkUserImage(usersData[member - 1].userphotourl)} />
                   </div>
                   )
                 })}
