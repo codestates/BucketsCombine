@@ -283,12 +283,6 @@ export default function MyProfileSection() {
   const userId = useSelector((state) => state.userId)
   const withdrawal = '> 회원탈퇴'
 
-  const reloadPage = () => {
-      window.location.reload();
-  }
-  
-  
-  
 
   const dispatch = useDispatch();
   const [ files, setFiles ] = useState('');
@@ -419,6 +413,7 @@ export default function MyProfileSection() {
       if (imageSrc === '') {
         updateUserInfo()
         await alert('변경되었습니다.')
+        await window.location.reload();
         return
       }
       if (inputUsername === lastSignInUserInfo.username &&
@@ -427,11 +422,13 @@ export default function MyProfileSection() {
         inputUsertext === lastSignInUserInfo.usertext) {
           updateImageFile()
           await alert('변경되었습니다.')
+          await window.location.reload();
           return
       }
       updateUserInfo()
       updateImageFile()
       await alert('변경되었습니다.')
+      await window.location.reload();
       return
     }
   }

@@ -292,6 +292,7 @@ const EditCardeModalWrap = styled.div`
     padding: 5px 5px 5px 10px;
     margin-right: 2px;
     box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2) ;
+    white-space: nowrap;
   }
   .x {
     border: none;
@@ -434,6 +435,28 @@ const EditCardeModalWrap = styled.div`
         bottom: 30px;
         font-size: 14px;
     }
+
+    .tag-message {
+    color: #FF5C00;
+    align-self: flex-end;
+    margin-right: auto;
+    position: absolute;
+    left: 60px;
+    top: 214px;
+    font-size: 16px;
+    z-index: 2;
+  }
+
+  .tag-message-mobile {
+    color: #FF5C00;
+    align-self: flex-end;
+    margin-right: auto;
+    position: absolute;
+    left: 32px;
+    top: 214px;
+    font-size: 15px;
+    z-index: 2;
+  }
 `
 
     
@@ -452,7 +475,7 @@ const EditCardModal = ({
   const modalRef = useRef(null);
   
 
-
+  const [tagmessage, setTagmessage] = useState(false);
   const [inputTitle, setInputTitle] = useState(modalCardInfo.title);
   const [inputInfo, setInputInfo] = useState(modalCardInfo.cardtext);
   const [inputTag, setInputTag] = useState(modalCardInfo.tag);
@@ -463,27 +486,38 @@ const EditCardModal = ({
     setTags(tags.filter((el) => {
       return el !== tags[indexToRemove];
     }))
-    setInputInfo(tags)
+    setTagmessage(false)
   };
 
   const addTags = (event) => {
-    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\$%&\'\"\\\(\=]/gi;
-    if(regExp.test(event.target.value)){
-      const inputValue = event.target.value.slice(0, event.target.value.length - 1)
-      event.target.value = inputValue
-    } 
-    
-    const value = event.target.value
-    const tagforput = value.replace(/\#/g,'').replace(/\ /g,'')
-    if (!tags.includes(tagforput) && value) {
-      if(event.key === ' ' || event.key === 'Enter'){
-        setTags([...tags, tagforput])
-        event.target.value = '';
-      }
-      
-    } else {
-      if(event.key === ' '){
-        event.target.value = event.target.value.slice(0, -1);
+    setTagmessage(false)
+    if(event.target.value.length > 30){
+      event.target.value = event.target.value.slice(0, 30)
+    }
+
+    if(event.key === ' ' || event.key === 'Enter'){
+      const value = event.target.value
+      const tagforput = value.replace(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi,'').replace(/\ /g,'')
+
+      if(tagforput !== ''){
+        if(tags.length >= 10){
+          if(event.key === ' '){
+            event.target.value = event.target.value.slice(0, event.target.value.length - 1)
+          }
+          setTagmessage(true)
+          return
+        } else {
+          if(tags.includes(tagforput)){
+            event.target.value = '';
+            return
+          } else {
+            setTags([...tags, tagforput])
+            event.target.value = '';
+            return
+          }
+        }
+      } else {
+        return
       }
     }
   }
@@ -576,6 +610,9 @@ const EditCardModal = ({
       <EditCardeModalWrap>
         <div className={isDesktop ? "modal-container" : "modal-container-mobile"} ref={modalRef} >
           <div className="mainPageCard" >
+          {tagmessage? 
+            <div className={isTablet? "tag-message" : "tag-message-mobile" }>태그는 10개까지 달 수 있습니다.</div>
+          : <div/>}
           <input maxLength='18' className={isTablet ? " modal-title" : " modal-title-mobile"} onChange={(e) => { titleFilter(e.target.value) }} value={inputTitle} placeholder="제목을 입력해 주세요."></input>
               <div className={isTablet ? "card-tags" : "card-tags-mobile"} >
                 {tags.map((tag, index) => (

@@ -5,63 +5,114 @@ import useOutSideClick from "../hook/UseOutSideClick";
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { useMediaQuery } from "react-responsive";
 
 const ConfirmChangeModal = styled.div`
-    width: 30vw;
-    height: 60vh;
+  .confirmPasswordCard{
+    position: fixed;
+    left: calc(50vw - 100px) ;
+    top: calc(50vh - 250px);
+    width: 320px;
+    height: 500px;
+    z-index: 10;
     display: flex;
-    border-radius: 20px 20px 20px 20px;
-    border: solid rgb(170, 170, 170);
     justify-content: center;
     align-items: center;
-    position: fixed;
-    left: 40vw;
-    top: 20vh;
-    z-index: 10;
-    .confirmPasswordCard{
-        position: relative;
-        width: 30vw;
-        height: 60vh;
-        background-color: rgba(255, 255, 255);
-        border-radius: 20px 20px 20px 20px;
-        animation: fadein 0.5s;
-        -moz-animation: fadein 0.5s;
-        -webkit-animation: fadein 0.5s;
-        -o-animation: fadein 0.5s;
-        
-        @keyframes fadein {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: solid rgb(170, 170, 170);
+    border-radius: 20px 20px 20px 20px;
+    animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s;
+    -webkit-animation: fadein 0.5s;
+    -o-animation: fadein 0.5s;
+      
+    @keyframes fadein {
+        from {
+            opacity: 0;
         }
-        @-moz-keyframes fadein { 
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @-webkit-keyframes fadein { 
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @-o-keyframes fadein {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        to {
+            opacity: 1;
         }
     }
+    @-moz-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-o-keyframes fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+  }
+
+  .confirmPasswordCard-mobile{
+    position: fixed;
+    left: calc(50vw - 160px) ;
+    top: calc(50vh - 250px);
+    width: 320px;
+    height: 500px;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: solid rgb(170, 170, 170);
+    border-radius: 20px 20px 20px 20px;
+    animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s;
+    -webkit-animation: fadein 0.5s;
+    -o-animation: fadein 0.5s;
+      
+    @keyframes fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-moz-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-o-keyframes fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+  }
 
     .close-btn {
         margin: 1px;
@@ -78,29 +129,27 @@ const ConfirmChangeModal = styled.div`
 
     .logo_img{
         position: absolute;
-        width: 10vw;
-        height: 15vh;
-        left: 10vw;
-        top: 7vh;
+        width: 100px;
+        height: 100px;
+        top: 50px;
     }
 
     .confirm-btn{
         position: absolute;
         background-color: rgb(255, 190, 0);
         border: none;
-        border-radius: 5px 5px 5px 5px;
-        width: 20vw;
-        height: 7vh;
-        left: 5vw;
-        top: 45vh;
+        border-radius: 10px;
+        width: 120px;
+        height: 50px;
+        bottom: 50px;
     }
 
     .usingPassword {
         position: absolute;
-        width: 20vw;
-        height: 3vh;
-        left: 5vw;
-        top: 30vh;
+        width: 240px;
+        height: 30px;
+        border-radius: 5px;
+        border: solid rgb(170, 170, 170);
     }
     
     .check{
@@ -114,52 +163,54 @@ const ConfirmChangeModal = styled.div`
 axios.defaults.withCredentials = true;
 
 const ConfirmChangeCardModal = () => {
-    const signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
-    const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
-    
-    const dispatch = useDispatch();
 
-    const modalRef = useRef(null);
-    const handleClose = () => {
-        dispatch(closeConfirmChangeModal())
-    };
-    useOutSideClick(modalRef, handleClose);
+  const isDesktop = useMediaQuery({ minWidth: 921 })
 
-    const [ message, setMessage ] = useState(false);
-    const [ inputPassword, setInputPassword ] = useState('');
-    const [ isChange, setIsChange ] = useState();
-    const [ isWithdrawal, setIsdrawal ] = useState(false);
+  const signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
+  const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+
+  const dispatch = useDispatch();
+
+  const modalRef = useRef(null);
+  const handleClose = () => {
+    dispatch(closeConfirmChangeModal())
+  };
+  useOutSideClick(modalRef, handleClose);
+
+  const [message, setMessage] = useState(false);
+  const [inputPassword, setInputPassword] = useState('');
+  const [isChange, setIsChange] = useState();
+  const [isWithdrawal, setIsdrawal] = useState(false);
 
 
-    const checkPassword = () => {
-        if(isSignIn){
-        const payload = {
-            // 'email': signInUserInfo.email,
-            'password': inputPassword,
-        }
-            axios.get(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
-                withCredentials: true,
-            })
-        }
+  const checkPassword = () => {
+    if (isSignIn) {
+      const payload = {
+        // 'email': signInUserInfo.email,
+        'password': inputPassword,
+      }
+      axios.get(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
+        withCredentials: true,
+      })
     }
-    
+  }
 
-    return (
-        <ModalPortal>
-            <ConfirmChangeModal>
-                
-                <div className="confirmPasswordCard" ref={modalRef}>
-                <button className="close-btn" onClick={() => {
-                    dispatch(closeConfirmChangeModal())
-                }}>X</button>         
-                <img className="logo_img" src="images/bucketscombine_logo.png" alt="card" />
-                <input className="usingPassword" type='password' placeholder='사용중인 비밀번호' onChange={(e) => {setInputPassword(e.target.value)}}></input>
-                {message?<div className="check">비밀번호가 일치하지 않습니다</div>:<div></div>}
-                <button className="confirm-btn" onClick={checkPassword}>확인</button>
-                </div>
-            </ConfirmChangeModal>
-        </ModalPortal>
-    );
+
+  return (
+    <ModalPortal>
+      <ConfirmChangeModal>
+        <div className={isDesktop? "confirmPasswordCard" : "confirmPasswordCard-mobile"} ref={modalRef}>
+          <button className="close-btn" onClick={() => {
+            dispatch(closeConfirmChangeModal())
+          }}>X</button>
+          <img className="logo_img" src="images/bucketscombine_logo.png" alt="card" />
+          <input className="usingPassword" type='password' placeholder='사용중인 비밀번호' onChange={(e) => { setInputPassword(e.target.value) }}></input>
+          {message ? <div className="check">비밀번호가 일치하지 않습니다</div> : <div></div>}
+          <button className="confirm-btn" onClick={checkPassword}>확인</button>
+        </div>
+      </ConfirmChangeModal>
+    </ModalPortal>
+  );
 }
 
 export default ConfirmChangeCardModal;
