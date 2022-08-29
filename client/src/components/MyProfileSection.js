@@ -194,7 +194,7 @@ const MyProfileWrap = styled.div`
     top: 60px;
     position: relative;
     margin-right: auto;
-    min-width: 80px;
+    min-width: 100px;
   }
 
   #myprofile-section-mobile {
