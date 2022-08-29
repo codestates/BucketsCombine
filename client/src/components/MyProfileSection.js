@@ -158,6 +158,7 @@ const MyProfileWrap = styled.div`
     background: #323232;
     color: white;
     height: 31px;
+    min-width: 120px;
     width: 133px;
     border-radius: 10px;
     font-family: 'Inter';
@@ -170,6 +171,7 @@ const MyProfileWrap = styled.div`
   .change-profile-button {
     height: 31px;
     width: 75px;
+    min-width: 60px;
     margin-right: 27px;
     border:none;
     color: white;
