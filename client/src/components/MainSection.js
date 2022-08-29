@@ -166,27 +166,27 @@ export default function MainSection(){
       {isDesktop? <div className='fog'/> : <div/>}
       <div className={isDesktop?'videos-container' : 'videos-container-mobile'}>
         {isExtend? 
-        <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop playsinline>
+        <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop playsInline>
           <source src="/videos/A.mp4" type="video/mp4"></source>
-        </video> : isDesktop? <div className='whiteboard'/> :  <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop playsinline>
+        </video> : isDesktop? <div className='whiteboard'/> :  <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop playsInline>
           <source src="/videos/A.mp4" type="video/mp4"></source>
         </video>}
-        <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop playsinline>
+        <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop playsInline>
           <source src="/videos/B.mp4" type="video/mp4"></source>
         </video>
-        <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop playsinline>
+        <video className={isDesktop?"video" : "video-mobile"} autoPlay muted loop playsInline>
           <source src="/videos/C.mp4" type="video/mp4"></source>
         </video>
       </div>
       {isDesktop?
       <div className='videos-blur-container'>
-      {isExtend? <video className="video-blur" autoPlay muted loop playsinline>
+      {isExtend? <video className="video-blur" autoPlay muted loop playsInline>
           <source src="/videos/A.mp4" type="video/mp4"></source>
         </video> : <div className='whiteboard'/>}
-        <video className="video-blur" autoPlay muted loop playsinline>
+        <video className="video-blur" autoPlay muted loop playsInline>
           <source src="/videos/B.mp4" type="video/mp4"></source>
         </video>
-        <video className="video-blur" autoPlay muted loop playsinline>
+        <video className="video-blur" autoPlay muted loop playsInline>
           <source src="/videos/C.mp4" type="video/mp4"></source>
         </video>
       </div>
