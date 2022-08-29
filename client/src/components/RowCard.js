@@ -98,7 +98,7 @@ const RowCardWrap = styled.div`
   }
 
   .card-title {
-    font-size: 26px;
+    font-size: 22px;
     color: white;
     height: 105px;
     margin: 10px;

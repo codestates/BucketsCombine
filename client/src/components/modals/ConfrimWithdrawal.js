@@ -6,61 +6,111 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 const ConfirmWithdrawalModal = styled.div`
-    width: 30vw;
-    height: 60vh;
+    .confirmPasswordCard{
+    position: fixed;
+    left: calc(50vw - 100px) ;
+    top: calc(50vh - 250px);
+    width: 320px;
+    height: 500px;
+    z-index: 10;
     display: flex;
-    border-radius: 20px 20px 20px 20px;
-    border: solid rgb(170, 170, 170);
     justify-content: center;
     align-items: center;
-    position: fixed;
-    left: 40vw;
-    top: 20vh;
-    z-index: 10;
-    .confirmPasswordCard{
-        position: relative;
-        width: 30vw;
-        height: 60vh;
-        background-color: rgba(255, 255, 255);
-        border-radius: 20px 20px 20px 20px;
-        animation: fadein 0.5s;
-        -moz-animation: fadein 0.5s;
-        -webkit-animation: fadein 0.5s;
-        -o-animation: fadein 0.5s;
-        
-        @keyframes fadein {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: solid rgb(170, 170, 170);
+    border-radius: 20px 20px 20px 20px;
+    animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s;
+    -webkit-animation: fadein 0.5s;
+    -o-animation: fadein 0.5s;
+      
+    @keyframes fadein {
+        from {
+            opacity: 0;
         }
-        @-moz-keyframes fadein { 
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @-webkit-keyframes fadein { 
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @-o-keyframes fadein {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        to {
+            opacity: 1;
         }
     }
+    @-moz-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-o-keyframes fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+  }
+
+  .confirmPasswordCard-mobile{
+    position: fixed;
+    left: calc(50vw - 160px) ;
+    top: calc(50vh - 250px);
+    width: 320px;
+    height: 500px;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: solid rgb(170, 170, 170);
+    border-radius: 20px 20px 20px 20px;
+    animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s;
+    -webkit-animation: fadein 0.5s;
+    -o-animation: fadein 0.5s;
+      
+    @keyframes fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-moz-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-o-keyframes fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+  }
 
     .close-btn {
         margin: 1px;
@@ -77,29 +127,27 @@ const ConfirmWithdrawalModal = styled.div`
 
     .logo_img{
         position: absolute;
-        width: 10vw;
-        height: 15vh;
-        left: 10vw;
-        top: 7vh;
+        width: 100px;
+        height: 100px;
+        top: 50px;
     }
 
     .confirm-btn{
         position: absolute;
         background-color: rgb(255, 190, 0);
         border: none;
-        border-radius: 5px 5px 5px 5px;
-        width: 20vw;
-        height: 7vh;
-        left: 5vw;
-        top: 45vh;
+        border-radius: 10px;
+        width: 120px;
+        height: 50px;
+        bottom: 50px;
     }
 
     .usingPassword {
         position: absolute;
-        width: 20vw;
-        height: 3vh;
-        left: 5vw;
-        top: 30vh;
+        width: 240px;
+        height: 30px;
+        border-radius: 5px;
+        border: solid rgb(170, 170, 170);
     }
     
     .check{
