@@ -360,9 +360,8 @@ const MainPageStampedModal = ({
                         <div className={isTablet? "card-tag" : "card-tag-mobile"}>{tagLine.join(" ")}</div>
                         <div className={isTablet? "userinfo" : "userinfo-mobile"}>
                             {membersID.map((member, i) => {
-                                const username = usersData[member - 1].username;
-                                const userphoto = usersData[member - 1].userphotourl;
-                                return <div key={i} className="username">{username}<img className="profile-image" src={checkUserImage(userphoto)}/></div>
+                                const seletUser = usersData.filter((user) => user.id === member)[0]
+                                return <div key={i} className="username">{seletUser.username}<img className="profile-image" src={checkUserImage(seletUser.userphotourl)}/></div>
                             })}
                         </div>
                         <button className="close-btn" onClick={() => {
