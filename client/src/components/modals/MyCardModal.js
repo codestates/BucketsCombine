@@ -776,11 +776,11 @@ const MyCardModal = ({
               <div className={isTablet ? "card-tag" : "card-tag-mobile"}>{tagLine.join(" ")}</div>
               <div className={isTablet ? "userinfo" : "userinfo-mobile"}>
                 {membersID.map((member, i) => { 
-                  const seletUserID = usersData[member - 1].id
+                  const seletUser = usersData.filter((user) => user.id === member)[0]
                   return (
-                    <div key={i} className="username" onClick={() => openUserInfo(seletUserID)}>
-                    {usersData[member - 1].username}
-                    <img className="profile-image" src={checkUserImage(usersData[member - 1].userphotourl)} />
+                    <div key={i} className="username" onClick={() => openUserInfo(seletUser.id)}>
+                    {seletUser.username}
+                    <img className="profile-image" src={checkUserImage(seletUser.userphotourl)} />
                   </div>
                   )
                 })}
@@ -826,11 +826,11 @@ const MyCardModal = ({
               <div className={isTablet ? "card-tag" : "card-tag-mobile"}>{tagLine.join(" ")}</div>
               <div className={isTablet ? "userinfo" : "userinfo-mobile"}>
               {membersID.map((member, i) => { 
-                  const seletUserID = usersData[member - 1].id
+                  const seletUser = usersData.filter((user) => user.id === member)[0]
                   return (
-                    <div key={i} className="username" onClick={() => openUserInfo(seletUserID)}>
-                    {usersData[member - 1].username}
-                    <img className="profile-image" src={checkUserImage(usersData[member - 1].userphotourl)} />
+                    <div key={i} className="username" onClick={() => openUserInfo(seletUser.id)}>
+                    {seletUser.username}
+                    <img className="profile-image" src={checkUserImage(seletUser.userphotourl)} />
                   </div>
                   )
                 })}

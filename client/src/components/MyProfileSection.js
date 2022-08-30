@@ -278,7 +278,7 @@ export default function MyProfileSection() {
   const [inputUsername, setInputUsername ] = useState(signInUserInfo.username);
   const [inputAge, setInputAge] = useState(signInUserInfo.age);
   const [inputGender, setInputGender] = useState(signInUserInfo.gender);
-  const [inputUsertext, setInputUsertext] = useState(signInUserInfo.usertext);
+  const [inputUsertext, setInputUsertext] = useState(signInUserInfo.usertext || '');
   const [ message, setMessage ] = useState(false);
   const [ isReload, setIsReload ] = useState();
 
@@ -319,16 +319,6 @@ export default function MyProfileSection() {
   reader.onload = () => {
     (imgEl.style.backgroundImage = `url(${reader.result})`);
   reader.readAsDataURL(files[0]);
-  }
-  const handleClick = (e) => {
-    const formData = new FormData();
-    formData.append('uploadImage', files[0]);
-    const config = {
-      Headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
-    axios.post(`api`, formData, config);
   }
 
   const checkUserImage = (url) => {
@@ -444,8 +434,8 @@ export default function MyProfileSection() {
       return
     } 
 
-    if(value.length > 10){
-      const inputValue = value.slice(0, value.length - 1)
+    if(value.length > 12){
+      const inputValue = value.slice(0, 12)
       setInputUsername(inputValue)
       return
     }
@@ -502,7 +492,7 @@ export default function MyProfileSection() {
                 </select>
             </div>
           </div>
-          <textarea maxLength='1000' className="profile-introducing" onChange={(e) => usertextFilter(e.target.value)} value={inputUsertext}></textarea>
+          <textarea maxLength='1000' className="profile-introducing" onChange={(e) => usertextFilter(e.target.value)} value={inputUsertext}/>
           {message ? <div className="failure-message">비어있는 부분이 있습니다.</div> : <div />}
           <div className="change-buttons">
             <button className="withdrawal-button" onClick={isSignIn ? () => {dispatch(openConfirmWithdrawal())}: alert('로그인 해주세요')}>{withdrawal}</button>

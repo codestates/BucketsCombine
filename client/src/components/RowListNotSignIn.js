@@ -84,12 +84,17 @@ const RowListWrap = styled.div`
   }
 
   #card-list-line {
+    height: 100%;
     display: flex;
     flex-direction: row;
     overflow-x: auto;
     ::-webkit-scrollbar {
         display: none;
         }
+  }
+
+  .dummy{
+    height: 100px;
   }
 `;
 
@@ -120,10 +125,11 @@ export default function RowList () {
 
     setCards(
       reverseCardsData.map((card, i) => {
+        const username = usersData.filter((user) => user.id === card.users_id)[0].username
         return <RowCardNotSignIn
           key={i}
           cardID={card.id}
-          writername={usersData[card.users_id - 1].username}
+          writername={username}
           title={card.title}
           background={card.background}
           createdAt={card.createdAt}
@@ -152,10 +158,11 @@ export default function RowList () {
     const set = new Set(mergeData)
     const searchedData = [...set]
     const searchedCards = searchedData.map((card, i) => {
+      const username = usersData.filter((user) => user.id === card.users_id)[0].username
       return <RowCardNotSignIn
       key={i}
       cardID={card.id}
-      writername={usersData[card.users_id - 1].username}
+      writername={username}
       title={card.title}
       background={card.background}
       createdAt={card.createdAt}
@@ -165,8 +172,6 @@ export default function RowList () {
     />;
     })
     setCards(searchedCards)
-    const w = (searchedCards.length * 220) + 240
-    dummyarea.style.width = `calc(100vw - ${w}px)`
   }
 
   const enterSearchCard = (e) => {
@@ -177,10 +182,11 @@ export default function RowList () {
       const set = new Set(mergeData)
       const searchedData = [...set]
       const searchedCards = searchedData.map((card, i) => {
+        const username = usersData.filter((user) => user.id === card.users_id)[0].username
         return <RowCardNotSignIn
         key={i}
         cardID={card.id}
-        writername={usersData[card.users_id - 1].username}
+        writername={username}
         title={card.title}
         background={card.background}
         createdAt={card.createdAt}
@@ -190,8 +196,6 @@ export default function RowList () {
       />;
       })
       setCards(searchedCards)
-      const w = (searchedCards.length * 220) + 240
-      dummyarea.style.width = `calc(100vw - ${w}px)`
     }
   }
 
