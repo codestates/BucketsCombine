@@ -212,6 +212,7 @@ export default function Topmenu({location}){
 
   const goToSignIn = async () => {
     await history.push('/signin')
+    await window.scrollTo({ left: 0, top: 0 });
   }
 
 

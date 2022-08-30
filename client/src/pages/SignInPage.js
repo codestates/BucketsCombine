@@ -5,26 +5,18 @@ import styled from 'styled-components';
 import { useCookies } from 'react-cookie';
 import { setSignInUserinfo } from '../redux/reducers/ModalReducer'
 import { useSelector, useDispatch } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
 
 const SignInPageWrap = styled.div`
-  .body {
-    height: 100%;
-    overflow: hidden;
-  }
-  #login_cancle {
-    position: fixed;
-    top: 20px;
-    right: 0;
-    margin-right: 30px;
-    border: none;
-    box-shadow: none;
-    width: 120px;
-    height: 36px;
-    border-radius: 12px;
-    font-size: 15px;
-    background-color: #FFC700;
-  }
+  .signin_section {
+      background-color: rgb(41, 41, 41);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+  
   .signin_container {
     display: flex;
     flex-direction: column;
@@ -37,15 +29,7 @@ const SignInPageWrap = styled.div`
     background-size: cover;
     overflow: hidden;
   }
-  .signin_section {
-    background-color: rgb(41, 41, 41);
-    height: 100vh;
-    width: 100vw;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    overflow: hidden;
-  }
+  
   .login_title {
     font-weight: bold;
     color: white;
@@ -99,17 +83,6 @@ const SignInPageWrap = styled.div`
     height: 50px;
     border-radius: 5px;
   }
-  .login_google {
-    display: flex;
-    border: none;
-    font-size: 16px;
-    justify-content: center;
-    align-items: center;
-    margin: 10px;
-    width: 330px;
-    height: 50px;
-    border-radius: 5px;
-  }
   .login_signup {
     flex: flex;
     background-color: #ffc700;
@@ -143,9 +116,10 @@ const SignInPageWrap = styled.div`
     font-size: 14px;
     margin: 10px;
   }
+
   .google-logo {
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
     position: relative;
     right: 20px;
   }
@@ -155,6 +129,70 @@ const SignInPageWrap = styled.div`
     height: 120px;
     background-image: url("images/bucketscombine_logo.png");
     background-size: cover;
+    margin-top: 50px;
+  }
+
+  .cancle-button {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    margin-right: 30px;
+    border: none;
+    box-shadow: none;
+    width: 120px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 15px;
+    background-color: #FFC700;
+  }
+
+  .cancle-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    background-image: url('/images/cancel-yellow-icon.png');
+    background-size: cover;
+  }
+
+  .login_google {
+    display: flex;
+    border: none;
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 330px;
+    height: 50px;
+    border-radius: 5px;
+    margin-bottom: 100px;
+  }
+
+  .login_kakao {
+    display: flex;
+    border: none;
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 330px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #fcde4d;
+  }
+
+  .login_naver {
+    display: flex;
+    border: none;
+    font-size: 16px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 330px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #55c14b;
   }
 `
 
@@ -170,9 +208,8 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
 
 
   const handleInputValue = (key) => (event) => {
+    setErrormessage('')
     setLogininfo({ ...logininfo, [key]: event.target.value });
-    
-    // if(key === "password" && )
   };
 
   const handleInputKey = (event) => {
@@ -198,26 +235,27 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
         history.push("/")
       })
       .catch((err)=> {
-        alert(err)
+        setErrormessage('이메일 또는 비밀번호가 일치하지 않습니다.')
       })
     }
   }
 
   const cancle = () => {
-    history.goBack()
+    history.push("/")
   }
 
   const join = () => {
     history.push("/signup")
   }
   
+  const isDesktop = useMediaQuery({ minWidth: 921 })
 
 	return (
     <SignInPageWrap>
-      <div className="body">
-        <div>
           <div className="signin_section">
-            <button id="login_cancle" onClick={cancle}>취소</button>
+            {isDesktop? 
+            <button className="cancle-button" onClick={cancle}>취소</button>
+            : <div className='cancle-icon' onClick={cancle}/>}
             <div className="signin_container">
               <div className="BC_logo"/>
               <div className="login_title">BucketsCombine</div>
@@ -226,12 +264,14 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
                   type="email"
                   placeholder="이메일"
                   onChange={handleInputValue("email")}
+                  maxLength='40'
                 />
                 <input id="password"
                   type="password"
                   placeholder="비밀번호"
                   onChange={handleInputValue("password")}
                   onKeyUp={(event) => handleInputKey(event)}
+                  maxLength='12'
                 />
                 <div className='find'>아이디 / 비밀번호찾기</div>
                 <div className='alert'>{errormessage}</div>
@@ -242,21 +282,28 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
                     onClick={signInRequestHandler}
                     >로그인
                   </button>
-                  <button className="login_google">
-                    <img className="google-logo" src="images/unnamed.webp"
-                      alt="사진이 없습니다." width="20px" height="20px" />
-                    구글 로그인 / 회원가입
-                  </button>
                   <button className="login_signup" onClick={join}>
                     회원가입
+                  </button>
+                  <button className="login_kakao">
+                    <img className="google-logo" src="images/kakao-logo.png"
+                      alt="사진이 없습니다." width="20px" height="20px" />
+                    카카오 로그인
+                  </button>
+                  <button className="login_naver">
+                    <img className="google-logo" src="images/naver-logo.png"
+                      alt="사진이 없습니다." width="20px" height="20px" />
+                    네이버 로그인
+                  </button>
+                  <button className="login_google">
+                    <img className="google-logo" src="images/Google-logo.png"
+                      alt="사진이 없습니다." width="20px" height="20px" />
+                    구글 로그인
                   </button>
                 </div>
               </div>
             </div>
-
           </div>
-        </div>
-      </div>
     </SignInPageWrap>
 	)
 }

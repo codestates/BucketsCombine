@@ -25,7 +25,7 @@ const ColumnListWrap = styled.div`
   #card-list-column-mobile {
   width: 100vw;
   max-width: 1000px;
-  height: calc(100vh - 400px) ;
+  height: calc(100vh - 250px) ;
   flex-direction: column;
   align-items: center;
   position: relative;
@@ -164,6 +164,7 @@ export default function ColumnList () {
   const [cards, setCards] = useState([]);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
+  const [isBucketEmpty, setIsBucketEmpty] = useState(false);
 
   const saveData = (responseAllCards, responseUsers, responseBucketID) => {
     const allCardsData = responseAllCards.data;
@@ -176,19 +177,22 @@ export default function ColumnList () {
       }
       return false
     })
+    if(bucketCardsData.length === 0){
+      setIsBucketEmpty(true)
+    }
     const reverseBucketCardsData = bucketCardsData.slice().reverse()
 
     dispatch(setAllcardsData({ allCardsData }));
     dispatch(setUsersData({ usersData }));
-    dispatch(setBucketData( reverseBucketCardsData ))
+    dispatch(setBucketData(reverseBucketCardsData ))
 
-    
     setCards(
       reverseBucketCardsData.map((card, i) => {
+      const username = usersData.filter((user) => user.id === card.users_id)[0].username
       return <ColumnCard
         key={i}
         cardID={card.id}
-        writername={usersData[card.users_id - 1].username}
+        writername={username}
         title={card.title}
         cardtext={card.cardtext}
         background={card.background}
@@ -221,10 +225,11 @@ export default function ColumnList () {
     const set = new Set(mergeData)
     const searchedData = [...set]
     const searchedCards = searchedData.map((card, i) => {
+      const username = usersData.filter((user) => user.id === card.users_id)[0].username
       return <ColumnCard
         key={i}
         cardID={card.id}
-        writername={usersData[card.users_id - 1].username}
+        writername={username}
         title={card.title}
         cardtext={card.cardtext}
         background={card.background}
@@ -236,7 +241,6 @@ export default function ColumnList () {
       />;
     })
     setCards(searchedCards)
-    const w = (searchedCards.length * 220) + 240
   }
 
   const enterSearchCard = (e) => {
@@ -247,10 +251,11 @@ export default function ColumnList () {
       const set = new Set(mergeData)
       const searchedData = [...set]
       const searchedCards = searchedData.map((card, i) => {
+        const username = usersData.filter((user) => user.id === card.users_id)[0].username
         return <ColumnCard
           key={i}
           cardID={card.id}
-          writername={usersData[card.users_id - 1].username}
+          writername={username}
           title={card.title}
           cardtext={card.cardtext}
           background={card.background}
@@ -262,7 +267,6 @@ export default function ColumnList () {
         />;
       })
       setCards(searchedCards)
-      const w = (searchedCards.length * 220) + 240
     }
   }
 
@@ -272,7 +276,7 @@ export default function ColumnList () {
         <div id={isDesktop ? 'card-list-column' : 'card-list-column-mobile'}>
           <div id={isDesktop ? "columnList" : "columnList-mobile"}>
             <button className={isDesktop ? 'create-card-button' : 'create-card-button-mobile'} onClick={() => { dispatch(openMakeCardModal()) }}>+</button>
-            {cards}
+            {isBucketEmpty? <img src="/images/card-1.jpg"/>: cards}
           </div>
           <div className={isDesktop ? 'column-fog-bottom' : 'column-fog-bottom-mobile'} />
           <div className={isDesktop ? 'column-search-bar' : 'column-search-bar-mobile'}>
@@ -282,7 +286,6 @@ export default function ColumnList () {
             <img className='column-search-icon' src='/images/search-icon.png'onClick={searchCard} />
           </div>
         </div>
-        
       </ColumnListWrap>
     </>
   );

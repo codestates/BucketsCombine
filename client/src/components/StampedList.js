@@ -118,10 +118,11 @@ export default function StampedList () {
 
     setStamped(
       reverseStampedData.map((card, i) => {
+      const username = usersData.filter((user) => user.id === card.users_id)[0].username
       return <StampedCard
         key={i}
         cardID={card.id}
-        writername={usersData[card.users_id - 1].username}
+        writername={username}
         title={card.title}
         cardtext={card.cardtext}
         background={card.background}
@@ -151,10 +152,11 @@ export default function StampedList () {
     const set = new Set(mergeData)
     const searchedData = [...set]
     const searchedCards = searchedData.map((card, i) => {
+      const username = usersData.filter((user) => user.id === card.users_id)[0].username
       return <StampedCard
         key={i}
         cardID={card.id}
-        writername={usersData[card.users_id - 1].username}
+        writername={username}
         title={card.title}
         cardtext={card.cardtext}
         background={card.background}
@@ -177,10 +179,11 @@ export default function StampedList () {
       const set = new Set(mergeData)
       const searchedData = [...set]
       const searchedCards = searchedData.map((card, i) => {
+        const username = usersData.filter((user) => user.id === card.users_id)[0].username
         return <StampedCard
           key={i}
           cardID={card.id}
-          writername={usersData[card.users_id - 1].username}
+          writername={username}
           title={card.title}
           cardtext={card.cardtext}
           background={card.background}

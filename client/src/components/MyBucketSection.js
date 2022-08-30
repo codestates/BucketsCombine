@@ -81,11 +81,11 @@ const MyBucketWrap = styled.div `
   }
 
   .card-list-column-mobile {
-  width: 100vw;
-  max-width: 1000px;
-  height: calc(100vh - 400px) ;
-  flex-direction: column;
-  align-items: center;
+    width: 100vw;
+    max-width: 1000px;
+    height: calc(100vh - 250px) ;
+    flex-direction: column;
+    align-items: center;
   }
 
   .search-bar-mobile {
@@ -100,7 +100,7 @@ const MyBucketWrap = styled.div `
 
   .fog-top-mobile {
     position: absolute;
-    top: 230px;
+    top: 155px;
     width: 100vw;
     height: 30px;
     background: -webkit-linear-gradient(top,white 0%,rgba(0,0,0,0) 100%);
@@ -112,7 +112,7 @@ const MyBucketWrap = styled.div `
     bottom: 150px;
     width: 100vw;
     height: 40px;
-    background: -webkit-linear-gradient(bottom,blue 0%,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(bottom,white 0%,rgba(0,0,0,0) 100%);
     z-index: 2;
   }
 `

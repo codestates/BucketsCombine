@@ -100,7 +100,7 @@ const MainSectionWrap = styled.div`
     align-items: center;
     width: 100vw;
     height: calc(100vh - 120px);
-    min-height: 700px;
+    min-height: 500px;
     margin-top: 120px;
   }
 

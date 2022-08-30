@@ -85,6 +85,7 @@ const RowListWrap = styled.div`
   }
 
   #card-list-line {
+    height: 100%;
     display: flex;
     height: 100%;
     flex-direction: row;
@@ -129,10 +130,11 @@ export default function RowList () {
 
     setCards(
       reverseCardsData.map((card, i) => {
+        const username = usersData.filter((user) => user.id === card.users_id)[0].username
         return <RowCard
           key={i}
           cardID={card.id}
-          writername={usersData[card.users_id - 1].username}
+          writername={username}
           userID={card.users_id}
           title={card.title}
           cardtext={card.cardtext}
@@ -168,10 +170,11 @@ export default function RowList () {
     const set = new Set(mergeData)
     const searchedData = [...set]
     const searchedCards = searchedData.map((card, i) => {
+      const username = usersData.filter((user) => user.id === card.users_id)[0].username
       return <RowCard
         key={i}
         cardID={card.id}
-        writername={usersData[card.users_id - 1].username}
+        writername={username}
         userID={card.users_id}
         title={card.title}
         cardtext={card.cardtext}
@@ -194,10 +197,11 @@ export default function RowList () {
       const set = new Set(mergeData)
       const searchedData = [...set]
       const searchedCards = searchedData.map((card, i) => {
+        const username = usersData.filter((user) => user.id === card.users_id)[0].username
         return <RowCard
           key={i}
           cardID={card.id}
-          writername={usersData[card.users_id - 1].username}
+          writername={username}
           userID={card.users_id}
           title={card.title}
           cardtext={card.cardtext}

@@ -67,7 +67,7 @@ const CardsWrap = styled.div`
     align-items: flex-start;
     width: 100vw;
     height: calc(100vh - 120px);
-    min-height: 700px;
+    min-height: 500px;
     margin-top: 120px;
   }
 
@@ -143,7 +143,7 @@ const CardsWrap = styled.div`
   .leftScroll-mobile {
     z-index: 4;
     position: absolute;
-    left: 15px;
+    left: 10px;
     width: 30px;
     height: 350px;
     border: none;
@@ -155,7 +155,7 @@ const CardsWrap = styled.div`
   .rightScroll-mobile {
     z-index: 4;
     position: absolute;
-    right: 15px;
+    right: 10px;
     width: 30px;
     height: 350px;
     border: none;

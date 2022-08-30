@@ -4,8 +4,8 @@ import StampedList from './StampedList'
 import { useSelector } from 'react-redux';
 import { useMediaQuery } from "react-responsive";
 
-const CardsWrap = styled.div`
-  #card-section {
+const StampedWrap = styled.div`
+  #stamped-section {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -56,7 +56,7 @@ const CardsWrap = styled.div`
     background: -webkit-linear-gradient(right,white 0%,rgba(0,0,0,0) 100%);
   }
 
-  #card-section-mobile {
+  #stamped-section-mobile {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -141,7 +141,7 @@ const CardsWrap = styled.div`
   .leftScroll-mobile {
     z-index: 4;
     position: absolute;
-    left: 15px;
+    left: 10px;
     width: 30px;
     height: 350px;
     border: none;
@@ -153,7 +153,7 @@ const CardsWrap = styled.div`
   .rightScroll-mobile {
     z-index: 4;
     position: absolute;
-    right: 15px;
+    right: 10px;
     width: 30px;
     height: 350px;
     border: none;
@@ -184,8 +184,8 @@ const StampedModal = () => {
   }
 
   return(
-    <CardsWrap>
-      <div id={isDesktop?'card-section' : 'card-section-mobile'}>
+    <StampedWrap>
+      <div id={isDesktop?'stamped-section' : 'stamped-section-mobile'}>
         <div className={isDesktop? "cards-ment" : "cards-ment-mobile"}>
           <div className={isDesktop? 'ment-title' : 'ment-title-mobile'}>
           여러분의 성취담을{isDesktop? '': <br/> } 공유해보세요.
@@ -202,7 +202,7 @@ const StampedModal = () => {
           <StampedList/>
         </div>
       </div>
-    </CardsWrap>
+    </StampedWrap>
   )
 }
 export default StampedModal;

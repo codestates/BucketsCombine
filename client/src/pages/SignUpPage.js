@@ -2,23 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+import { useMediaQuery } from "react-responsive";
 
 axios.defaults.withCredentials = true;
 
 const SignUpPageWrap = styled.div`
-  .body {
-    height: 100%;
-    overflow: hidden;
-  }
-  #login_cancle {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    width: 100px;
-    height: 30px;
-    background: #ffc700;
-    border-radius: 15px;
-    border: 0;
+  .signin_section {
+      background-color: rgb(41, 41, 41);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
   }
   .signin_container {
     display: flex;
@@ -32,15 +26,7 @@ const SignUpPageWrap = styled.div`
     background-size: cover;
     overflow: hidden;
   }
-  .signin_section {
-    background-color: rgb(41, 41, 41);
-    height: 100vh;
-    width: 100vw;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    overflow: hidden;
-  }
+  
   .login_title {
     font-weight: bold;
     color: white;
@@ -88,6 +74,7 @@ const SignUpPageWrap = styled.div`
     height: 120px;
     background-image: url("images/bucketscombine_logo.png");
     background-size: cover;
+    margin-top: 50px;
   }
   .signup_container {
     display: flex;
@@ -95,34 +82,9 @@ const SignUpPageWrap = styled.div`
     flex-direction: column;
     min-height: 100vh;
   }
-  .email {
-    width: 250px;
-    height: 50px;
-    padding: 2px 40px;
-    margin: 10px;
-    border-radius: 5px;
-    border: none;
-  }
-  .password {
-    width: 250px;
-    height: 50px;
-    padding: 2px 40px;
-    margin: 10px;
-    border-radius: 5px;
-    border: none;
-  }
-  .repassword {
-    width: 250px;
-    height: 50px;
-    padding: 2px 40px;
-    margin: 10px;
-    border-radius: 5px;
-    border: none;
-
-  }
-  .username {
-    width: 250px;
-    height: 50px;
+  .input-area {
+    width: 246px;
+    height: 45px;
     padding: 2px 40px;
     margin: 10px;
     border-radius: 5px;
@@ -145,27 +107,15 @@ const SignUpPageWrap = styled.div`
     border-radius: 5px;
     border: none;
   }
-  .signup {
+  .signup-button {
     border: none;
     background: #ffc700;
     border-radius: 5px;
     width: 330px;
     height: 50px;
     padding: 2px;
-    margin: 10px;
+    margin: 30px 10px 100px 10px;
     border-radius: 5px;
-  }
-  
-  .alert-box{
-    color: red;
-  }
-  a{
-    text-decoration-line : none;
-    color: white;
-  }
-
-  .errormessage{
-    color: red;
   }
 
   #cancle {
@@ -190,124 +140,206 @@ const SignUpPageWrap = styled.div`
     color: white;
     margin: 10px;
   }
-  
+  .warning-message {
+    color: #FF5C00;
+    font-size: 15px;
+  }
+
+  .cancle-button {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    margin-right: 30px;
+    border: none;
+    box-shadow: none;
+    width: 120px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 15px;
+    background-color: #FFC700;
+  }
+
+  .cancle-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    background-image: url('/images/cancel-yellow-icon.png');
+    background-size: cover;
+  }
 `
 export default function SignUpPage() {
-
-  const [userinfo, setUserinfo] = useState({
-    email: '',
-    username: '',
-    password: '',
-    repassword: '',
-    
-  });
   const history = useHistory();
-  const [errormessage, setErrormessage] = useState('')
-  const [errormessage2, setErrormessage2] = useState('')
-  const handleInputValue = (key) => (e) => {
-    setUserinfo({ ...userinfo, [key]: e.target.value });
-    validate()
-  }
-  const validate = () => {
-    if (userinfo.email.length === ''){
-      setErrormessage('이메일을 입력해 주십시오.')
-    } else if (userinfo.username.length < 1 || userinfo.username.length > 6) {
-      setErrormessage('닉네임은 1자리 이상 6자리 이하입니다')
-    }
-      else if (userinfo.password.length < 6 || userinfo.password.length > 12) {
-      setErrormessage('비밀번호는 6자리 이상 12자리 이하입니다')
-    } else if (userinfo.password !== userinfo.repassword) {
-      setErrormessage('비밀번호가 일치하지 않습니다')
-    } else {
-      setErrormessage('')
-    }
-  }
-  const handleSignup = async () => {
-    if (userinfo.email==="" ||
-       userinfo.username===""||
-        userinfo.password==="" ||
-         userinfo.repassword==="") {
-                setErrormessage("모든 항목은 필수입니다");
-    } else {
-      await history.push("/signin")
-      await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
-        email: userinfo.email,
-        password: userinfo.password,
-        username: userinfo.username,
-        repassword: userinfo.repassword
-      })
-    }
-  }
-  function validateEmail(email) {
-    let re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-    return re.test(email);
-  }
-
-
-
-
-  // const [userinfo, setuserinfo] = useState({
-  //   email: "",
-  //   password: "",
-  //   username: "",
-  // });
-  // const [errorMessage, setErrorMessage] = useState("");
-  // const history = useHistory();
-  // const handleInputValue = (key) => (e) => {
-  //   setuserinfo({ ...userinfo, [key]: e.target.value });
-  // };
-  // const handleSignup = () => {
-  //   // TODO : 서버에 회원가입을 요청 후 로그인 페이지로 이동하세요.
-  //   //        회원가입 성공 후 로그인 페이지 이동은 다음 코드를 이용하세요.
-  //   //        history.push("/");
-  //   // TODO : 모든 항목을 입력하지 않았을 경우 에러를 표시해야 합니다.
-  //   if (
-  //     !userinfo.email === "" ||
-  //     !userinfo.password === "" ||
-  //     !userinfo.username === ""
-  //   ) {
-  //     setErrorMessage("모든 항목은 필수입니다");
-  //   } else {
-  //      axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
-  //       email: userinfo.email,
-  //        password: userinfo.password,
-  //        username: userinfo.username
-  //      })
-  //      .then((res) => {
-  //       return history.push("/signin");
-  //      });
-  //   }
-  //  };
-  // useEffect(()=> {
-  //   axios.post("http://localhost:4000/users/signup", {
-  //       email: userinfo.email,
-  //       password: userinfo.password,
-  //       username: userinfo.username,
-  //     })
-  //     // .then((res) => {
-  //     //   console.log(res)
-  //     // });
-  // }, [])
 
   const cancle = () => {
     history.goBack()
   }
-  const btn_old = (target) => {
-    const value = target.value;
-    const text = target.options[target.selectedIndex].text;
-    document.querySelector(`div`).innerHTML = `text: ${text} value: ${value}`;
+
+  const [emailWarning, setEmailWarning] = useState(false)
+  const [usernameWarning, setUsernameWarning] = useState(false)
+  const [passwordWarning, setPasswordWarning] = useState(false)
+  const [rePasswordWarning, setRePasswordWarning] = useState(false)
+  const [ageWaring, setAgeWarning] = useState(false)
+  const [genderWarning, setGenderWarning] = useState(false)
+
+  const [emptyEmailWarning, setEmptyEmailWarning] = useState(false)
+  const [emptyUsernameWarning, setEmptyUsernameWarning] = useState(false)
+  const [emptyPasswordWarning, setEmptyPasswordWarning] = useState(false)
+
+  const [aleadyEmailWarning, setAleadyEmailWarning] = useState(false)
+  const [aleadyUsernameWarning, setAleadyUsernameWarning] = useState(false)
+
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputUsername, setInputUsername ] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
+  const [inputRepassword, setInputRepassword] = useState('');
+  const [inputAge, setInputAge] = useState('');
+  const [inputGender, setInputGender] = useState('');
+
+  const emailFilter = (value) => {
+    setEmptyEmailWarning(false)
+    const regExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    if(value === ''){
+      setInputEmail(value)
+      setEmailWarning(false)
+    } else {
+      if(regExp.test(value)){
+        setInputEmail(value)
+        setEmailWarning(false)
+      } else {
+        setInputEmail(value)
+        setEmailWarning(true)
+      }
+    }
   }
-    const btn_gender = (target) => {
-      const value = target.value;
-      const text = target.options[target.selectedIndex].text;
-      document.querySelector(`div`).innerHTML = `text: ${text} value: ${value}`;
+
+  const usernameFilter = (value) => {
+    setEmptyUsernameWarning(false)
+    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+
+    if(regExp.test(value)){
+      const inputValue = value.slice(0, value.length - 1)
+      setInputUsername(inputValue)
+      return
+    } 
+
+    if(value.length > 12){
+      const inputValue = value.slice(0, 12)
+      setInputUsername(inputValue)
+      return
+    }
+
+    setInputUsername(value)
   }
+
+  const passwordFilter = (value) => {
+    setEmptyPasswordWarning(false)
+    if(value === ""){
+      setPasswordWarning(false)
+      setInputPassword(value)
+    } else {
+      if(value.length < 6){
+        setPasswordWarning(true)
+        setInputPassword(value)
+      } else {
+        setPasswordWarning(false)
+        setInputPassword(value)
+      }
+      if(value.length > 12){
+        const fixedValue = value.slice(0, 12)
+        setInputPassword(fixedValue)
+      }
+    }
+  }
+
+  const repasswordFilter = (value) => {
+    if(value.length > 12){
+      const fixedValue = value.slice(0, 12)
+      setInputRepassword(fixedValue)
+    } else {
+      setInputRepassword(value)
+    }
+  }
+
+  useEffect(() => {
+    if(inputRepassword === ""){
+      setRePasswordWarning(false)
+    } else {
+      if(inputPassword === inputRepassword){
+        setRePasswordWarning(false)
+      } else {
+        setRePasswordWarning(true)
+      }
+    }
+    
+  }, [inputRepassword])
+
+  const signUp = async () => {
+    setAgeWarning(false)
+    setGenderWarning(false)
+    setEmptyEmailWarning(false)
+    setEmptyUsernameWarning(false)
+    setEmptyPasswordWarning(false)
+    if(emailWarning === true || inputEmail === "" ||
+      usernameWarning === true || inputUsername === "" ||
+      passwordWarning === true || inputPassword === "" ||
+      rePasswordWarning === true || inputRepassword === "" ||
+      inputAge === "" ||
+      inputGender === ""
+    ){
+      if(inputEmail === ""){
+        setEmptyEmailWarning(true)
+      }
+      if(inputUsername === ""){
+        setEmptyUsernameWarning(true)
+      }
+      if(inputPassword === "" ){
+        setEmptyPasswordWarning(true)
+      }
+      if (inputAge === "") {
+        setAgeWarning(true)
+      }
+      if (inputGender === "") {
+        setGenderWarning(true)
+      }
+    } else {
+      setAleadyEmailWarning(false)
+      setAleadyUsernameWarning(false)
+      await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
+        email: inputEmail,
+        username: inputUsername,
+        password: inputPassword,
+        age: inputAge,
+        gender: inputGender,
+      })
+      .then((res) => {
+        if(res.data.message === '회원가입 성공'){
+          alert('가입되었습니다.')
+          history.push("/signin")
+        }
+        if(res.data.message === '이미 사용중인 이메일입니다'){
+          setAleadyEmailWarning(true)
+        }
+        if(res.data.message === '이미 사용중인 별명입니다'){
+          setAleadyUsernameWarning(true)
+        }
+        if(res.data.message1 && res.data.message2){
+          setAleadyEmailWarning(true)
+          setAleadyUsernameWarning(true)
+        }
+      })
+    }
+  }
+
+  const isDesktop = useMediaQuery({ minWidth: 921 })
 
   return (
     <SignUpPageWrap>
-      <div className="body">
         <div className="signin_section">
-        <button id="cancle" onClick={cancle}>취소</button>
+        {isDesktop? 
+            <button className="cancle-button" onClick={cancle}>취소</button>
+            : <div className='cancle-icon' onClick={cancle}/>}
           <div className="signin_container">
             <img
               className="BC_logo"
@@ -317,67 +349,106 @@ export default function SignUpPage() {
               height="120px"
             ></img>
             <div className="login_title">BucketsCombine</div>
-            <form>
             <div className='list' onSubmit={(e) => e.preventDefault()}>
             <input
-              className="email"
+              className="input-area"
               type="email"
               placeholder="이메일"
-              onChange={handleInputValue("email")}
+              onChange={(e) => {emailFilter(e.target.value)}}
+              value={inputEmail}
+              maxLength='40'
             />
+            <div className="warning-message">
+              {emailWarning? "이메일 형식이 올바르지 않습니다." : "" }
+            </div>
+            <div className="warning-message">
+              {emptyEmailWarning? "이메일을 입력해주세요." : "" }
+            </div>
+            <div className="warning-message">
+              {aleadyEmailWarning? "이미 사용중인 이메일입니다." : "" }
+            </div>
             <input
-              className="username"
+              className="input-area"
               type="username"
-              placeholder="닉네임"
-              onChange={handleInputValue("username")}
+              placeholder="별명"
+              onChange={(e) => {usernameFilter(e.target.value)}}
+              value={inputUsername}
             />
+            <div className="warning-message">
+              {aleadyUsernameWarning? "이미 사용중인 별명입니다." : "" }
+            </div>
+            <div className="warning-message">
+              {emptyUsernameWarning? "별명을 입력해주세요." : "" }
+            </div>
+            <form>
             <input
-              className="password"
+              className="input-area"
               type="password"
               placeholder="비밀번호"
-              onChange={handleInputValue("password")}
+              onChange={(e) => {passwordFilter(e.target.value)}}
               autoComplete="off"
+              value={inputPassword}
             />
+            </form>
+            <div className="warning-message">
+              {passwordWarning? "비밀번호는 6자 이상 12자 이하여야 합니다." : "" }
+            </div>
+            <div className="warning-message">
+              {emptyPasswordWarning? "비밀번호를 입력해주세요" : "" }
+            </div>
+            <form>
             <input
-              className="repassword"
+              className="input-area"
               type="password"
-              placeholder="비밀번호 재확인"
-              onChange={handleInputValue("repassword")}
+              placeholder="비밀번호 확인"
+              onChange={(e) => {repasswordFilter(e.target.value)}}
               autoComplete="off"
+              value={inputRepassword}
             />
-            <select className="btn_old" method="get" required>
+            </form>
+            <div className="warning-message">
+              {rePasswordWarning? "비밀번호가 일치하지 않습니다." : "" }
+            </div>
+            <select className="btn_old" onChange={(e) => {
+              setAgeWarning(false)
+              setInputAge(e.target.value)
+              }} method="get" required>
               <option value="DEFAULT" >연령대</option>
-              <option value="teenages">10대</option>
-              <option value="twenty">20대</option>
-              <option value="thirty">30대</option>
-              <option value="forty">40대</option>
-              <option value="fifty">50대</option>
-              <option value="sixty">60대</option>
-              <option value="seventy">70대</option>
+              <option value="10대">10대</option>
+              <option value="20대">20대</option>
+              <option value="30대">30대</option>
+              <option value="40대">40대</option>
+              <option value="50대">50대</option>
+              <option value="60대">60대</option>
+              <option value="70대">70대</option>
+              <option value="80대">80대</option>
+              <option value="90대">90대</option>
+              <option value="100대">100세 이상</option>
             </select>
-            <select className="btn_gender" method="get" required>
+            <div className="warning-message">
+              {ageWaring? "연령대를 선택해주세요." : "" }
+            </div>
+            <select className="btn_gender" onChange={(e) => {
+              setGenderWarning(false)
+              setInputGender(e.target.value)
+              }} method="get" required>
               <option value="DEFAULT" >성별</option>
-              <option value="male">남자</option>
-              <option value="female">여자</option>
-              <option value="nochoice">선택안함</option>
+              <option value="남자">남자</option>
+              <option value="여자">여자</option>
+              <option value="선택안함">선택안함</option>
 		        </select>
+            <div className="warning-message">
+              {genderWarning? "성별을 선택해주세요." : "" }
+            </div>
             <button
-              className="signup"
-              type="submit"
-              onClick={handleSignup}
+              className="signup-button"
+              onClick={signUp}
             >
               가입하기
             </button>
             </div>
-            </form>
-
-            <div className="alert-box">{errormessage}</div>
-        <div className="errormessage">{errormessage2}</div>
-        <div className="find">이미 아이디가 있으신가요? <a href="/login">login</a></div>
-
           </div>
         </div>
-      </div>
     </SignUpPageWrap>
   );
 }
