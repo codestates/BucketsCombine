@@ -7,14 +7,13 @@ const s3 = new aws.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_DEFAULT_REGION,
 });
-
 const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: "bucketscombine.com", //! 새로운 bucketsImage 버켓 ?
     acl: "public-read-write", //
-    key: function (req, file, cb) {
-      cb(
+    key: function (req, file, callback) {
+      callback(
         null,
         Math.floor(Math.random() * 1000).toString() +
           Date.now() +

@@ -1,7 +1,7 @@
 const { users } = require("../../models");
 const { isAuthorized } = require("../tokenFunctions");
 module.exports = async (req, res) => {
-  if (!isAuthorized(req, res)) {
+  if (!isAuthorized(req)) {
     return;
   }
   const usersinfo = await users

@@ -9,15 +9,34 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: "이메일을 입력해주세요" });
     }
 
-    const usercheck = await users.findOne({
-      attributes: ["username", "email"],
+    const emailCheck = await users.findOne({
+      attributes: ["email"],
       where: {
-        [Op.or]: [{ username: req.body.username }, { email: req.body.email }],
+        email: req.body.email,
       },
     });
-
-    if (usercheck) {
-      res.status(409).json({ message: "이미 사용중인 이메일 또는 유저입니다" });
+    const usernameCheck = await users.findOne({
+      attributes: ["username"],
+      where: {
+        username: req.body.username,
+      },
+    });
+    // [Op.or]: [{ username: req.body.username }, { email: req.body.email }],
+    if (emailCheck || usernameCheck) {
+      if (emailCheck && usernameCheck) {
+        return res
+          .status(200)
+          .json({
+            message1: "이미 사용중인 이메일입니다",
+            message2: "이미 사용중인 별명입니다",
+          });
+      }
+      if (emailCheck) {
+        return res.status(200).json({ message: "이미 사용중인 이메일입니다" });
+      }
+      if (usernameCheck) {
+        return res.status(200).json({ message: "이미 사용중인 별명입니다" });
+      }
     } else {
       await users.create({
         username: req.body.username,

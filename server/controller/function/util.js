@@ -3,11 +3,15 @@ const { users } = require("../../models");
 
 module.exports = {
   carduploadImage: async (req, res) => {
-    console.log(req.file);
+    await console.log(req.file.location);
+    if (typeof req.file.location !== "string") {
+      req.file.location = req.file.location[0];
+    }
     const image = req.file.location;
     if (image === undefined) {
       return res.status(400).send("이미지가 존재하지 않습니다.");
     }
+
     await cards.update(
       {
         background: req.file.location,
@@ -17,7 +21,6 @@ module.exports = {
     res.status(200).send(image);
   },
   useruploadImage: async (req, res) => {
-    console.log(req.file);
     const image = req.file.location;
     if (image === undefined) {
       return res.status(400).send("이미지가 존재하지 않습니다.");
