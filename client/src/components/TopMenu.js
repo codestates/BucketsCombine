@@ -57,11 +57,12 @@ const TopMenuWrap = styled.div`
     height: 160px;
     border-radius: 12px;
     z-index: 16;
-    background-color: #D9D9D9;
+    background-color: #ededed;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    box-shadow:  3px 3px 6px rgba(0,0,0,0.3);
   }
 
   .board-button {
@@ -72,20 +73,13 @@ const TopMenuWrap = styled.div`
     border-radius: 8px;
     font-size: 15px;
     color: black;
-    background-color: #D9D9D9;
+    background-color: transparent;
     margin: 10px;
-  }
-
-  .board-button:hover {
-    border: none;
-    box-shadow: none;
-    width: 100px;
-    height: 34px;
-    border-radius: 8px;
-    font-size: 15px;
-    color: white;
-    background-color: #323232;
-    margin: 10px;
+    :hover{
+      color: white;
+          background-color: #323232;
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.3);
+        }
   }
 
   .topmenu-mobile {

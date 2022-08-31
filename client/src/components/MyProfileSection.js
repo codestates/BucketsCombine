@@ -113,6 +113,9 @@ const MyProfileWrap = styled.div`
     border: 1px solid #969696;
     box-sizing: border-box;
     padding: 8px;
+    :focus {
+      outline: none;
+    }
   }
   .profile-info-age {
     height: 40px;
@@ -123,6 +126,9 @@ const MyProfileWrap = styled.div`
     border: 1px solid #969696;
     box-sizing: border-box;
     padding: 5px;
+    :focus {
+      outline: none;
+    }
   }
   .profile-info-gender {
     height: 40px;
@@ -133,6 +139,9 @@ const MyProfileWrap = styled.div`
     border: 1px solid #969696;
     box-sizing: border-box;
     padding: 5px;
+    :focus {
+      outline: none;
+    }
   }
 
   .profile-introducing {
@@ -144,6 +153,9 @@ const MyProfileWrap = styled.div`
     box-shadow: 0px 4px 4px 0px #00000040;
     border: 1px solid #969696;
     box-sizing: border-box;
+    :focus {
+      outline: none;
+    }
   }
 
   .change-buttons {
@@ -164,8 +176,12 @@ const MyProfileWrap = styled.div`
     font-family: 'Inter';
     font-style: normal;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 500;
     margin: 5px;
+    :hover{
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.3);
+        }
+
   }
 
   .change-profile-button {
@@ -181,9 +197,12 @@ const MyProfileWrap = styled.div`
     background: #323232;
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 700;
     font-size: 14px;
+    font-weight: 500;
     margin: 5px;
+    :hover{
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.3);
+        }
   }
   .withdrawal-button {
     font-family: 'Inter';

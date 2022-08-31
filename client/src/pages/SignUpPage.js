@@ -433,8 +433,8 @@ export default function SignUpPage() {
               setInputGender(e.target.value)
               }} method="get" required>
               <option value="DEFAULT" >성별</option>
-              <option value="남자">남자</option>
-              <option value="여자">여자</option>
+              <option value="남성">남성</option>
+              <option value="여성">여성</option>
               <option value="선택안함">선택안함</option>
 		        </select>
             <div className="warning-message">

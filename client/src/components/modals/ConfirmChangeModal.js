@@ -16,6 +16,7 @@ const ConfirmChangeModal = styled.div`
     height: 500px;
     z-index: 10;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.8);
@@ -69,6 +70,7 @@ const ConfirmChangeModal = styled.div`
     height: 500px;
     z-index: 10;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: rgba(255, 255, 255, 0.8);
@@ -142,10 +144,17 @@ const ConfirmChangeModal = styled.div`
         width: 120px;
         height: 50px;
         bottom: 50px;
+        :hover{
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.2);
+          transition: box-shadow 0.2s;
+        }
+
+        :active{
+          box-shadow:  inset 3px 3px 6px rgba(150,0,0,0.2);
+        }
     }
 
-    .usingPassword {
-        position: absolute;
+    .passwordArea {
         width: 240px;
         height: 30px;
         border-radius: 5px;
@@ -159,8 +168,13 @@ const ConfirmChangeModal = styled.div`
         top: 35vh;
     }
 
+    .warning-message {
+    color: #FF5C00;
+    font-size: 15px;
+  }
+
 `
-axios.defaults.withCredentials = true;
+//axios.defaults.withCredentials = true;
 
 const ConfirmChangeCardModal = () => {
 
@@ -177,20 +191,45 @@ const ConfirmChangeCardModal = () => {
   };
   useOutSideClick(modalRef, handleClose);
 
-  const [message, setMessage] = useState(false);
+  const [emptyPasswordWarning, setEmptyPasswordWarning] = useState(false)
+  const [passwordWarning, setPasswordWarning] = useState(false);
   const [inputPassword, setInputPassword] = useState('');
   const [isChange, setIsChange] = useState();
   const [isWithdrawal, setIsdrawal] = useState(false);
 
 
+  const passwordFilter = (value) => {
+    setEmptyPasswordWarning(false)
+    if (value === "") {
+      setPasswordWarning(false)
+      setInputPassword(value)
+    } else {
+        setInputPassword(value)
+      if (value.length > 12) {
+        const fixedValue = value.slice(0, 12)
+        setInputPassword(fixedValue)
+      }
+    }
+  }
+  
   const checkPassword = () => {
+    if(inputPassword === ""){
+        setEmptyPasswordWarning(true)
+        return
+    }
     if (isSignIn) {
       const payload = {
-        // 'email': signInUserInfo.email,
         'password': inputPassword,
       }
       axios.get(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
         withCredentials: true,
+      })
+      .then(() => {
+        dispatch(openChangePasswordModal())
+        dispatch(closeConfirmChangeModal())
+      })
+      .catch(() => {
+        setPasswordWarning(true)
       })
     }
   }
@@ -204,8 +243,9 @@ const ConfirmChangeCardModal = () => {
             dispatch(closeConfirmChangeModal())
           }}>X</button>
           <img className="logo_img" src="images/bucketscombine_logo.png" alt="card" />
-          <input className="usingPassword" type='password' placeholder='사용중인 비밀번호' onChange={(e) => { setInputPassword(e.target.value) }}></input>
-          {message ? <div className="check">비밀번호가 일치하지 않습니다</div> : <div></div>}
+          <input className="passwordArea" type='password' placeholder='현재 비밀번호' value={inputPassword} onChange={(e) => { passwordFilter(e.target.value) }}/>
+          <div className="warning-message">{passwordWarning ? "비밀번호가 일치하지 않습니다." : ""}</div>
+          <div className="warning-message">{emptyPasswordWarning ? "비밀번호를 입력해주세요" : ""}</div>
           <button className="confirm-btn" onClick={checkPassword}>확인</button>
         </div>
       </ConfirmChangeModal>

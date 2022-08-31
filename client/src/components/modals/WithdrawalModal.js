@@ -4,24 +4,23 @@ import ModalPortal from "./ModalPortal";
 import React, { useRef } from "react";
 import useOutSideClick from "../hook/UseOutSideClick.js";
 import styled from "styled-components";
+import axios from 'axios';
 
 const WithdrawalModal = styled.div`
-    width: 30vw;
-    height: 60vh;
-    display: flex;
-    border-radius: 20px 20px 20px 20px;
-    border: solid rgb(170, 170, 170);
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    left: 40vw;
-    top: 20vh;
-    z-index: 10;
     .withdrawalCard{
-        position: relative;
-        width: 30vw;
-        height: 60vh;
-        background-color: rgba(255, 255, 255);
+        position: fixed;
+        left: calc(50vw - 100px) ;
+        top: calc(50vh - 250px);
+        width: 320px;
+        height: 500px;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border: solid rgb(170, 170, 170);
         border-radius: 20px 20px 20px 20px;
         animation: fadein 0.5s;
         -moz-animation: fadein 0.5s;
@@ -62,6 +61,60 @@ const WithdrawalModal = styled.div`
         }
     }
 
+    .withdrawalCard-mobile{
+    position: fixed;
+    left: calc(50vw - 160px) ;
+    top: calc(50vh - 250px);
+    width: 320px;
+    height: 500px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: solid rgb(170, 170, 170);
+    border-radius: 20px 20px 20px 20px;
+    animation: fadein 0.5s;
+    -moz-animation: fadein 0.5s;
+    -webkit-animation: fadein 0.5s;
+    -o-animation: fadein 0.5s;
+      
+    @keyframes fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-moz-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes fadein { 
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @-o-keyframes fadein {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+  }
+
     .close-btn {
         margin: 1px;
         position: absolute;
@@ -77,38 +130,51 @@ const WithdrawalModal = styled.div`
 
     .logo_img{
         position: absolute;
-        width: 10vw;
-        height: 15vh;
-        left: 10vw;
-        top: 7vh;
+        width: 100px;
+        height: 100px;
+        top: 50px;
     }
 
     .withdrawal-message{
-        position: absolute;
-        width: 20vw;
-        left: 6vw;
-        top: 25vh;
+        text-align: center;
     }
 
     .cancel-btn{
         position: absolute;
         background-color: rgb(255, 190, 0);
         border: none;
-        border-radius: 5px 5px 5px 5px;
-        width: 20vw;
-        height: 7vh;
-        left: 5vw;
-        top: 35vh;
+        border-radius: 10px;
+        top: 400px;
+        width: 120px;
+        height: 50px;
+        bottom: 50px;
+        :hover{
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.2);
+          transition: box-shadow 0.2s;
+        }
+
+        :active{
+          box-shadow:  inset 3px 3px 6px rgba(150,0,0,0.2);
+        }
     }
 
     .withdrawal-btn{
         position: absolute;
-        background-color: white;
+        background-color: transparent;
         border: none;
-        width: 20vw;
-        height: 7vh;
-        left: 5vw;
-        top: 45vh;
+        border-radius: 10px;
+        top: 350px;
+        width: 80px;
+        height: 30px;
+        bottom: 50px;
+        :hover{
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.2);
+          transition: box-shadow 0.2s;
+        }
+
+        :active{
+          box-shadow:  inset 3px 3px 6px rgba(0,0,0,0.2);
+        }
     }
 
     .usingPassword {
@@ -118,42 +184,56 @@ const WithdrawalModal = styled.div`
         left: 5vw;
         top: 30vh;
     }
-
-    .logo_img{
-        position: absolute;
-        width: 10vw;
-        height: 15vh;
-        left: 10vw;
-        top: 7vh;
-    }
 `
 
 const WithdrawalCardModal = () => {
-    const dispatch = useDispatch();
-    const modalRef = useRef(null);
-    const handleClose = () => {
-        dispatch(closeWithdrawalModal())
-    };
-    useOutSideClick(modalRef, handleClose);
-    return (
-        <ModalPortal>
-            <WithdrawalModal ref={modalRef}>
-                <div className="withdrawalCard">
-                <button className="close-btn" onClick={() => {
-                    dispatch(closeWithdrawalModal())
-                }}>X</button>                  
-                <img className="logo_img" src="images/bucketscombine_logo.png" alt="card" />
-                <div className="withdrawal-message">만드신 카드는 모두 삭제됩니다. 정말 탈퇴하시겠습니까?ㅜㅜ</div>
-                <button className="cancel-btn" onClick={() => {
-                    dispatch(closeWithdrawalModal())
-                }}>돌아가기</button>
-                <button className="withdrawal-btn" onClick={() => {
-                    dispatch(closeWithdrawalModal())
-                }}>회원탈퇴</button>
-                </div>
-            </WithdrawalModal>
-        </ModalPortal>
-    );
+  const signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
+  const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+  const dispatch = useDispatch();
+  const modalRef = useRef(null);
+  const handleClose = () => {
+    dispatch(closeWithdrawalModal())
+  };
+  useOutSideClick(modalRef, handleClose);
+
+  const withdrawal = () => {
+    if (isSignIn) {
+      axios.delete(`${process.env.REACT_APP_API_URL}/mypage/deletuser`, {
+        data: {
+          'users_id': signInUserInfo.users_id,
+        },
+        withCredentials: true,
+      })
+        .then(() => {
+          dispatch(closeWithdrawalModal())
+          localStorage.setItem('signInUserInfo', JSON.stringify(null));
+          localStorage.setItem('isSignIn', JSON.stringify(false));
+          window.location.replace("/");
+
+        })
+        .catch((err) => {
+          alert(err)
+        })
+    }
+  }
+
+  return (
+    <ModalPortal>
+      <WithdrawalModal ref={modalRef}>
+        <div className="withdrawalCard">
+          <button className="close-btn" onClick={() => {
+            dispatch(closeWithdrawalModal())
+          }}>X</button>
+          <img className="logo_img" src="images/bucketscombine_logo.png" alt="card" />
+          <div className="withdrawal-message">만드신 카드는 모두 삭제됩니다. <br />탈퇴하시겠습니까?</div>
+          <button className="cancel-btn" onClick={() => {
+            dispatch(closeWithdrawalModal())
+          }}>돌아가기</button>
+          <button className="withdrawal-btn" onClick={withdrawal}>회원탈퇴</button>
+        </div>
+      </WithdrawalModal>
+    </ModalPortal>
+  );
 }
 
 export default WithdrawalCardModal;

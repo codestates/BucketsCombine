@@ -33,20 +33,10 @@ const TopMenuWrap = styled.div`
     border-radius: 12px;
     font-size: 15px;
     background-color: #FFC700;
-  }
-
-  .topmenu-button:hover {
-    align-self: center;
-    margin-right: 30px;
-    border: none;
-    box-shadow: none;
-    width: 120px;
-    height: 36px;
-    border-radius: 12px;
-    font-size: 15px;
-    background-color: #FFC700;
-    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.3) ;
-    transition: all 300ms;
+    :hover{
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.2);
+          transition: box-shadow 0.2s;
+        }
   }
 
   .username-board {
@@ -57,11 +47,12 @@ const TopMenuWrap = styled.div`
     height: 160px;
     border-radius: 12px;
     z-index: 16;
-    background-color: #D9D9D9;
+    background-color: #ededed;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    box-shadow:  3px 3px 6px rgba(0,0,0,0.3);
   }
 
   .board-button {
@@ -72,21 +63,16 @@ const TopMenuWrap = styled.div`
     border-radius: 8px;
     font-size: 15px;
     color: black;
-    background-color: #D9D9D9;
+    background-color: transparent;
     margin: 10px;
+    :hover{
+      color: white;
+          background-color: #323232;
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.3);
+        }
   }
 
-  .board-button:hover {
-    border: none;
-    box-shadow: none;
-    width: 100px;
-    height: 34px;
-    border-radius: 8px;
-    font-size: 15px;
-    color: white;
-    background-color: #323232;
-    margin: 10px;
-  }
+  
 
   .topmenu-mobile {
     display: flex;

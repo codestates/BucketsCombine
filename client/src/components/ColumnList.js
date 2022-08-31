@@ -61,13 +61,21 @@ const ColumnListWrap = styled.div`
     border: none;
     box-shadow: none;
     font-size: 32px;
-    background-color: #d2d2d2;
+    background-color: #ededed;
     margin: 5px;
     line-height: 80px;
     text-align: center;
     align-self: flex-start;
     margin-left: 30px;
     margin-top: 20px;
+    :hover{
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.3);
+          transition: box-shadow 0.2s;
+        }
+
+        :active{
+          box-shadow:  inset 3px 3px 6px rgba(0,0,0,0.2);
+        }
   }
 
   .create-card-button-mobile {
@@ -77,13 +85,21 @@ const ColumnListWrap = styled.div`
     border: none;
     box-shadow: none;
     font-size: 32px;
-    background-color: #d2d2d2;
+    background-color: #ededed;
     margin: 5px;
     line-height: 80px;
     text-align: center;
     align-self: center;
     margin-left: 25px;
     margin-top: 20px;
+    :hover{
+          box-shadow:  3px 3px 6px rgba(0,0,0,0.3);
+          transition: box-shadow 0.2s;
+        }
+
+        :active{
+          box-shadow:  inset 3px 3px 6px rgba(0,0,0,0.2);
+        }
   }
 
   .column-search-bar {
@@ -149,6 +165,14 @@ const ColumnListWrap = styled.div`
     height: 40px;
     background: -webkit-linear-gradient(bottom,white 0%,rgba(0,0,0,0) 100%);
     z-index: 2;
+  }
+
+  .bucketIsEmpty {
+    margin-top: 10%;
+    width: 500px;
+    height: 350px;
+    font-size: 24px;
+    color: gray;
   }
 `;
 
@@ -276,7 +300,7 @@ export default function ColumnList () {
         <div id={isDesktop ? 'card-list-column' : 'card-list-column-mobile'}>
           <div id={isDesktop ? "columnList" : "columnList-mobile"}>
             <button className={isDesktop ? 'create-card-button' : 'create-card-button-mobile'} onClick={() => { dispatch(openMakeCardModal()) }}>+</button>
-            {isBucketEmpty? <img src="/images/card-1.jpg"/>: cards}
+            {isBucketEmpty? <div className="bucketIsEmpty">My Bucket이 비어있습니다.</div>: cards}
           </div>
           <div className={isDesktop ? 'column-fog-bottom' : 'column-fog-bottom-mobile'} />
           <div className={isDesktop ? 'column-search-bar' : 'column-search-bar-mobile'}>
