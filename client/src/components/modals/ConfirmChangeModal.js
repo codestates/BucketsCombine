@@ -221,8 +221,8 @@ const ConfirmChangeCardModal = () => {
       const payload = {
         'password': inputPassword,
       }
-      axios.get(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
-        withCredentials: true,
+      axios.patch(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
+        withCredentials: true
       })
       .then(() => {
         dispatch(openChangePasswordModal())
