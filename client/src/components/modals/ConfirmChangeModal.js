@@ -22,6 +22,7 @@ const ConfirmChangeModal = styled.div`
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     border: solid rgb(170, 170, 170);
+    border-width: 2px;
     border-radius: 20px 20px 20px 20px;
     animation: fadein 0.5s;
     -moz-animation: fadein 0.5s;
@@ -76,6 +77,7 @@ const ConfirmChangeModal = styled.div`
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     border: solid rgb(170, 170, 170);
+    border-width: 2px;
     border-radius: 20px 20px 20px 20px;
     animation: fadein 0.5s;
     -moz-animation: fadein 0.5s;
@@ -159,6 +161,10 @@ const ConfirmChangeModal = styled.div`
         height: 30px;
         border-radius: 5px;
         border: solid rgb(170, 170, 170);
+        border-width: 1px;
+        :focus {
+        outline: none;
+        }
     }
     
     .check{
@@ -221,7 +227,7 @@ const ConfirmChangeCardModal = () => {
       const payload = {
         'password': inputPassword,
       }
-      axios.patch(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
+      axios.post(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
         withCredentials: true
       })
       .then(() => {
@@ -231,6 +237,29 @@ const ConfirmChangeCardModal = () => {
       .catch(() => {
         setPasswordWarning(true)
       })
+    }
+  }
+  const checkPasswordEnter = (e) => {
+    if(e.key === 'Enter'){
+        if(inputPassword === ""){
+            setEmptyPasswordWarning(true)
+            return
+        }
+        if (isSignIn) {
+          const payload = {
+            'password': inputPassword,
+          }
+          axios.post(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
+            withCredentials: true
+          })
+          .then(() => {
+            dispatch(openChangePasswordModal())
+            dispatch(closeConfirmChangeModal())
+          })
+          .catch(() => {
+            setPasswordWarning(true)
+          })
+        }
     }
   }
 
@@ -243,7 +272,7 @@ const ConfirmChangeCardModal = () => {
             dispatch(closeConfirmChangeModal())
           }}>X</button>
           <img className="logo_img" src="images/bucketscombine_logo.png" alt="card" />
-          <input className="passwordArea" type='password' placeholder='현재 비밀번호' value={inputPassword} onChange={(e) => { passwordFilter(e.target.value) }}/>
+          <input className="passwordArea" type='password' placeholder='현재 비밀번호' value={inputPassword} onKeyUp={checkPasswordEnter} onChange={(e) => { passwordFilter(e.target.value) }}/>
           <div className="warning-message">{passwordWarning ? "비밀번호가 일치하지 않습니다." : ""}</div>
           <div className="warning-message">{emptyPasswordWarning ? "비밀번호를 입력해주세요" : ""}</div>
           <button className="confirm-btn" onClick={checkPassword}>확인</button>

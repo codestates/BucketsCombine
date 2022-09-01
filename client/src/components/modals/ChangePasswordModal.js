@@ -272,7 +272,7 @@ const ChangePasswordCardModal = () => {
     const payload = {
       'password': inputPassword,
     }
-    axios.get(`${process.env.REACT_APP_API_URL}/mypage/passwordchange`, payload, {
+    axios.patch(`${process.env.REACT_APP_API_URL}/mypage/passwordchange`, payload, {
       withCredentials: true,
     })
     .then((res) => {

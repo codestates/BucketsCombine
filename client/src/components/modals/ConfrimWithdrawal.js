@@ -22,6 +22,7 @@ const ConfirmWithdrawalModal = styled.div`
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     border: solid rgb(170, 170, 170);
+    border-width: 2px;
     border-radius: 20px 20px 20px 20px;
     animation: fadein 0.5s;
     -moz-animation: fadein 0.5s;
@@ -76,6 +77,7 @@ const ConfirmWithdrawalModal = styled.div`
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
     border: solid rgb(170, 170, 170);
+    border-width: 2px;
     border-radius: 20px 20px 20px 20px;
     animation: fadein 0.5s;
     -moz-animation: fadein 0.5s;
@@ -159,6 +161,10 @@ const ConfirmWithdrawalModal = styled.div`
         height: 30px;
         border-radius: 5px;
         border: solid rgb(170, 170, 170);
+        border-width: 1px;
+        :focus {
+        outline: none;
+        }
     }
     
     .check{
@@ -176,75 +182,98 @@ const ConfirmWithdrawalModal = styled.div`
 `
 
 const ConfirmWithdrawalCardModal = () => {
-    const isDesktop = useMediaQuery({ minWidth: 921 })
+  const isDesktop = useMediaQuery({ minWidth: 921 })
 
-    let signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
-    let isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
-    const { isOpenWithdrawal } = useSelector((store) => store.modal);
-    const dispatch = useDispatch();
-    const modalRef = useRef(null);
-    const handleClose = () => {
-        dispatch(closeConfirmWithdrawal())
-    };
-    useOutSideClick(modalRef, handleClose);
-    const [emptyPasswordWarning, setEmptyPasswordWarning] = useState(false)
-    const [passwordWarning, setPasswordWarning] = useState(false);
-    const [inputPassword, setInputPassword] = useState('');
+  let signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
+  let isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+  const { isOpenWithdrawal } = useSelector((store) => store.modal);
+  const dispatch = useDispatch();
+  const modalRef = useRef(null);
+  const handleClose = () => {
+    dispatch(closeConfirmWithdrawal())
+  };
+  useOutSideClick(modalRef, handleClose);
+  const [emptyPasswordWarning, setEmptyPasswordWarning] = useState(false)
+  const [passwordWarning, setPasswordWarning] = useState(false);
+  const [inputPassword, setInputPassword] = useState('');
 
 
-    const passwordFilter = (value) => {
-        setEmptyPasswordWarning(false)
-        if (value === "") {
-          setPasswordWarning(false)
-          setInputPassword(value)
-        } else {
-            setInputPassword(value)
-          if (value.length > 12) {
-            const fixedValue = value.slice(0, 12)
-            setInputPassword(fixedValue)
-          }
-        }
+  const passwordFilter = (value) => {
+    setEmptyPasswordWarning(false)
+    if (value === "") {
+      setPasswordWarning(false)
+      setInputPassword(value)
+    } else {
+      setInputPassword(value)
+      if (value.length > 12) {
+        const fixedValue = value.slice(0, 12)
+        setInputPassword(fixedValue)
       }
-    
-    const confirmWithdrawal = () => {
-        if(inputPassword === ""){
-            setEmptyPasswordWarning(true)
-            return
-        }
-        if (isSignIn) {
-            const payload = {
-              'password': inputPassword,
-            }
-            axios.patch(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
-              withCredentials: true,
-            })
-            .then(() => {
-                dispatch(openWithdrawalModal())
-                dispatch(closeConfirmWithdrawal())
-            })
-            .catch(() => {
-              setPasswordWarning(true)
-            })
-          }
-        
     }
+  }
 
-    return (
-        <ModalPortal>
-            <ConfirmWithdrawalModal>
-                <div className={isDesktop? "confirmPasswordCard" : "confirmPasswordCard-mobile"} ref={modalRef}>
-                <button className="close-btn" onClick={() => {
-                    dispatch(closeConfirmWithdrawal())
-                }}>X</button>         
-                <img className="logo_img" src="images/bucketscombine_logo.png" alt="card" />
-                <input className="passwordArea" type='password' placeholder='현재 비밀번호' value={inputPassword} onChange={(e) => { passwordFilter(e.target.value) }}/>
-                 <div className="warning-message">{passwordWarning ? "비밀번호가 일치하지 않습니다." : ""}</div>
-                <div className="warning-message">{emptyPasswordWarning ? "비밀번호를 입력해주세요" : ""}</div>
-                <button className="confirm-btn" onClick={confirmWithdrawal}>확인</button>
-                </div>
-            </ConfirmWithdrawalModal>
-        </ModalPortal>
-    );
+  const confirmWithdrawal = () => {
+    if (inputPassword === "") {
+      setEmptyPasswordWarning(true)
+      return
+    }
+    if (isSignIn) {
+      const payload = {
+        'password': inputPassword,
+      }
+      axios.post(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
+        withCredentials: true,
+      })
+        .then(() => {
+          dispatch(openWithdrawalModal())
+          dispatch(closeConfirmWithdrawal())
+        })
+        .catch(() => {
+          setPasswordWarning(true)
+        })
+    }
+  }
+
+  const confirmWithdrawalEnter = (e) => {
+    if(e.key === 'Enter'){
+      if (inputPassword === "") {
+        setEmptyPasswordWarning(true)
+        return
+      }
+      if (isSignIn) {
+        const payload = {
+          'password': inputPassword,
+        }
+        axios.post(`${process.env.REACT_APP_API_URL}/mypage/passwordcheck`, payload, {
+          withCredentials: true,
+        })
+          .then(() => {
+            dispatch(openWithdrawalModal())
+            dispatch(closeConfirmWithdrawal())
+          })
+          .catch(() => {
+            setPasswordWarning(true)
+          })
+      }
+    }
+  }
+
+  return (
+    <ModalPortal>
+      <ConfirmWithdrawalModal>
+        <div className={isDesktop ? "confirmPasswordCard" : "confirmPasswordCard-mobile"} ref={modalRef}>
+          <button className="close-btn" onClick={() => {
+            dispatch(closeConfirmWithdrawal())
+          }}>X</button>
+          <img className="logo_img" src="images/bucketscombine_logo.png" alt="card" />
+          <input className="passwordArea" type='password' placeholder='현재 비밀번호' value={inputPassword} onKeyUp={confirmWithdrawalEnter} onChange={(e) => { passwordFilter(e.target.value) }} />
+          <div className="warning-message">{passwordWarning ? "비밀번호가 일치하지 않습니다." : ""}</div>
+          <div className="warning-message">{emptyPasswordWarning ? "비밀번호를 입력해주세요" : ""}</div>
+          <button className="confirm-btn" onClick={confirmWithdrawal}>확인</button>
+        </div>
+      </ConfirmWithdrawalModal>
+    </ModalPortal>
+  );
 }
 
 export default ConfirmWithdrawalCardModal;
