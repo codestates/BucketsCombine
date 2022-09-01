@@ -198,7 +198,7 @@ const WithdrawalCardModal = () => {
 
   const withdrawal = () => {
     if (isSignIn) {
-      axios.delete(`${process.env.REACT_APP_API_URL}/mypage/deletuser`, {
+      axios.delete(`${process.env.REACT_APP_API_URL}/mypage/deleteuser`, {
         data: {
           'users_id': signInUserInfo.users_id,
         },
