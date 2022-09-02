@@ -230,6 +230,8 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
         withCredential: true,
       })
       .then((res) => {
+        const { jwtAccessToken } = res.data;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${jwtAccessToken}`;
         const signInUserInfo = res.data.userInfo;
         localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
         localStorage.setItem('isSignIn', JSON.stringify(true));
@@ -256,6 +258,7 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
   const kakaoSignin = () => {
     const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
     const REDIRECT_URI =  "https://www.bucketscombine.com/users/kakaologin";
+    //const REDIRECT_URI =  "http://localhost:3000/users/kakaologin";
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = KAKAO_AUTH_URL;
   }
