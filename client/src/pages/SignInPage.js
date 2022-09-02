@@ -197,6 +197,7 @@ const SignInPageWrap = styled.div`
 `
 
 export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
+  
   const [logininfo, setLogininfo] = useState({
     email: "",
     password: ""
@@ -250,6 +251,15 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
   
   const isDesktop = useMediaQuery({ minWidth: 921 })
 
+  
+
+  const kakaoSignin = () => {
+    const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+    const REDIRECT_URI =  "https://bucketscombine.com/users/kakaologin";
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    window.location.href = KAKAO_AUTH_URL;
+  }
+
 	return (
     <SignInPageWrap>
           <div className="signin_section">
@@ -285,7 +295,7 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
                   <button className="login_signup" onClick={join}>
                     회원가입
                   </button>
-                  <button className="login_kakao">
+                  <button className="login_kakao" onClick={kakaoSignin}>
                     <img className="google-logo" src="images/kakao-logo.png"
                       alt="사진이 없습니다." width="20px" height="20px" />
                     카카오 로그인
