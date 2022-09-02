@@ -255,7 +255,7 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
 
   const kakaoSignin = () => {
     const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
-    const REDIRECT_URI =  "https://bucketscombine.com/users/kakaologin";
+    const REDIRECT_URI =  "https://www.bucketscombine.com/users/kakaologin";
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = KAKAO_AUTH_URL;
   }
