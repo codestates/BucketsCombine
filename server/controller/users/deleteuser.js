@@ -3,6 +3,9 @@ const { cards } = require("../../models");
 const { cardHashtags } = require("../../models");
 const { userCardJoins } = require("../../models");
 const { isAuthorized } = require("../tokenFunctions");
+const axios = require("axios");
+require("dotenv").config();
+
 module.exports = async (req, res) => {
   //! test code
   // const userid = { id: 35 };
@@ -11,6 +14,25 @@ module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
     return;
   } else {
+    if (userid.oauthlogin === "kakao") {
+      const token = await axios
+        .post(
+          `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_REST_API_KEY}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}`,
+          {
+            headers: {
+              "Content-type": "application/x-www-form-urlencoded;charset=utf-8", //
+            },
+          }
+        )
+        .catch((e) => console.log("에러", e));
+      await axios.post("https://kapi.kakao.com/v1/user/unlink", {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token.data.access_token}`,
+        },
+      });
+    }
+
     await userCardJoins.destroy({
       where: {
         users_id: userid.id,
