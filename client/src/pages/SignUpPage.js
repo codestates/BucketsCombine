@@ -334,6 +334,12 @@ export default function SignUpPage() {
 
   const isDesktop = useMediaQuery({ minWidth: 921 })
 
+  const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+  if(isSignIn){
+    history.push('/')
+    window.location.reload();
+  }
+
   return (
     <SignUpPageWrap>
         <div className="signin_section">
@@ -413,7 +419,7 @@ export default function SignUpPage() {
               setAgeWarning(false)
               setInputAge(e.target.value)
               }} method="get" required>
-              <option value="DEFAULT" >연령대</option>
+              <option value="">연령대</option>
               <option value="10대">10대</option>
               <option value="20대">20대</option>
               <option value="30대">30대</option>
@@ -423,7 +429,7 @@ export default function SignUpPage() {
               <option value="70대">70대</option>
               <option value="80대">80대</option>
               <option value="90대">90대</option>
-              <option value="100대">100세 이상</option>
+              <option value="100세 이상">100세 이상</option>
             </select>
             <div className="warning-message">
               {ageWaring? "연령대를 선택해주세요." : "" }
@@ -432,7 +438,7 @@ export default function SignUpPage() {
               setGenderWarning(false)
               setInputGender(e.target.value)
               }} method="get" required>
-              <option value="DEFAULT" >성별</option>
+              <option value="">성별</option>
               <option value="남성">남성</option>
               <option value="여성">여성</option>
               <option value="선택안함">선택안함</option>

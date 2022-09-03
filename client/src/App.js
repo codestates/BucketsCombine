@@ -38,7 +38,7 @@ const App = () => {
     const titleElement = document.getElementsByTagName("title")[0];
     titleElement.innerHTML = `Buckets Combine`;
   }, []);
-
+  
   return (
     <div>
       <BrowserRouter>

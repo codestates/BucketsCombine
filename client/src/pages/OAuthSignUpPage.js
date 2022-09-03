@@ -107,7 +107,7 @@ const OAuthSignUpPageWrap = styled.div`
     border-radius: 5px;
     border: none;
   }
-  .signup-button {
+  .insertAdditionalInfo-button {
     border: none;
     background: #ffc700;
     border-radius: 5px;
@@ -116,6 +116,7 @@ const OAuthSignUpPageWrap = styled.div`
     padding: 2px;
     margin: 30px 10px 100px 10px;
     border-radius: 5px;
+    font-size: 16px;
   }
 
   #cancle {
@@ -168,8 +169,23 @@ const OAuthSignUpPageWrap = styled.div`
     background-image: url('/images/cancel-yellow-icon.png');
     background-size: cover;
   }
+
+  .email {
+    width: 246px;
+    height: 45px;
+    padding: 2px 40px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: gray;
+    color: white;
+    line-height: 40px;
+  }
 `
 export default function OAuthSignUpPage() {
+  const isDesktop = useMediaQuery({ minWidth: 921 })
+  const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+  const signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
   const history = useHistory();
 
   const cancle = () => {
@@ -191,6 +207,15 @@ export default function OAuthSignUpPage() {
   const [inputUsername, setInputUsername ] = useState('');
   const [inputAge, setInputAge] = useState('');
   const [inputGender, setInputGender] = useState('');
+
+  const [isEmailExisted, setIsEmailExisted] = useState(false);
+
+  useEffect(()=>{
+    if(signInUserInfo.email){
+      setIsEmailExisted(true)
+    }
+  }, [])
+  
 
   const emailFilter = (value) => {
     setEmptyEmailWarning(false)
@@ -228,17 +253,68 @@ export default function OAuthSignUpPage() {
     setInputUsername(value)
   }
 
-  const signUp = async () => {
+  // const signUp = async () => {
+  //   setAgeWarning(false)
+  //   setGenderWarning(false)
+  //   setEmptyEmailWarning(false)
+  //   setEmptyUsernameWarning(false)
+  //   if(emailWarning === true || inputEmail === "" ||
+  //     usernameWarning === true || inputUsername === "" ||
+  //     inputAge === "" ||
+  //     inputGender === ""
+  //   ){
+  //     if(inputEmail === ""){
+  //       setEmptyEmailWarning(true)
+  //     }
+  //     if(inputUsername === ""){
+  //       setEmptyUsernameWarning(true)
+  //     }
+  //     if (inputAge === "") {
+  //       setAgeWarning(true)
+  //     }
+  //     if (inputGender === "") {
+  //       setGenderWarning(true)
+  //     }
+  //   } else {
+  //     setAleadyEmailWarning(false)
+  //     setAleadyUsernameWarning(false)
+  //     await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
+  //       email: inputEmail,
+  //       username: inputUsername,
+  //       age: inputAge,
+  //       gender: inputGender,
+  //     })
+  //     .then((res) => {
+  //       if(res.data.message === '회원가입 성공'){
+  //         alert('가입되었습니다.')
+  //         history.push("/signin")
+  //       }
+  //       if(res.data.message === '이미 사용중인 이메일입니다'){
+  //         setAleadyEmailWarning(true)
+  //       }
+  //       if(res.data.message === '이미 사용중인 별명입니다'){
+  //         setAleadyUsernameWarning(true)
+  //       }
+  //       if(res.data.message1 && res.data.message2){
+  //         setAleadyEmailWarning(true)
+  //         setAleadyUsernameWarning(true)
+  //       }
+  //     })
+  //   }
+  // }
+
+
+  const insertAdditionalInfo = async () => {
     setAgeWarning(false)
     setGenderWarning(false)
     setEmptyEmailWarning(false)
     setEmptyUsernameWarning(false)
-    if(emailWarning === true || inputEmail === "" ||
+    if(emailWarning === true || (inputEmail === "" && !isEmailExisted ) ||
       usernameWarning === true || inputUsername === "" ||
       inputAge === "" ||
       inputGender === ""
     ){
-      if(inputEmail === ""){
+      if(inputEmail === "" && !isEmailExisted ){
         setEmptyEmailWarning(true)
       }
       if(inputUsername === ""){
@@ -251,121 +327,137 @@ export default function OAuthSignUpPage() {
         setGenderWarning(true)
       }
     } else {
-      setAleadyEmailWarning(false)
-      setAleadyUsernameWarning(false)
-      await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
-        email: inputEmail,
-        username: inputUsername,
-        age: inputAge,
-        gender: inputGender,
-      })
-      .then((res) => {
-        if(res.data.message === '회원가입 성공'){
-          alert('가입되었습니다.')
-          history.push("/signin")
-        }
-        if(res.data.message === '이미 사용중인 이메일입니다'){
-          setAleadyEmailWarning(true)
-        }
-        if(res.data.message === '이미 사용중인 별명입니다'){
-          setAleadyUsernameWarning(true)
-        }
-        if(res.data.message1 && res.data.message2){
-          setAleadyEmailWarning(true)
-          setAleadyUsernameWarning(true)
-        }
-      })
+      const eamilForSend = isEmailExisted? signInUserInfo.email : inputEmail
+      const payload = {
+        'email': eamilForSend,
+        'username': inputUsername,
+        'userphotourl': '',
+        'usertext': '',
+        'gender': inputGender,
+        'age': inputAge,
+      }
+      axios.patch(`${process.env.REACT_APP_API_URL}/mypage/edit`, payload)
+        .then(() => {
+          const changedUserinfo = {
+            'id': signInUserInfo.id,
+            'username': inputUsername,
+            'userphotourl': '',
+            'email': eamilForSend,
+            'usertext': '',
+            'gender': inputGender,
+            'age': inputAge,
+            'oauthlogin': signInUserInfo.oauthlogin,
+            'createdAt': signInUserInfo.createdAt,
+            'updatedAt': signInUserInfo.updatedAt,
+          }
+          localStorage.setItem('signInUserInfo', JSON.stringify(changedUserinfo));
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 
-  const isDesktop = useMediaQuery({ minWidth: 921 })
-
-  return (
-    <OAuthSignUpPageWrap>
-        <div className="signin_section">
-        {isDesktop? 
-            <button className="cancle-button" onClick={cancle}>취소</button>
-            : <div className='cancle-icon' onClick={cancle}/>}
-          <div className="signin_container">
-            <img
-              className="BC_logo"
-              src="images/bucketscombine_logo.png"
-              alt="no"
-              width="120px"
-              height="120px"
-            ></img>
-            <div className="login_title">BucketsCombine</div>
-            <div className='list' onSubmit={(e) => e.preventDefault()}>
-            <input
-              className="input-area"
-              type="email"
-              placeholder="이메일"
-              onChange={(e) => {emailFilter(e.target.value)}}
-              value={inputEmail}
-              maxLength='40'
-            />
-            <div className="warning-message">
-              {emailWarning? "이메일 형식이 올바르지 않습니다." : "" }
-            </div>
-            <div className="warning-message">
-              {emptyEmailWarning? "이메일을 입력해주세요." : "" }
-            </div>
-            <div className="warning-message">
-              {aleadyEmailWarning? "이미 사용중인 이메일입니다." : "" }
-            </div>
-            <input
-              className="input-area"
-              type="username"
-              placeholder="별명"
-              onChange={(e) => {usernameFilter(e.target.value)}}
-              value={inputUsername}
-            />
-            <div className="warning-message">
-              {aleadyUsernameWarning? "이미 사용중인 별명입니다." : "" }
-            </div>
-            <div className="warning-message">
-              {emptyUsernameWarning? "별명을 입력해주세요." : "" }
-            </div>
-            <select className="btn_old" onChange={(e) => {
-              setAgeWarning(false)
-              setInputAge(e.target.value)
-              }} method="get" required>
-              <option value="DEFAULT" >연령대</option>
-              <option value="10대">10대</option>
-              <option value="20대">20대</option>
-              <option value="30대">30대</option>
-              <option value="40대">40대</option>
-              <option value="50대">50대</option>
-              <option value="60대">60대</option>
-              <option value="70대">70대</option>
-              <option value="80대">80대</option>
-              <option value="90대">90대</option>
-              <option value="100대">100세 이상</option>
-            </select>
-            <div className="warning-message">
-              {ageWaring? "연령대를 선택해주세요." : "" }
-            </div>
-            <select className="btn_gender" onChange={(e) => {
-              setGenderWarning(false)
-              setInputGender(e.target.value)
-              }} method="get" required>
-              <option value="DEFAULT" >성별</option>
-              <option value="남성">남성</option>
-              <option value="여성">여성</option>
-              <option value="선택안함">선택안함</option>
-		        </select>
-            <div className="warning-message">
-              {genderWarning? "성별을 선택해주세요." : "" }
-            </div>
-            <button
-              className="signup-button"
-              onClick={signUp}
-            >
-              가입하기
-            </button>
-            </div>
-          </div>
-        </div>
-    </OAuthSignUpPageWrap>
-  );
+  
+  if(isSignIn){
+    if(signInUserInfo.email === null ||
+      signInUserInfo.age === null ||
+      signInUserInfo.gender === null ||
+      signInUserInfo.username === null){
+        return (
+          <OAuthSignUpPageWrap>
+              <div className="signin_section">
+                <div className="signin_container">
+                  <img
+                    className="BC_logo"
+                    src="images/bucketscombine_logo.png"
+                    alt="no"
+                    width="120px"
+                    height="120px"
+                  ></img>
+                  <div className="login_title">BucketsCombine</div>
+                  <div className='list' onSubmit={(e) => e.preventDefault()}>
+                  {isEmailExisted? 
+                  <div className="email">{signInUserInfo.email}</div>
+                  : <input
+                    className="input-area"
+                    type="email"
+                    placeholder="이메일"
+                    onChange={(e) => {emailFilter(e.target.value)}}
+                    value={inputEmail}
+                    maxLength='40'
+                  />}
+                  <div className="warning-message">
+                    {emailWarning? "이메일 형식이 올바르지 않습니다." : "" }
+                  </div>
+                  <div className="warning-message">
+                    {emptyEmailWarning? "이메일을 입력해주세요." : "" }
+                  </div>
+                  <div className="warning-message">
+                    {aleadyEmailWarning? "이미 사용중인 이메일입니다." : "" }
+                  </div>
+                  <input
+                    className="input-area"
+                    type="username"
+                    placeholder="별명"
+                    onChange={(e) => {usernameFilter(e.target.value)}}
+                    value={inputUsername}
+                  />
+                  <div className="warning-message">
+                    {aleadyUsernameWarning? "이미 사용중인 별명입니다." : "" }
+                  </div>
+                  <div className="warning-message">
+                    {emptyUsernameWarning? "별명을 입력해주세요." : "" }
+                  </div>
+                  <select className="btn_old" onChange={(e) => {
+                    setAgeWarning(false)
+                    setInputAge(e.target.value)
+                    }} method="get" required>
+                    <option value="" >연령대</option>
+                    <option value="10대">10대</option>
+                    <option value="20대">20대</option>
+                    <option value="30대">30대</option>
+                    <option value="40대">40대</option>
+                    <option value="50대">50대</option>
+                    <option value="60대">60대</option>
+                    <option value="70대">70대</option>
+                    <option value="80대">80대</option>
+                    <option value="90대">90대</option>
+                    <option value="100세 이상">100세 이상</option>
+                  </select>
+                  <div className="warning-message">
+                    {ageWaring? "연령대를 선택해주세요." : "" }
+                  </div>
+                  <select className="btn_gender" onChange={(e) => {
+                    setGenderWarning(false)
+                    setInputGender(e.target.value)
+                    }} method="get" required>
+                    <option value="" >성별</option>
+                    <option value="남성">남성</option>
+                    <option value="여성">여성</option>
+                    <option value="선택안함">선택안함</option>
+                  </select>
+                  <div className="warning-message">
+                    {genderWarning? "성별을 선택해주세요." : "" }
+                  </div>
+                  <button
+                    className="insertAdditionalInfo-button"
+                    onClick={insertAdditionalInfo}
+                  >
+                    추가 정보 입력
+                  </button>
+                  </div>
+                </div>
+              </div>
+          </OAuthSignUpPageWrap>
+        );
+    } else {
+      history.push('/')
+      window.location.reload();
+      return
+    }
+  } else {
+    history.push('/signin')
+    window.location.reload();
+  }
 }

@@ -37,10 +37,20 @@ const MyPageWrap = styled.div`
 
 export default function MyPage() {
   const isDesktop = useMediaQuery({ minWidth: 921 })
-  let isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+  const signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
+  const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
   const history = useHistory()
 
   if(isSignIn){
+    if(signInUserInfo.email === null ||
+      signInUserInfo.age === null ||
+      signInUserInfo.gender === null ||
+      signInUserInfo.username === null){
+      history.push('/signupoauth')
+      window.location.reload();
+      return
+    }
+    
     return (
       <MyPageWrap>
       <div className='mainpage'>

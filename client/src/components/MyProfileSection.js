@@ -472,6 +472,8 @@ export default function MyProfileSection() {
     setInputUsertext(value)
   }
 
+  const ages = ['10대', '20대', '30대', '40대', '50대', '60대', '70대', '80대', '90대', '100세 이상']
+  const genders = ['남성', '여성', '선택안함']
   return (
     <MyProfileWrap>
       <div id={isDesktop? 'myprofile-section' : 'myprofile-section-mobile'}>
@@ -490,24 +492,25 @@ export default function MyProfileSection() {
             <div className={isDesktop? "profile-info-section" : "profile-info-section-mobile"}>
                 <div className="profile-info-email">{signInUserInfo.email}</div>
                 <input maxLength='10' className="profile-info-nickname" onChange={(e) => {nicknameFilter(e.target.value)}}  value={inputUsername}></input>
-                <select className="profile-info-age" onChange={(e) => {setInputAge(e.target.value)}}>
-                  <option value="DEFAULT" >{signInUserInfo.age}</option>
-                  <option value="10대">10대</option>
-                  <option value="20대">20대</option>
-                  <option value="30대">30대</option>
-                  <option value="40대">40대</option>
-                  <option value="50대">50대</option>
-                  <option value="60대">60대</option>
-                  <option value="70대">70대</option>
-                  <option value="70대">80대</option>
-                  <option value="70대">90대</option>
-                  <option value="70대">100세 이상</option>
+                <select className="profile-info-age" onChange={(e) => {setInputAge(e.target.value)}} >
+                  <option value="">연령대</option>
+                  {ages.map(age => {
+                    if(age === signInUserInfo.age){
+                      return <option value={age} selected>{age}</option>
+                    } else {
+                      return <option value={age}>{age}</option>
+                    }
+                  })}
                 </select>
                 <select className="profile-info-gender" onChange={(e) => {setInputGender(e.target.value)}}>
-                  <option value="DEFAULT">{signInUserInfo.gender}</option>
-                  <option value="남성">남성</option>
-                  <option value="여성">여성</option>
-                  <option value="선택안함">선택안함</option>
+                  <option value="">성별</option>
+                  {genders.map(gender => {
+                    if(gender === signInUserInfo.gender){
+                      return <option value={gender} selected>{gender}</option>
+                    } else {
+                      return <option value={gender}>{gender}</option>
+                    }
+                  })}
                 </select>
             </div>
           </div>
