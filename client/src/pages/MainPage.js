@@ -7,6 +7,7 @@ import CardsSection from '../components/CardsSection';
 import StampedSection from '../components/StampedSection';
 import styled from 'styled-components';
 import { useMediaQuery } from "react-responsive";
+import { useHistory } from 'react-router-dom';
 
 
 const MainPageWrap = styled.div`
@@ -50,7 +51,20 @@ const MainPageWrap = styled.div`
 `
 
 export default function MainPage() {
+  const signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
+  const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
   const isDesktop = useMediaQuery({ minWidth: 921 })
+  const history = useHistory()
+  if(isSignIn){
+    if(signInUserInfo.email === null ||
+      signInUserInfo.age === null ||
+      signInUserInfo.gender === null ||
+      signInUserInfo.username === null){
+      history.push('/signupoauth')
+      window.location.reload();
+      return
+    }
+  }
   return (
     <MainPageWrap>
       <div className='mainpage'>

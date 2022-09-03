@@ -263,6 +263,11 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
     window.location.href = KAKAO_AUTH_URL;
   }
 
+  const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+  if(isSignIn){
+    history.push('/')
+    window.location.reload();
+  }
 	return (
     <SignInPageWrap>
           <div className="signin_section">
@@ -286,7 +291,7 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
                   onKeyUp={(event) => handleInputKey(event)}
                   maxLength='12'
                 />
-                <div className='find'>아이디 / 비밀번호찾기</div>
+                <div className='find'></div>
                 <div className='alert'>{errormessage}</div>
                 <div className="buttons">
                   <button className="login_box"
