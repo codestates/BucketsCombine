@@ -2,9 +2,11 @@ const { Op } = require("sequelize");
 const { users } = require("../../models");
 const { isAuthorized } = require("../tokenFunctions");
 
-let emailIsGannaCheck = false
-let usernameIsGannaCheck = false
+
 module.exports = async (req, res) => {
+  let emailIsGannaCheck = false
+  let usernameIsGannaCheck = false
+
   if (!isAuthorized(req)) {
     return;
   }
