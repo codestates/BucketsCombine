@@ -479,6 +479,7 @@ export default function MyProfileSection() {
 
   const ages = ['10대', '20대', '30대', '40대', '50대', '60대', '70대', '80대', '90대', '100세 이상']
   const genders = ['남성', '여성', '선택안함']
+
   return (
     <MyProfileWrap>
       <div id={isDesktop? 'myprofile-section' : 'myprofile-section-mobile'}>
