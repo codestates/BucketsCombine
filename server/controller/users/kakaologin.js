@@ -21,7 +21,6 @@ module.exports = async (req, res) => {
     )
     .catch((e) => console.log("에러", e));
   //! ****
-
   console.log("토큰 내용", token);
   const kakaoUserInfo = await axios
     .get("https://kapi.kakao.com/v2/user/me", {
@@ -33,17 +32,24 @@ module.exports = async (req, res) => {
     .catch((e) => console.log("토큰내용에러", e));
   // 서버는 토큰에 헤더에 담긴 토큰으로 카카오서버에 유저 정보를 요청한다.
   //! male -> 남성  , Female -> 여성
-  const newUserInfo = await users.findOrCreate({
-    where: {
-      email: kakaoUserInfo.data.kakao_account.email,
-    },
-    defaults: {
-      email: `${kakaoUserInfo.data.kakao_account.email}`,
-      oauthlogin: "kakao",
-    },
-  });
-  //서버는 카카오 서버에서 받은 내용을 바탕으로 새로운 유저를 탐색 및 DB에 생성
-  const payload = { id: newUserInfo[0].id };
+
+  if (kakaoUserInfo.data.kakao_account.email === "undefined") {
+    let newUserInfo = await users.create({ oauthlogin: "kakao" });
+    var payload = { id: newUserInfo.id };
+  } else {
+    let newUserInfo = await users.findOrCreate({
+      where: {
+        email: kakaoUserInfo.data.kakao_account.email,
+      },
+      defaults: {
+        email: `${kakaoUserInfo.data.kakao_account.email}`,
+        oauthlogin: "kakao",
+      },
+    });
+    var payload = { id: newUserInfo[0].id };
+    //서버는 카카오 서버에서 받은 내용을 바탕으로 새로운 유저를 탐색 및 DB에 생성
+  }
+
   const accessToken = generateAccessToken(payload);
   // 클라이언트에게 "jwtAccessToken"키값의 accessToken 발급. 내용물은 생성된 아이디의 id
 
