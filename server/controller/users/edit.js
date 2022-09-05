@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from "react";
-
 const { Op } = require("sequelize");
 const { users } = require("../../models");
 const { isAuthorized } = require("../tokenFunctions");
 
-const [emailIsGannaCheck, setEmailIsGannaCheck] = useState(false)
-const [usernameIsGannaCheck, setUsernameIsGannaCheck] = useState(false)
+let emailIsGannaCheck = false
+let usernameIsGannaCheck = false
 module.exports = async (req, res) => {
   if (!isAuthorized(req)) {
     return;
   }
 
   if(req.body.email === '#no change'){
-    setEmailIsGannaCheck(false)
+    emailIsGannaCheck = false
   } else {
-    setEmailIsGannaCheck(true)
+    emailIsGannaCheck = true
   }
 
   if(req.body.username === '#no change'){
-    setUsernameIsGannaCheck(false)
+    usernameIsGannaCheck = false
   } else  {
-    setUsernameIsGannaCheck(true)
+    usernameIsGannaCheck = true
   }
 
 
