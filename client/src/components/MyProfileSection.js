@@ -390,7 +390,7 @@ export default function MyProfileSection() {
     const currentSignInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
     const payload = {
       'email': '#no change',
-      'username': inputUsername === lastSignInUserInfo.username? '#no change' : inputUsername,
+      'username': inputUsername === currentSignInUserInfo.username? '#no change' : inputUsername,
       'userphotourl': currentSignInUserInfo.userphotourl,
       'usertext': inputUsertext,
       'gender': inputGender,
