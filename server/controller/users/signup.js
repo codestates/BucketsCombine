@@ -44,6 +44,7 @@ module.exports = async (req, res) => {
         password: password,
         age: req.body.age,
         gender: req.body.gender,
+        oauthlogin: "local",
       });
       res.status(200).json({ message: "회원가입 성공" });
     }
