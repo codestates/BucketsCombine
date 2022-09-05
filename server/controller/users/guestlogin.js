@@ -18,6 +18,9 @@ module.exports = async (req, res) => {
   })
     .catch((err) => console.log(err));
   
+    const payload = {
+      id: userinfo.id,
+    };
 
     const accessToken = generateAccessToken(payload);
     sendAccessToken(res, accessToken);
