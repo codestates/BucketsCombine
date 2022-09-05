@@ -92,6 +92,14 @@ const StampedListWrap = styled.div`
         display: none;
         }
   }
+
+  .search-warning{
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    color: gray;
+    margin-top: 160px;
+  }
 `;
 
 
@@ -103,18 +111,19 @@ export default function StampedList () {
   const [stamped, setStamped] = useState([]);
   const [users, setUsers] = useState([])
   const [search, setSearch] = useState("");
+  const [isEmptyCard, setIsEmptyCard] = useState(false)
 
-  const dummyarea2 = document.querySelector('.dummyarea2')
 
   const saveData = (responseAllCards, responseUsers) => {
+    setIsEmptyCard(false)
     const allCardsData = responseAllCards.data;
     const usersData = responseUsers.data;
     const stampedData = allCardsData.filter((card) => card.stamped[0] !== null)
-
-    dispatch(setStampedData({ stampedData }));
-    dispatch(setUsersData({ usersData }));
-
+    
     const reverseStampedData = stampedData.slice().reverse()
+
+    dispatch(setStampedData(reverseStampedData));
+    dispatch(setUsersData({ usersData }));
 
     setStamped(
       reverseStampedData.map((card, i) => {
@@ -142,15 +151,20 @@ export default function StampedList () {
   } fetchData()}, []);
 
   
-  const {stampedData} = useSelector((state) => state.modal.stampedData);
+  const stampedData = useSelector((state) => state.modal.stampedData);
   const {usersData} = useSelector((state) => state.modal.usersData);
 
   const searchCard = () => {
+    setIsEmptyCard(false)
     const titleMatchData = stampedData.filter((card) => card.title.includes(search))
     const tagMatchData = stampedData.filter((card) => card.tag.includes(search))
     const mergeData = [...titleMatchData, ... tagMatchData]
     const set = new Set(mergeData)
     const searchedData = [...set]
+    if(titleMatchData.length === 0){
+      setIsEmptyCard(true)
+      return
+    }
     const searchedCards = searchedData.map((card, i) => {
       const username = usersData.filter((user) => user.id === card.users_id)[0].username
       return <StampedCard
@@ -167,35 +181,11 @@ export default function StampedList () {
       />;
     })
     setStamped(searchedCards)
-    const w = (searchedCards.length * 220) + 240
-    dummyarea2.style.width = `calc(100vw - ${w}px)`
   }
 
   const enterSearchCard = (e) => {
     if(e.key === 'Enter'){
-      const titleMatchData = stampedData.filter((card) => card.title.includes(search))
-      const tagMatchData = stampedData.filter((card) => card.tag.includes(search))
-      const mergeData = [...titleMatchData, ... tagMatchData]
-      const set = new Set(mergeData)
-      const searchedData = [...set]
-      const searchedCards = searchedData.map((card, i) => {
-        const username = usersData.filter((user) => user.id === card.users_id)[0].username
-        return <StampedCard
-          key={i}
-          cardID={card.id}
-          writername={username}
-          title={card.title}
-          cardtext={card.cardtext}
-          background={card.background}
-          createdAt={card.createdAt}
-          completed={card.completed}
-          tags={card.tag}
-          membersID={card.membersID}
-        />;
-      })
-      setStamped(searchedCards)
-      const w = (searchedCards.length * 220) + 240
-      dummyarea2.style.width = `calc(100vw - ${w}px)`
+      searchCard()
     }
   }
   
@@ -204,7 +194,7 @@ export default function StampedList () {
     <StampedListWrap >
       <div id={isDesktop ? 'card-list' : 'card-list-mobile'} >
         <div id="stamp-list-line">
-        {stamped}
+        {isEmptyCard? <div className="search-warning">검색된 스템프 카드가 없습니다.</div> : stamped}
         </div>
         <div className={isDesktop? 'search-bar' : 'search-bar-mobile'}>
           <input className='search-input' type="text" placeholder="제목 및 태그" onChange={(e) => {

@@ -218,6 +218,7 @@ export default function OAuthSignUpPage() {
   
 
   const emailFilter = (value) => {
+    setAleadyEmailWarning(false)
     setEmptyEmailWarning(false)
     const regExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     if(value === ''){
@@ -235,6 +236,7 @@ export default function OAuthSignUpPage() {
   }
 
   const usernameFilter = (value) => {
+    setAleadyUsernameWarning(false)
     setEmptyUsernameWarning(false)
     const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
 
@@ -253,58 +255,10 @@ export default function OAuthSignUpPage() {
     setInputUsername(value)
   }
 
-  // const signUp = async () => {
-  //   setAgeWarning(false)
-  //   setGenderWarning(false)
-  //   setEmptyEmailWarning(false)
-  //   setEmptyUsernameWarning(false)
-  //   if(emailWarning === true || inputEmail === "" ||
-  //     usernameWarning === true || inputUsername === "" ||
-  //     inputAge === "" ||
-  //     inputGender === ""
-  //   ){
-  //     if(inputEmail === ""){
-  //       setEmptyEmailWarning(true)
-  //     }
-  //     if(inputUsername === ""){
-  //       setEmptyUsernameWarning(true)
-  //     }
-  //     if (inputAge === "") {
-  //       setAgeWarning(true)
-  //     }
-  //     if (inputGender === "") {
-  //       setGenderWarning(true)
-  //     }
-  //   } else {
-  //     setAleadyEmailWarning(false)
-  //     setAleadyUsernameWarning(false)
-  //     await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
-  //       email: inputEmail,
-  //       username: inputUsername,
-  //       age: inputAge,
-  //       gender: inputGender,
-  //     })
-  //     .then((res) => {
-  //       if(res.data.message === '회원가입 성공'){
-  //         alert('가입되었습니다.')
-  //         history.push("/signin")
-  //       }
-  //       if(res.data.message === '이미 사용중인 이메일입니다'){
-  //         setAleadyEmailWarning(true)
-  //       }
-  //       if(res.data.message === '이미 사용중인 별명입니다'){
-  //         setAleadyUsernameWarning(true)
-  //       }
-  //       if(res.data.message1 && res.data.message2){
-  //         setAleadyEmailWarning(true)
-  //         setAleadyUsernameWarning(true)
-  //       }
-  //     })
-  //   }
-  // }
-
 
   const insertAdditionalInfo = async () => {
+    setAleadyEmailWarning(false)
+    setAleadyUsernameWarning(false)
     setAgeWarning(false)
     setGenderWarning(false)
     setEmptyEmailWarning(false)
@@ -327,7 +281,7 @@ export default function OAuthSignUpPage() {
         setGenderWarning(true)
       }
     } else {
-      const eamilForSend = isEmailExisted? signInUserInfo.email : inputEmail
+      const eamilForSend = isEmailExisted? '#no change' : inputEmail
       const payload = {
         'email': eamilForSend,
         'username': inputUsername,
@@ -337,12 +291,25 @@ export default function OAuthSignUpPage() {
         'age': inputAge,
       }
       axios.patch(`${process.env.REACT_APP_API_URL}/mypage/edit`, payload)
-        .then(() => {
+        .then((res) => {
+          if (res.data.email === false && res.data.username === false) {
+            setAleadyEmailWarning(true)
+            setAleadyUsernameWarning(true)
+            return
+          }
+          if (res.data.email === false) {
+            setAleadyEmailWarning(true)
+            return
+          }
+          if (res.data.username === false) {
+            setAleadyUsernameWarning(true)
+            return
+          }
           const changedUserinfo = {
             'id': signInUserInfo.id,
             'username': inputUsername,
             'userphotourl': '',
-            'email': eamilForSend,
+            'email': isEmailExisted? signInUserInfo.email : inputEmail,
             'usertext': '',
             'gender': inputGender,
             'age': inputAge,
@@ -351,6 +318,7 @@ export default function OAuthSignUpPage() {
             'updatedAt': signInUserInfo.updatedAt,
           }
           localStorage.setItem('signInUserInfo', JSON.stringify(changedUserinfo));
+          history.push("/")
         })
         .catch(err => {
           console.log(err)

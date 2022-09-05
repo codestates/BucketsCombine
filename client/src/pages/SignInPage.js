@@ -194,16 +194,26 @@ const SignInPageWrap = styled.div`
     border-radius: 5px;
     background-color: #55c14b;
   }
+
+  .guest_login_box{
+    background-color: gray;
+    border: none;
+    font-size: 16px;
+    color: white;
+    margin: 10px;
+    width: 330px;
+    height: 30px;
+    border-radius: 5px;
+  }
 `
 
-export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
-  
+export default function SignInPage() {
+  const isDesktop = useMediaQuery({ minWidth: 921 })
   const [logininfo, setLogininfo] = useState({
     email: "",
     password: ""
   });
   const [errormessage, setErrormessage] = useState('');
-  const [cookies, setCookie] = useCookies(['id']);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -243,6 +253,33 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
     }
   }
 
+  const guestSignIn = () => {
+    axios.post(`${process.env.REACT_APP_API_URL}/users/guestlogin`, {
+      email: Math.random().toString(36).substring(2, 12),
+      username: Math.random().toString(36).substring(2, 12),
+      password: Math.random().toString(36).substring(2, 12),
+      age: '100세 이상',
+      gender: '선택안함',
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredential: true,
+      samesite: "Secure",
+    })
+      .then((res) => {
+        const { jwtAccessToken } = res.data;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${jwtAccessToken}`;
+        const signInUserInfo = res.data.userInfo;
+        localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
+        localStorage.setItem('isSignIn', JSON.stringify(true));
+        history.push("/")
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   const cancle = () => {
     history.push("/")
   }
@@ -251,7 +288,7 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
     history.push("/signup")
   }
   
-  const isDesktop = useMediaQuery({ minWidth: 921 })
+  
 
   
 
@@ -291,9 +328,17 @@ export default function SignInPage({ handleResponseSuccess, setIsLogin }) {
                   onKeyUp={(event) => handleInputKey(event)}
                   maxLength='12'
                 />
-                <div className='find'></div>
+                <div className='find'>
+                  비밀번호 찾기
+                </div>
                 <div className='alert'>{errormessage}</div>
                 <div className="buttons">
+                  <button className="guest_login_box"
+                    type="submit"
+                    value="게스트로그인"
+                    onClick={guestSignIn}
+                    >게스트 로그인
+                  </button>
                   <button className="login_box"
                     type="submit"
                     value="로그인"
