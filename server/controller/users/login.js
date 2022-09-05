@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
   } else {
     const userinfo = await users
       .findOne({
-        where: { email: req.body.email },
+        where: { email: req.body.email }, //오스로그인이 로컬인 애들만 검색
       })
       .catch((err) => console.log(err));
     if (!userinfo) {
