@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { openConfirmWithdrawal, openConfirmChangeModal, openChangePasswordModal, setMypageUserInfo } from '../redux/reducers/ModalReducer';
+import { openConfirmWithdrawal, openConfirmChangeModal, openWithdrawalModal } from '../redux/reducers/ModalReducer';
 import styled from 'styled-components'
 import { useMediaQuery } from "react-responsive";
 import { useHistory } from 'react-router-dom';
@@ -288,8 +288,8 @@ const MyProfileWrap = styled.div`
 `
 
 export default function MyProfileSection() { 
-  let signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
-  let isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+  const signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
+  const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
   const isDesktop = useMediaQuery({ minWidth: 921 })
   const isTablet = useMediaQuery({ minWidth: 1201 })
   const history = useHistory()
@@ -389,15 +389,19 @@ export default function MyProfileSection() {
   const updateUserInfo = () => {
     const currentSignInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
     const payload = {
-      'email': currentSignInUserInfo.email,
-      'username': inputUsername,
+      'email': '#no change',
+      'username': inputUsername === lastSignInUserInfo.username? '#no change' : inputUsername,
       'userphotourl': currentSignInUserInfo.userphotourl,
       'usertext': inputUsertext,
       'gender': inputGender,
       'age': inputAge,
     }
     axios.patch(`${process.env.REACT_APP_API_URL}/mypage/edit`, payload)
-    .then(() => {
+    .then((res) => {
+      if(res.data.username === false){
+        alert('사용중인 닉네임입니다.')
+        return
+      }
       currentSignInUserInfo.username = inputUsername
       currentSignInUserInfo.usertext = inputUsertext
       currentSignInUserInfo.gender = inputGender
@@ -472,6 +476,7 @@ export default function MyProfileSection() {
     setInputUsertext(value)
   }
 
+
   const ages = ['10대', '20대', '30대', '40대', '50대', '60대', '70대', '80대', '90대', '100세 이상']
   const genders = ['남성', '여성', '선택안함']
   return (
@@ -492,33 +497,29 @@ export default function MyProfileSection() {
             <div className={isDesktop? "profile-info-section" : "profile-info-section-mobile"}>
                 <div className="profile-info-email">{signInUserInfo.email}</div>
                 <input maxLength='10' className="profile-info-nickname" onChange={(e) => {nicknameFilter(e.target.value)}}  value={inputUsername}></input>
-                <select className="profile-info-age" onChange={(e) => {setInputAge(e.target.value)}} >
+                <select className="profile-info-age" defaultValue={signInUserInfo.age} onChange={(e) => {setInputAge(e.target.value)}} >
                   <option value="">연령대</option>
-                  {ages.map(age => {
-                    if(age === signInUserInfo.age){
-                      return <option value={age} selected>{age}</option>
-                    } else {
-                      return <option value={age}>{age}</option>
-                    }
-                  })}
+                  {ages.map((age, i) => {
+                      return <option key={i} value={age}>{age}</option>
+                    })
+                  }
                 </select>
-                <select className="profile-info-gender" onChange={(e) => {setInputGender(e.target.value)}}>
+                <select className="profile-info-gender" defaultValue={signInUserInfo.gender} onChange={(e) => {setInputGender(e.target.value)}}>
                   <option value="">성별</option>
-                  {genders.map(gender => {
-                    if(gender === signInUserInfo.gender){
-                      return <option value={gender} selected>{gender}</option>
-                    } else {
-                      return <option value={gender}>{gender}</option>
-                    }
-                  })}
+                  {genders.map((gender, i) => {
+                      return <option key={i} value={gender}>{gender}</option>
+                  })
+                  }
                 </select>
             </div>
           </div>
           <textarea maxLength='1000' className="profile-introducing" onChange={(e) => usertextFilter(e.target.value)} value={inputUsertext}/>
           {message ? <div className="failure-message">비어있는 부분이 있습니다.</div> : <div />}
           <div className="change-buttons">
-            <button className="withdrawal-button" onClick={isSignIn ? () => {dispatch(openConfirmWithdrawal())}: alert('로그인 해주세요')}>{withdrawal}</button>
-            <button className="change-password-button" onClick={isSignIn ? () => {dispatch(openConfirmChangeModal())}: alert('로그인 해주세요')} >비밀번호 변경</button>
+            {signInUserInfo.oauthlogin === 'local'? <button className="withdrawal-button" onClick={isSignIn ? () => {dispatch(openConfirmWithdrawal())}: alert('로그인 해주세요')}>{withdrawal}</button>
+            : <button className="withdrawal-button" onClick={isSignIn ? () => {dispatch(openWithdrawalModal())}: alert('로그인 해주세요')}>{withdrawal}</button>}
+            {signInUserInfo.oauthlogin === 'local'? <button className="change-password-button" onClick={isSignIn ? () => {dispatch(openConfirmChangeModal())}: alert('로그인 해주세요')} >비밀번호 변경</button>
+            : <div/>}
             <button className="change-profile-button" onClick={updateProfile}>변경</button>
           </div>
         </div>

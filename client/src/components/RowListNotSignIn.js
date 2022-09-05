@@ -96,6 +96,14 @@ const RowListWrap = styled.div`
   .dummy{
     height: 100px;
   }
+
+  .search-warning{
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    color: gray;
+    margin-top: 160px;
+  }
 `;
 
 
@@ -108,11 +116,11 @@ export default function RowList () {
   const [cards, setCards] = useState([]);
   const [users, setUsers] = useState([])
   const [search, setSearch] = useState("");
+  const [isEmptyCard, setIsEmptyCard] = useState(false)
 
-  const dummyarea = document.querySelector('.dummyarea')
 
   const saveData = (responseAllCards, responseUsers) => {
-    
+    setIsEmptyCard(false)
     const allCardsData = responseAllCards.data;
     const usersData = responseUsers.data;
     const cardsData = allCardsData.filter((card) => card.stamped[0] === null)
@@ -152,11 +160,16 @@ export default function RowList () {
   const {usersData} = useSelector((state) => state.modal.usersData);
 
   const searchCard = () => {
+    setIsEmptyCard(false)
     const titleMatchData = cardsData.filter((card) => card.title.includes(search))
     const tagMatchData = cardsData.filter((card) => card.tag.includes(search))
     const mergeData = [...titleMatchData, ... tagMatchData]
     const set = new Set(mergeData)
     const searchedData = [...set]
+    if(titleMatchData.length === 0){
+      setIsEmptyCard(true)
+      return
+    }
     const searchedCards = searchedData.map((card, i) => {
       const username = usersData.filter((user) => user.id === card.users_id)[0].username
       return <RowCardNotSignIn
@@ -176,26 +189,7 @@ export default function RowList () {
 
   const enterSearchCard = (e) => {
     if(e.key === 'Enter'){
-      const titleMatchData = cardsData.filter((card) => card.title.includes(search))
-      const tagMatchData = cardsData.filter((card) => card.tag.includes(search))
-      const mergeData = [...titleMatchData, ... tagMatchData]
-      const set = new Set(mergeData)
-      const searchedData = [...set]
-      const searchedCards = searchedData.map((card, i) => {
-        const username = usersData.filter((user) => user.id === card.users_id)[0].username
-        return <RowCardNotSignIn
-        key={i}
-        cardID={card.id}
-        writername={username}
-        title={card.title}
-        background={card.background}
-        createdAt={card.createdAt}
-        completed={card.completed}
-        tags={card.tag}
-        membersID={card.membersID}
-      />;
-      })
-      setCards(searchedCards)
+      searchCard()
     }
   }
 
@@ -203,7 +197,7 @@ export default function RowList () {
     <RowListWrap >
       <div id={isDesktop ? 'card-list' : 'card-list-mobile'} >
         <div id="card-list-line">
-        {cards}
+        {isEmptyCard? <div className="search-warning">검색된 카드가 없습니다.</div> : cards}
         </div>
         <div className={isDesktop? 'search-bar' : 'search-bar-mobile'}>
           <input className='search-input' type="text" placeholder="제목 및 태그" onChange={(e) => {
