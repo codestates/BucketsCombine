@@ -19,6 +19,7 @@ import ConfirmWithdrawal from './components/modals/ConfrimWithdrawal'
 import EditCardModal from './components/modals/EditCardModal'
 import axios from 'axios';
 import Kakao from './pages/Kakao'
+import Google from './pages/Google'
 
 
 const App = () => {
@@ -59,6 +60,9 @@ const App = () => {
           </Route>
           <Route exact path="/users/kakaologin">
             <Kakao />
+          </Route>
+          <Route exact path="/users/googlelogin">
+            <Google />
           </Route>
           <Route exact path='/mypage'>
             {isOpenMakeCard && <MakeCardModal/>}
