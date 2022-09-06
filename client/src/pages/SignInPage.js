@@ -230,8 +230,11 @@ export default function SignInPage() {
   };
 
   const handleSignout = () => {
-    localStorage.setItem('signInUserInfo', JSON.stringify(null));
-    localStorage.setItem('isSignIn', JSON.stringify(false));
+    axios.get(`${process.env.REACT_APP_API_URL}/users/logout`)
+    .then(() => {
+      localStorage.setItem('signInUserInfo', JSON.stringify(null));
+      localStorage.setItem('isSignIn', JSON.stringify(false));
+    })
   };
   
   const signInRequestHandler = () => {
@@ -294,16 +297,19 @@ export default function SignInPage() {
     history.push("/signup")
   }
   
-  
-
-  
-
   const kakaoSignin = () => {
     const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
     const REDIRECT_URI =  "https://www.bucketscombine.com/users/kakaologin";
-    //const REDIRECT_URI =  "http://localhost:3000/users/kakaologin";
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = KAKAO_AUTH_URL;
+  }
+
+  const googleSignin = () => {
+    const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+    const SCOPE = process.env.REACT_APP_GOOGLE_SCOPE;
+    const REDIRECT_URI =  "https://www.bucketscombine.com/users/googlelogin";
+    const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=${SCOPE}`;
+    window.location.href = GOOGLE_AUTH_URL;
   }
 
   const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
@@ -364,7 +370,7 @@ export default function SignInPage() {
                       alt="사진이 없습니다." width="20px" height="20px" />
                     네이버 로그인
                   </button>
-                  <button className="login_google">
+                  <button className="login_google" onClick={googleSignin}>
                     <img className="google-logo" src="images/Google-logo.png"
                       alt="사진이 없습니다." width="20px" height="20px" />
                     구글 로그인

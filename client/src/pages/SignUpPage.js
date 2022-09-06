@@ -168,6 +168,17 @@ const SignUpPageWrap = styled.div`
     background-image: url('/images/cancel-yellow-icon.png');
     background-size: cover;
   }
+
+  .send-confirmcode-button{
+    border: none;
+    background: #ffc700;
+    border-radius: 5px;
+    width: 330px;
+    height: 50px;
+    padding: 2px;
+    margin: 10px;
+    border-radius: 5px;
+  }
 `
 export default function SignUpPage() {
   const history = useHistory();
@@ -196,6 +207,7 @@ export default function SignUpPage() {
   const [inputRepassword, setInputRepassword] = useState('');
   const [inputAge, setInputAge] = useState('');
   const [inputGender, setInputGender] = useState('');
+  const [isSendConfirmCode, setIsSendConfirmCode] = useState(false);
 
   const emailFilter = (value) => {
     setEmptyEmailWarning(false)
@@ -364,6 +376,17 @@ export default function SignUpPage() {
               value={inputEmail}
               maxLength='40'
             />
+            {isSendConfirmCode? 
+            <input
+              className="input-area"
+              type="confirmEmail"
+              placeholder="이메일 인증번호"
+              onChange={(e) => {emailFilter(e.target.value)}}
+              value={inputEmail}
+              maxLength='40'
+              /> 
+            : <button className="send-confirmcode-button">이메일 인증</button>
+            }
             <div className="warning-message">
               {emailWarning? "이메일 형식이 올바르지 않습니다." : "" }
             </div>

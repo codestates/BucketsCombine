@@ -4,11 +4,9 @@ import axios from "axios";
 import qs from "qs";
 import { useHistory } from "react-router-dom";
 
-const Kakao = () => {
+const Google = async () => {
   const history = useHistory();
-  const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
-
-  const code = new URL(window.location.href).searchParams.get("code");
+  const authorizationCode = new URL(window.location.href).searchParams.get("code");
 
   const handleSignout = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/logout`)
@@ -21,17 +19,15 @@ const Kakao = () => {
   const getToken = async () => {
     const config = {
       headers: {
-        code: code,
+        code: authorizationCode,
       },
       withCredential: true,
     };
-    await axios.post(`${process.env.REACT_APP_API_URL}/users/kakaologin`,
+    await axios.post(`${process.env.REACT_APP_API_URL}/users/googlelogin`,
       { "data": "data" },
       config)
       .then((res) => {
         const { jwtAccessToken } = res.data
-        window.Kakao.init(REST_API_KEY); // Kakao Javascript SDK 초기화
-        window.Kakao.Auth.setAccessToken(jwtAccessToken); // access token 설정
         axios.defaults.headers.common['Authorization'] = `Bearer ${jwtAccessToken}`;
         const signInUserInfo = res.data.userInfo;
         localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
@@ -42,7 +38,7 @@ const Kakao = () => {
       .catch((err) => {
         console.log(err)
       })
-  };
+  }
 
   useEffect(() => {
     getToken();
@@ -50,4 +46,4 @@ const Kakao = () => {
   return null;
 };
 
-export default Kakao;
+export default Google;
