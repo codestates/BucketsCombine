@@ -4,10 +4,11 @@ import axios from "axios";
 import qs from "qs";
 import { useHistory } from "react-router-dom";
 
-const Google = async () => {
+const Google = () => {
   const history = useHistory();
-  //const authorizationCode = new URL(window.location.href).searchParams.get("code");
-  const authorizationCode ='test'
+
+  const code = new URL(window.location.href).searchParams.get("code");
+
   const handleSignout = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/logout`)
     .then(() => {
@@ -19,7 +20,7 @@ const Google = async () => {
   const getToken = async () => {
     const config = {
       headers: {
-        code: authorizationCode,
+        code: code,
       },
       withCredential: true,
     };
@@ -27,7 +28,7 @@ const Google = async () => {
       { "data": "data" },
       config)
       .then((res) => {
-        const { jwtAccessToken } = res.data
+        const { jwtAccessToken } = res.data;
         axios.defaults.headers.common['Authorization'] = `Bearer ${jwtAccessToken}`;
         const signInUserInfo = res.data.userInfo;
         localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
@@ -38,7 +39,7 @@ const Google = async () => {
       .catch((err) => {
         console.log(err)
       })
-  }
+  };
 
   useEffect(() => {
     getToken();
