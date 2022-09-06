@@ -27,18 +27,18 @@ const Google = () => {
     await axios.post(`${process.env.REACT_APP_API_URL}/users/googlelogin`,
       { "data": "data" },
       config)
-      // .then((res) => {
-      //   const { jwtAccessToken } = res.data;
-      //   axios.defaults.headers.common['Authorization'] = `Bearer ${jwtAccessToken}`;
-      //   const signInUserInfo = res.data.userInfo;
-      //   localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
-      //   localStorage.setItem('isSignIn', JSON.stringify(true));
-      //   setTimeout(() => {handleSignout()}, 5 * 3600 * 1000)
-      //   history.replace("/");
-      // })
-      // .catch((err) => {
-      //   console.log(err)
-      // })
+      .then((res) => {
+        const { jwtAccessToken } = res.data;
+        axios.defaults.headers.common['Authorization'] = `Bearer ${jwtAccessToken}`;
+        const signInUserInfo = res.data.userInfo;
+        localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
+        localStorage.setItem('isSignIn', JSON.stringify(true));
+        setTimeout(() => {handleSignout()}, 5 * 3600 * 1000)
+        history.replace("/");
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   };
 
   useEffect(() => {
