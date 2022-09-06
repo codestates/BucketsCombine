@@ -17,7 +17,7 @@ const Google = () => {
     })
   };
 
-  const getToken = () => {
+  const getToken = async () => {
     const config = {
       headers: {
         code: code,
