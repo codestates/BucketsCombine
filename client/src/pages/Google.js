@@ -16,7 +16,9 @@ const Google = () => {
       localStorage.setItem('isSignIn', JSON.stringify(false));
     })
   };
-
+  const test = () => {
+    console.log('test')
+  }
   const getToken = async () => {
     const config = {
       headers: {
@@ -42,9 +44,9 @@ const Google = () => {
   };
 
   useEffect(() => {
-    getToken();
+    test();
   }, []);
   return null;
-};
+}
 
 export default Google;
