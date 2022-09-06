@@ -308,7 +308,7 @@ export default function SignInPage() {
     const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
     const SCOPE = process.env.REACT_APP_GOOGLE_SCOPE;
     const REDIRECT_URI =  "https://www.bucketscombine.com/users/googlelogin";
-    const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token&scope=${SCOPE}`;
+    const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=${SCOPE}`;
     window.location.href = GOOGLE_AUTH_URL;
   }
 
