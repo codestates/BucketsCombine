@@ -6,8 +6,8 @@ import { useHistory } from "react-router-dom";
 
 const Google = async () => {
   const history = useHistory();
-  const authorizationCode = new URL(window.location.href).searchParams.get("code");
-
+  //const authorizationCode = new URL(window.location.href).searchParams.get("code");
+  const authorizationCode ='test'
   const handleSignout = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/logout`)
     .then(() => {

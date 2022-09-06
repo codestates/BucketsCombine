@@ -169,6 +169,17 @@ const SignUpPageWrap = styled.div`
     background-size: cover;
   }
 
+  .confirmcode-button{
+    border: none;
+    background: gray;
+    border-radius: 5px;
+    width: 330px;
+    height: 50px;
+    padding: 2px;
+    margin: 10px;
+    border-radius: 5px;
+  }
+
   .send-confirmcode-button{
     border: none;
     background: #ffc700;
@@ -207,7 +218,19 @@ export default function SignUpPage() {
   const [inputRepassword, setInputRepassword] = useState('');
   const [inputAge, setInputAge] = useState('');
   const [inputGender, setInputGender] = useState('');
+
+
   const [isSendConfirmCode, setIsSendConfirmCode] = useState(false);
+  const [isemailconfirmOK, setIsemailconfirmOK] = useState(false)
+  const [inputCode, setInputCode] = useState('')
+
+  useEffect(() => {
+    if(emailWarning === false && inputEmail !== ""){
+      setIsemailconfirmOK(true)
+    } else {
+      setIsemailconfirmOK(false)
+    }
+  }, [inputEmail])
 
   const emailFilter = (value) => {
     setEmptyEmailWarning(false)
@@ -382,10 +405,11 @@ export default function SignUpPage() {
               type="confirmEmail"
               placeholder="이메일 인증번호"
               onChange={(e) => {emailFilter(e.target.value)}}
-              value={inputEmail}
+              value={inputCode}
               maxLength='40'
-              /> 
-            : <button className="send-confirmcode-button">이메일 인증</button>
+              />: <div/>}
+             {isemailconfirmOK? <button className="send-confirmcode-button" onClick={()=>{setIsSendConfirmCode(true)}}>이메일 인증</button> 
+              : <button className="confirmcode-button">이메일 인증</button>
             }
             <div className="warning-message">
               {emailWarning? "이메일 형식이 올바르지 않습니다." : "" }
