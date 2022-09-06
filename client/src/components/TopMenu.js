@@ -211,9 +211,12 @@ export default function Topmenu({location}){
 
 
   const handleSignout = () => {
-    localStorage.setItem('signInUserInfo', JSON.stringify(null));
-    localStorage.setItem('isSignIn', JSON.stringify(false));
-    window.location.replace("/");
+    axios.get(`${process.env.REACT_APP_API_URL}/users/logout`)
+    .then(() => {
+      localStorage.setItem('signInUserInfo', JSON.stringify(null));
+      localStorage.setItem('isSignIn', JSON.stringify(false));
+      window.location.replace("/");
+    })
   };
 
 

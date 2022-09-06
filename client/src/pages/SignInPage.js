@@ -228,6 +228,11 @@ export default function SignInPage() {
       signInRequestHandler()
     }
   };
+
+  const handleSignout = () => {
+    localStorage.setItem('signInUserInfo', JSON.stringify(null));
+    localStorage.setItem('isSignIn', JSON.stringify(false));
+  };
   
   const signInRequestHandler = () => {
     if (!logininfo.email || !logininfo.password){
@@ -245,6 +250,7 @@ export default function SignInPage() {
         const signInUserInfo = res.data.userInfo;
         localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
         localStorage.setItem('isSignIn', JSON.stringify(true));
+        setTimeout(() => {handleSignout()}, 5 * 3600 * 1000)
         history.push("/")
       })
       .catch((err)=> {
