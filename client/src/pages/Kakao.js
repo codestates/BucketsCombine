@@ -10,24 +10,24 @@ const Kakao = () => {
   //const CLIENT_SECRET = ''
 
   const code = new URL(window.location.href).searchParams.get("code");
-  
+
+  const handleSignout = () => {
+    localStorage.setItem('signInUserInfo', JSON.stringify(null));
+    localStorage.setItem('isSignIn', JSON.stringify(false));
+  };
+
   const history = useHistory();
-  console.log('인가코드',code)
   const getToken = async () => {
-    console.log('getToken 동작')
     const config = {
       headers: {
         code: code,
       },
       withCredential: true,
     };
-    console.log('config', config)
     await axios.post(`${process.env.REACT_APP_API_URL}/users/kakaologin`,
-      { data: 'data' },
+      { "data": "data" },
       config)
       .then((res) => {
-        console.log('post요청 동작')
-        console.log('res데이터', res.data)
         const { jwtAccessToken } = res.data
         window.Kakao.init(REST_API_KEY); // Kakao Javascript SDK 초기화
         window.Kakao.Auth.setAccessToken(jwtAccessToken); // access token 설정
@@ -35,6 +35,7 @@ const Kakao = () => {
         const signInUserInfo = res.data.userInfo;
         localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
         localStorage.setItem('isSignIn', JSON.stringify(true));
+        setTimeout(() => {handleSignout()}, 5 * 3600 * 1000)
         history.replace("/");
       })
       .catch((err) => {
