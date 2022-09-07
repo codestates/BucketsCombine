@@ -1,6 +1,7 @@
 const { users } = require("../../models");
 const { generateAccessToken, sendAccessToken } = require("../tokenFunctions");
 const bcrypt = require("bcrypt");
+const { Op } = require("sequelize");
 module.exports = async (req, res) => {
   // 로그인인지에 대한 상태가 확인이 없어요
   const hashpassword = await users.findOne({
@@ -15,7 +16,7 @@ module.exports = async (req, res) => {
   } else {
     const userinfo = await users
       .findOne({
-        where: { email: req.body.email }, //오스로그인이 로컬인 애들만 검색
+        where: { email: req.body.email, oauthlogin: "local" }, //오스로그인이 로컬인 애들만 검색
       })
       .catch((err) => console.log(err));
     if (!userinfo) {

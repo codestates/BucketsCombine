@@ -9,22 +9,24 @@ module.exports = async (req, res) => {
     password: req.body.password,
     age: req.body.age,
     gender: req.body.gender,
+    oauthlogin: "guest",
   });
-  const userinfo = await users.findOne({
-    where: {
-      email: req.body.email,
-    },
-    attributes: { exclude: ["password"] },
-  })
+  const userinfo = await users
+    .findOne({
+      where: {
+        email: req.body.email,
+      },
+      attributes: { exclude: ["password"] },
+    })
     .catch((err) => console.log(err));
-  
-    const payload = {
-      id: userinfo.id,
-    };
 
-    const accessToken = generateAccessToken(payload);
-    sendAccessToken(res, accessToken);
-    res.status(200).json({ message: "로그인 성공", userInfo: userinfo });
+  const payload = {
+    id: userinfo.id,
+  };
+
+  const accessToken = generateAccessToken(payload);
+  sendAccessToken(res, accessToken);
+  res.status(200).json({ message: "로그인 성공", userInfo: userinfo });
 };
 
 // 게스트 로그인시 회원가입하면서 로그인 시키고 res로 유저정보 담아주기
