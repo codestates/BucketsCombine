@@ -219,6 +219,12 @@ export default function Topmenu({location}){
     })
   };
 
+  const handleSignoutTEST = () => {
+      localStorage.setItem('signInUserInfo', JSON.stringify(null));
+      localStorage.setItem('isSignIn', JSON.stringify(false));
+      window.location.replace("/");
+  };
+
 
   let signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
   let isSignIn = JSON.parse(localStorage.getItem('isSignIn'))

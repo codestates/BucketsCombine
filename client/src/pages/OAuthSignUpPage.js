@@ -181,16 +181,36 @@ const OAuthSignUpPageWrap = styled.div`
     color: white;
     line-height: 40px;
   }
+
+  .signout-button {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    margin-right: 30px;
+    border: none;
+    box-shadow: none;
+    width: 120px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 15px;
+    background-color: #FFC700;
+  }
+
+  .signout-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    background-image: url('/images/yellow-sign-out-icon.png');
+    background-size: cover;
+  }
 `
 export default function OAuthSignUpPage() {
   const isDesktop = useMediaQuery({ minWidth: 921 })
   const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
   const signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
   const history = useHistory();
-
-  const cancle = () => {
-    history.goBack()
-  }
 
   const [emailWarning, setEmailWarning] = useState(false)
   const [usernameWarning, setUsernameWarning] = useState(false)
@@ -326,6 +346,15 @@ export default function OAuthSignUpPage() {
     }
   }
 
+  const handleSignout = () => {
+    axios.get(`${process.env.REACT_APP_API_URL}/users/logout`)
+    .then(() => {
+      localStorage.setItem('signInUserInfo', JSON.stringify(null));
+      localStorage.setItem('isSignIn', JSON.stringify(false));
+      window.location.replace("/");
+    })
+  };
+
   
   if(isSignIn){
     if(signInUserInfo.email === null ||
@@ -414,6 +443,9 @@ export default function OAuthSignUpPage() {
                   >
                     추가 정보 입력
                   </button>
+                  {isDesktop? <button className='signout-button' onClick={handleSignout}>로그아웃</button>
+                    : <div className='signout-icon' onClick={handleSignout}/>
+                  }
                   </div>
                 </div>
               </div>
