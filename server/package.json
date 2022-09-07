@@ -12,6 +12,7 @@
     "multer-s3": "^2.10.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
+    "nodemailer": "^6.7.8",
     "nodemon": "^2.0.19",
     "npm": "^8.5.5",
     "sequelize": "^6.21.2",
