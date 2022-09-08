@@ -4,14 +4,14 @@ const { cardHashtags } = require("../../models");
 const { userCardJoins } = require("../../models");
 const { isAuthorized } = require("../tokenFunctions");
 const axios = require("axios");
-const { tokenstage } = require("./kakaologin");
+const { token } = require("./kakaologin");
 require("dotenv").config();
 
 module.exports = async (req, res) => {
   //! test code
   // const userid = { id: 35 };
   //! test code
-  const tokenvalue = tokenstage();
+  const tokenvalue = token;
   console.log("토큰벨류", tokenvalue);
 
   const userid = await isAuthorized(req);

@@ -7,35 +7,36 @@ module.exports = {
 
     console.log("---", useremail);
 
-    const number = Math.floor(Math.random() * 1000000) + 100000;
+    let number = Math.floor(Math.random() * 1000000) + 100000;
     if (number > 1000000) {
-        number = number - 100000;
+      number = number - 100000;
     }
 
     console.log("----------", number);
 
-    const transporter = nodemailer.createTestAccount({
-        service: 'gmail',
-        prot: 587,
-        host: 'smtp.gmail.com',
-        secure: false,
-        requireTLS: true,
-        auth: {
-            user: 'beggin823@gmail.com',
-            pass: 'qkdzjuafdlvgxsxd'
-        }
-    })
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      prot: 587,
+      host: "www.bucketscombine.com",
+      //host: "smtp.gmail.com",
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: "beggin823@gmail.com",
+        pass: "qkdzjuafdlvgxsxd",
+      },
+    });
 
-    const info = await transporter.sendemail({
-        from: 'beggin823@gmail.com',
-        to: useremail,
-        subject: '인증번호입니다.',
-        text: String( number ),
-    })
-    
+    const info = await transporter.sendMail({
+      from: "BucketsCombine",
+      to: useremail,
+      subject: `BucketsCombine에서 이메일 인증입니다.`,
+      text: `이메일 인증번호: ${String(number)}`,
+    });
+
     const checkemail = await new Object();
     checkemail.number = number;
-
+    //checkemail
     await res.send(checkemail);
   },
 };
