@@ -169,7 +169,7 @@ const SignUpPageWrap = styled.div`
     background-size: cover;
   }
 
-  .confirmcode-button{
+  .confirmNumber-button{
     border: none;
     background: gray;
     border-radius: 5px;
@@ -180,7 +180,7 @@ const SignUpPageWrap = styled.div`
     border-radius: 5px;
   }
 
-  .send-confirmcode-button{
+  .send-confirmNumber-button{
     border: none;
     background: #ffc700;
     border-radius: 5px;
@@ -189,6 +189,18 @@ const SignUpPageWrap = styled.div`
     padding: 2px;
     margin: 10px;
     border-radius: 5px;
+  }
+
+  .sending-confirmNumber-button{
+    border: none;
+    background: #BA9205;
+    border-radius: 5px;
+    width: 330px;
+    height: 35px;
+    padding: 2px;
+    margin: 10px;
+    border-radius: 5px;
+    color: white;
   }
 
   .email-locked {
@@ -233,11 +245,14 @@ export default function SignUpPage() {
   const [inputGender, setInputGender] = useState('');
 
 
-  const [isSendConfirmCode, setIsSendConfirmCode] = useState(false);
+  const [isSendConfirmNumber, setIsSendConfirmNumber] = useState(false);
   const [isemailOK, setIsemailOK] = useState(false)
-  const [inputCode, setInputCode] = useState('')
+  const [inputConfirmNumber, setInputConfirmNumber] = useState('')
   const [isConfirmed, setIsConfirmed] = useState(false)
   const [notConfirmedWarning, setNotConfirmedWarning] = useState(false)
+  const [confirmNumber, setConfirmNumber] = useState(null)
+  const [confirmNumberWarning, setConfirmNumberWarning] = useState(false)
+  const [isSending, setIsSending] = useState(false)
 
   useEffect(() => {
     setAleadyEmailWarning(false)
@@ -366,6 +381,7 @@ export default function SignUpPage() {
       }
     } else {
       if(isConfirmed === false){
+        setConfirmNumberWarning(false)
         setNotConfirmedWarning(true)
         return
       }
@@ -395,7 +411,8 @@ export default function SignUpPage() {
     }
   }
 
-  const sendConfirmCode = () => {
+  const sendConfirmNumber = () => {
+    setIsSending(true)
     setNotConfirmedWarning(false)
     setAleadyEmailWarning(false)
     axios.post(`${process.env.REACT_APP_API_URL}/users/emailcheck`, {
@@ -407,10 +424,13 @@ export default function SignUpPage() {
           email: inputEmail,
         })
         .then((res) => {
-          setIsSendConfirmCode(true)
+          setConfirmNumber(res.data.number)
+          setIsSendConfirmNumber(true)
+          setIsSending(false)
         })
         .catch((err) => {
           console.log(err)
+          setIsSending(false)
         })
       } else {
         setAleadyEmailWarning(true)
@@ -418,11 +438,24 @@ export default function SignUpPage() {
     })
   }
 
-  const checkConfirmCode = () => {
+  const confirmNumberFilter = (value) => {
+    setConfirmNumberWarning(false)
+    if(value.length > 6){
+      const fixedValue = value.slice(0, 6)
+      setInputConfirmNumber(fixedValue)
+    } else {
+      setInputConfirmNumber(value)
+    }
+  }
+
+  const checkConfirmNumber = () => {
     setNotConfirmedWarning(false)
-
-
-    setIsConfirmed(true)
+    setConfirmNumberWarning(false)
+    if(Number(inputConfirmNumber) === confirmNumber){
+      setIsConfirmed(true)
+    } else {
+      setConfirmNumberWarning(true)
+    }
   }
 
   return (
@@ -441,7 +474,7 @@ export default function SignUpPage() {
             ></img>
             <div className="login_title">BucketsCombine</div>
             <div className='list' onSubmit={(e) => e.preventDefault()}>
-              {isSendConfirmCode?
+              {isSendConfirmNumber?
               <div
               className="email-locked"
               style={isConfirmed? {backgroundColor:'#59CA32'} : {backgroundColor:'gray'}}
@@ -464,24 +497,28 @@ export default function SignUpPage() {
             <div className="warning-message">
               {aleadyEmailWarning? "이미 사용중인 이메일입니다." : "" }
             </div>
-            {isSendConfirmCode && !isConfirmed? 
+            {isSendConfirmNumber && !isConfirmed? 
             <input
               className="input-area"
-              type="confirmEmail"
+              type="number"
               placeholder="이메일 인증번호"
-              onChange={(e) => {setInputCode(e.target.value)}}
-              value={inputCode}
+              onChange={(e) => {confirmNumberFilter(e.target.value)}}
+              value={inputConfirmNumber}
               maxLength='40'
               />
               : null}
-             {isSendConfirmCode? null 
-             : isemailOK? <button className="send-confirmcode-button" onClick={sendConfirmCode}>이메일 인증</button> 
-              : <button className="confirmcode-button">이메일 인증</button>
+              <div className="warning-message">
+              {confirmNumberWarning? "인증번호가 일치하지 않습니다." : "" }
+            </div>
+             {isSendConfirmNumber? null 
+              : isemailOK? isSending? <button className="sending-confirmNumber-button">인증번호 전송중</button> 
+                : <button className="send-confirmNumber-button" onClick={sendConfirmNumber}>이메일 인증</button> 
+                  : <button className="confirmNumber-button">이메일 인증</button>
             }
             <div className="warning-message">
-              {notConfirmedWarning? "이메일 인증을 진행해주세요." : "" }
+              {notConfirmedWarning? "이메일을 인증해주세요." : "" }
             </div>
-            {isSendConfirmCode && !isConfirmed? <button className="send-confirmcode-button" onClick={checkConfirmCode}>확인</button> : null}
+            {isSendConfirmNumber && !isConfirmed? <button className="send-confirmNumber-button" onClick={checkConfirmNumber}>확인</button> : null}
             <input
               className="input-area"
               type="username"
