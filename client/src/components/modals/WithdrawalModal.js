@@ -5,6 +5,7 @@ import React, { useRef } from "react";
 import useOutSideClick from "../hook/UseOutSideClick.js";
 import styled from "styled-components";
 import axios from 'axios';
+import { useMediaQuery } from "react-responsive";
 
 const WithdrawalModal = styled.div`
     .withdrawalCard{
@@ -187,6 +188,7 @@ const WithdrawalModal = styled.div`
 `
 
 const WithdrawalCardModal = () => {
+  const isDesktop = useMediaQuery({ minWidth: 921 })
   const signInUserInfo = JSON.parse(localStorage.getItem('signInUserInfo'))
   const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
   const dispatch = useDispatch();
@@ -220,7 +222,7 @@ const WithdrawalCardModal = () => {
   return (
     <ModalPortal>
       <WithdrawalModal ref={modalRef}>
-        <div className="withdrawalCard">
+        <div className={isDesktop? "withdrawalCard" : "withdrawalCard-mobile"}>
           <button className="close-btn" onClick={() => {
             dispatch(closeWithdrawalModal())
           }}>X</button>
