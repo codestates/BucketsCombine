@@ -746,8 +746,8 @@ const MyCardModal = ({
             {isStamped? <div/>
             : complete === '2'? 
             <div className="imgUploadButton">
-            <label htmlFor="ex_file">{imageSrc === ""? '사진 올리기' : '사진 변경' }</label>
-            <input type='file' id='ex_file' accept='image/*' onChange={(e) => {
+            <label htmlFor="card_file">{imageSrc === ""? '사진 올리기' : '사진 변경' }</label>
+            <input type='file' id='card_file' accept='image/*' onChange={(e) => {
               encodeFileToBase64(e.target.files[0]);
               setImageFile(e.target.files[0]);
             }} placeholder='사진'/>

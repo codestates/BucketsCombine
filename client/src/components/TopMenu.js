@@ -210,7 +210,7 @@ export default function Topmenu({location}){
   }
 
 
-  const handleSignout = () => {
+  const handleSignout1 = () => {
     axios.get(`${process.env.REACT_APP_API_URL}/users/logout`)
     .then(() => {
       localStorage.setItem('signInUserInfo', JSON.stringify(null));
@@ -219,7 +219,7 @@ export default function Topmenu({location}){
     })
   };
 
-  const handleSignoutTEST = () => {
+  const handleSignout= () => {
       localStorage.setItem('signInUserInfo', JSON.stringify(null));
       localStorage.setItem('isSignIn', JSON.stringify(false));
       window.location.replace("/");
@@ -237,14 +237,14 @@ export default function Topmenu({location}){
         {isSignIn ? 
           isDesktop? <button className='topmenu-button' onClick={usernameclick}>{signInUserInfo.username}</button>
           : <img className='topmenu-button-mobile' src='/images/menu-icon.png' onClick={usernameclick} />
-          : isDesktop? <button className='topmenu-button' onClick={goToSignIn}>Sign In</button>
+          : isDesktop? <button className='topmenu-button' onClick={goToSignIn}>로그인</button>
             : <img className='topmenu-button-mobile' src='/images/sign-in-icon.png' onClick={goToSignIn}/>
           }
       </div>
       {isBoardOpen ? isDesktop? <div className='username-board' ref={modalRef}>
         <button className='board-button' onClick={goToMyBucket}>My Bucket</button>
         <button className='board-button' onClick={goToMyProfile}>My Profile</button>
-        <button className='board-button' onClick={handleSignout}>Sign Out</button>
+        <button className='board-button' onClick={handleSignout}>로그아웃</button>
       </div> 
       : <div className='username-board-mobile' ref={modalRef}>
       <div className='board-button-mobile-mb'onClick={goToMyBucket}/>
