@@ -253,7 +253,7 @@ export default function SignInPage() {
         const signInUserInfo = res.data.userInfo;
         localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
         localStorage.setItem('isSignIn', JSON.stringify(true));
-        setTimeout(() => {handleSignout()}, 5 * 3600 * 1000)
+        setTimeout(() => {handleSignout()}, 5 * 3600 * 1000);
         history.push("/")
       })
       .catch((err)=> {
@@ -282,6 +282,7 @@ export default function SignInPage() {
         const signInUserInfo = res.data.userInfo;
         localStorage.setItem('signInUserInfo', JSON.stringify(signInUserInfo));
         localStorage.setItem('isSignIn', JSON.stringify(true));
+        setTimeout(() => {handleSignout()}, 5 * 3600 * 1000);
         history.push("/")
       })
       .catch((err) => {
@@ -341,7 +342,6 @@ export default function SignInPage() {
                   maxLength='12'
                 />
                 <div className='find'>
-                  비밀번호 찾기
                 </div>
                 <div className='alert'>{errormessage}</div>
                 <div className="buttons">
@@ -365,11 +365,11 @@ export default function SignInPage() {
                       alt="사진이 없습니다." width="20px" height="20px" />
                     카카오 로그인
                   </button>
-                  <button className="login_naver">
+                  {/* <button className="login_naver">
                     <img className="google-logo" src="images/naver-logo.png"
                       alt="사진이 없습니다." width="20px" height="20px" />
                     네이버 로그인
-                  </button>
+                  </button> */}
                   <button className="login_google" onClick={googleSignin}>
                     <img className="google-logo" src="images/Google-logo.png"
                       alt="사진이 없습니다." width="20px" height="20px" />

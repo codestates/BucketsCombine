@@ -229,7 +229,7 @@ export default function Topmenu({location}){
       {isBoardOpen ? isDesktop? <div className='username-board' ref={modalRef}>
         <button className='board-button' onClick={goToCards}>Cards</button>
         <button className='board-button' onClick={goToMyStamped}>Stamped</button>
-        <button className='board-button' onClick={handleSignout}>Sign Out</button>
+        <button className='board-button' onClick={handleSignout}>로그아웃</button>
       </div>
       : <div className='username-board-mobile' ref={modalRef}>
       <div className='board-button-mobile-c'onClick={goToCards}/>
