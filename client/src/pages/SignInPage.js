@@ -239,7 +239,7 @@ export default function SignInPage() {
   
   const signInRequestHandler = () => {
     if (!logininfo.email || !logininfo.password){
-      setErrormessage('이메일과 비밀번호를 입력해야 합니다')
+      setErrormessage('이메일과 비밀번호를 입력해주세요.')
     } else {
       axios.post(`${process.env.REACT_APP_API_URL}/users/login`, {
         email: logininfo.email,

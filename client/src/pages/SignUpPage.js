@@ -434,6 +434,7 @@ export default function SignUpPage() {
         })
       } else {
         setAleadyEmailWarning(true)
+        setIsSending(false)
       }
     })
   }
