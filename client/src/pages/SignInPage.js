@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from 'react';
 import { useHistory, Link } from "react-router-dom";
 import axios from 'axios';
@@ -8,13 +7,6 @@ import { setSignInUserinfo } from '../redux/reducers/ModalReducer'
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 
-=======
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import styled from "styled-components";
->>>>>>> feature/server
 
 const SignInPageWrap = styled.div`
   .signin_section {
@@ -221,11 +213,7 @@ export default function SignInPage() {
     email: "",
     password: "",
   });
-<<<<<<< HEAD
   const [errormessage, setErrormessage] = useState('');
-=======
-  const [errorMessage, setErrorMessage] = useState("");
->>>>>>> feature/server
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -234,7 +222,6 @@ export default function SignInPage() {
     setErrormessage('')
     setLogininfo({ ...logininfo, [key]: event.target.value });
   };
-<<<<<<< HEAD
 
   const handleInputKey = (event) => {
     if(event.key === "Enter" ){
@@ -272,23 +259,6 @@ export default function SignInPage() {
       .catch((err)=> {
         setErrormessage('이메일 또는 비밀번호가 일치하지 않습니다.')
       })
-=======
-  const handleLogin = () => {
-    // TODO : 서버에 로그인을 요청하고, props로 전달된 callback을 호출합니다.
-    // TODO : 이메일 및 비밀번호를 입력하지 않았을 경우 에러를 표시해야 합니다.
-    if (logininfo.email === "" || logininfo.password === "") {
-      setErrorMessage("이메일과 비밀번호를 입력하세요");
-    } else {
-      axios
-        .post("http://localhost:4000/users/login", {
-          email: logininfo.email,
-          password: logininfo.password,
-        })
-        .then((res) => {
-          history.push("/");
-          console.log(res);
-        });
->>>>>>> feature/server
     }
   }
 
@@ -320,7 +290,6 @@ export default function SignInPage() {
       })
   }
 
-<<<<<<< HEAD
   const cancle = () => {
     history.push("/")
   }
@@ -413,66 +382,3 @@ export default function SignInPage() {
     </SignInPageWrap>
 	)
 }
-=======
-  return (
-    <SignInPageWrap>
-      <div className="body">
-        <div>
-          <div className="signin_section">
-            <button id="login_cancle">취소</button>
-            <div className="signin_container">
-              <img
-                src="images/bucketscombine_logo.png"
-                alt="no"
-                width="120px"
-                height="120px"
-              ></img>
-              <p />
-              <div className="login_title">BucketsCombine</div>
-              <form onSubmit={(e) => e.preventDefault()}>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="이메일"
-                  onChange={handleInputValue("email")}
-                />
-                <input
-                  id="password"
-                  type="password"
-                  placeholder="비밀번호"
-                  onChange={handleInputValue("password")}
-                />
-                <div className="alert-box">{errorMessage}</div>
-                <li>
-                  <Link to="/signup">아이디 / 비밀번호찾기</Link>
-                </li>
-                <div className="login_signupbox">
-                  <button
-                    className="login_box"
-                    type="submit"
-                    value="로그인"
-                    onClick={handleLogin}
-                  >
-                    로그인
-                  </button>
-                  <div className="alert-box">{errorMessage}</div>
-                  <button className="login_google">
-                    <img
-                      src="images/unnamed.webp"
-                      alt="사진이 없습니다."
-                      width="20px"
-                      height="20px"
-                    ></img>
-                    구글 로그인 / 회원가입
-                  </button>
-                  <button className="login_signup">회원가입</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </SignInPageWrap>
-  );
-}
->>>>>>> feature/server
