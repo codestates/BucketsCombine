@@ -1,0 +1,676 @@
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+import styled from "styled-components";
+import { useMediaQuery } from "react-responsive";
+
+axios.defaults.withCredentials = true;
+
+const SignUpPageWrap = styled.div`
+  .signin_section {
+      background-color: rgb(41, 41, 41);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
+  }
+  .signin_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: rgb(41, 41, 41);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    overflow: hidden;
+  }
+  
+  .login_title {
+    font-weight: bold;
+    color: white;
+    font-size: 30px;
+    margin: 20px;
+    border-radius: 5px;
+  }
+  .login_signupbox {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 40px;
+    margin: 2px 100px;
+    width: 250px;
+    border-radius: 5px;
+  }
+  .login_box {
+    background-color: orange;
+    border: none;
+    font-size: 16;
+    margin: 7px;
+    height: 30px;
+    border-radius: 5px;
+  }
+  .login_google {
+    flex: flex;
+    border: none;
+    font-size: 16;
+    justify-content: center;
+    margin: 7px;
+    height: 30px;
+    border-radius: 5px;
+  }
+  .login_signup {
+    flex: flex;
+    background-color: yellow;
+    border: none;
+    font-size: 16;
+    height: 30px;
+    justify-content: center;
+    margin: 4px;
+    border-radius: 5px;
+  }
+  .BC_logo {
+    width: 120px;
+    height: 120px;
+    background-image: url("images/bucketscombine_logo.png");
+    background-size: cover;
+    margin-top: 50px;
+  }
+  .signup_container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .input-area {
+    width: 246px;
+    height: 45px;
+    padding: 2px 40px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+  }
+  .btn_old {
+    padding: 2px 40px;
+    margin: 10px;
+    width: 330px;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+
+  }
+  .btn_gender {
+    padding: 2px 40px;
+    margin: 10px;
+    width: 330px;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+  }
+  .signup-button {
+    border: none;
+    background: #ffc700;
+    border-radius: 5px;
+    width: 330px;
+    height: 50px;
+    padding: 2px;
+    margin: 30px 10px 100px 10px;
+    border-radius: 5px;
+  }
+
+  #cancle {
+    position: fixed;
+    top: 20px;
+    right: 0;
+    margin-right: 30px;
+    border: none;
+    box-shadow: none;
+    width: 120px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 15px;
+    background-color: #FFC700;
+  }
+  .list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .find {
+    color: white;
+    margin: 10px;
+  }
+  .warning-message {
+    color: #FF5C00;
+    font-size: 15px;
+  }
+
+  .cancle-button {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    margin-right: 30px;
+    border: none;
+    box-shadow: none;
+    width: 120px;
+    height: 36px;
+    border-radius: 12px;
+    font-size: 15px;
+    background-color: #FFC700;
+  }
+
+  .cancle-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 20px;
+    height: 20px;
+    background-image: url('/images/cancel-yellow-icon.png');
+    background-size: cover;
+  }
+
+  .confirmNumber-button{
+    border: none;
+    background: gray;
+    border-radius: 5px;
+    width: 330px;
+    height: 35px;
+    padding: 2px;
+    margin: 10px;
+    border-radius: 5px;
+  }
+
+  .send-confirmNumber-button{
+    border: none;
+    background: #ffc700;
+    border-radius: 5px;
+    width: 330px;
+    height: 35px;
+    padding: 2px;
+    margin: 10px;
+    border-radius: 5px;
+  }
+
+  .sending-confirmNumber-button{
+    border: none;
+    background: #BA9205;
+    border-radius: 5px;
+    width: 330px;
+    height: 35px;
+    padding: 2px;
+    margin: 10px;
+    border-radius: 5px;
+    color: white;
+  }
+
+  .email-locked {
+    width: 246px;
+    height: 45px;
+    padding: 2px 40px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: gray;
+    color: white;
+    line-height: 43px;
+    font-size: 14px;
+  }
+`
+export default function SignUpPage() {
+  const history = useHistory();
+<<<<<<< HEAD
+
+  const cancle = () => {
+    history.push('/signin')
+  }
+
+  const [emailWarning, setEmailWarning] = useState(false)
+  const [usernameWarning, setUsernameWarning] = useState(false)
+  const [passwordWarning, setPasswordWarning] = useState(false)
+  const [rePasswordWarning, setRePasswordWarning] = useState(false)
+  const [ageWaring, setAgeWarning] = useState(false)
+  const [genderWarning, setGenderWarning] = useState(false)
+
+  const [emptyEmailWarning, setEmptyEmailWarning] = useState(false)
+  const [emptyUsernameWarning, setEmptyUsernameWarning] = useState(false)
+  const [emptyPasswordWarning, setEmptyPasswordWarning] = useState(false)
+
+  const [aleadyEmailWarning, setAleadyEmailWarning] = useState(false)
+  const [aleadyUsernameWarning, setAleadyUsernameWarning] = useState(false)
+
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputUsername, setInputUsername ] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
+  const [inputRepassword, setInputRepassword] = useState('');
+  const [inputAge, setInputAge] = useState('');
+  const [inputGender, setInputGender] = useState('');
+
+
+  const [isSendConfirmNumber, setIsSendConfirmNumber] = useState(false);
+  const [isemailOK, setIsemailOK] = useState(false)
+  const [inputConfirmNumber, setInputConfirmNumber] = useState('')
+  const [isConfirmed, setIsConfirmed] = useState(false)
+  const [notConfirmedWarning, setNotConfirmedWarning] = useState(false)
+  const [confirmNumber, setConfirmNumber] = useState(null)
+  const [confirmNumberWarning, setConfirmNumberWarning] = useState(false)
+  const [isSending, setIsSending] = useState(false)
+
+  useEffect(() => {
+    setAleadyEmailWarning(false)
+    if(emailWarning === false && inputEmail !== ""){
+      setIsemailOK(true)
+    } else {
+      setIsemailOK(false)
+    }
+  }, [inputEmail])
+
+  const emailFilter = (value) => {
+    setEmptyEmailWarning(false)
+    const regExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    if(value === ''){
+      setInputEmail(value)
+      setEmailWarning(false)
+    } else {
+      if(regExp.test(value)){
+        setInputEmail(value)
+        setEmailWarning(false)
+      } else {
+        setInputEmail(value)
+        setEmailWarning(true)
+      }
+    }
+  }
+
+  const usernameFilter = (value) => {
+    setEmptyUsernameWarning(false)
+    const regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+
+    if(regExp.test(value)){
+      const inputValue = value.slice(0, value.length - 1)
+      setInputUsername(inputValue)
+      return
+    } 
+
+    if(value.length > 12){
+      const inputValue = value.slice(0, 12)
+      setInputUsername(inputValue)
+      return
+    }
+
+    setInputUsername(value)
+  }
+
+  const passwordFilter = (value) => {
+    setEmptyPasswordWarning(false)
+    if(value === ""){
+      setPasswordWarning(false)
+      setInputPassword(value)
+    } else {
+      if(value.length < 6){
+        setPasswordWarning(true)
+        setInputPassword(value)
+      } else {
+        setPasswordWarning(false)
+        setInputPassword(value)
+      }
+      if(value.length > 12){
+        const fixedValue = value.slice(0, 12)
+        setInputPassword(fixedValue)
+      }
+    }
+  }
+
+  const repasswordFilter = (value) => {
+    if(value.length > 12){
+      const fixedValue = value.slice(0, 12)
+      setInputRepassword(fixedValue)
+    } else {
+      setInputRepassword(value)
+    }
+  }
+
+  useEffect(() => {
+    if(inputRepassword === ""){
+      setRePasswordWarning(false)
+    } else {
+      if(inputPassword === inputRepassword){
+        setRePasswordWarning(false)
+      } else {
+        setRePasswordWarning(true)
+      }
+    }
+    
+  }, [inputRepassword])
+
+  const isDesktop = useMediaQuery({ minWidth: 921 })
+
+  const isSignIn = JSON.parse(localStorage.getItem('isSignIn'))
+  if(isSignIn){
+    history.push('/')
+    window.location.reload();
+  }
+
+  const signUp = async () => {
+    setAgeWarning(false)
+    setGenderWarning(false)
+    setEmptyEmailWarning(false)
+    setEmptyUsernameWarning(false)
+    setEmptyPasswordWarning(false)
+    setAleadyEmailWarning(false)
+    setAleadyUsernameWarning(false)
+    if(emailWarning === true || inputEmail === "" ||
+      usernameWarning === true || inputUsername === "" ||
+      passwordWarning === true || inputPassword === "" ||
+      rePasswordWarning === true || inputRepassword === "" ||
+      inputAge === "" ||
+      inputGender === ""
+    ){
+      if(inputEmail === ""){
+        setEmptyEmailWarning(true)
+      }
+      if(inputUsername === ""){
+        setEmptyUsernameWarning(true)
+      }
+      if(inputPassword === "" ){
+        setEmptyPasswordWarning(true)
+      }
+      if (inputAge === "") {
+        setAgeWarning(true)
+      }
+      if (inputGender === "") {
+        setGenderWarning(true)
+      }
+    } else {
+      if(isConfirmed === false){
+        setConfirmNumberWarning(false)
+        setNotConfirmedWarning(true)
+        return
+      }
+      await axios.post(`${process.env.REACT_APP_API_URL}/users/signup`, {
+        email: inputEmail,
+        username: inputUsername,
+        password: inputPassword,
+        age: inputAge,
+        gender: inputGender,
+      })
+      .then((res) => {
+        if(res.data.message === '회원가입 성공'){
+          alert('가입되었습니다.')
+          history.push("/signin")
+        }
+        if(res.data.message === '이미 사용중인 이메일입니다'){
+          setAleadyEmailWarning(true)
+        }
+        if(res.data.message === '이미 사용중인 별명입니다'){
+          setAleadyUsernameWarning(true)
+        }
+        if(res.data.message1 && res.data.message2){
+          setAleadyEmailWarning(true)
+          setAleadyUsernameWarning(true)
+        }
+      })
+    }
+  }
+
+  const sendConfirmNumber = () => {
+    setIsSending(true)
+    setNotConfirmedWarning(false)
+    setAleadyEmailWarning(false)
+    axios.post(`${process.env.REACT_APP_API_URL}/users/emailcheck`, {
+      email: inputEmail,
+    })
+    .then((res) => {
+      if(res.data.email){
+        axios.post(`${process.env.REACT_APP_API_URL}/users/sendemail`, {
+          email: inputEmail,
+        })
+        .then((res) => {
+          setConfirmNumber(res.data.number)
+          setIsSendConfirmNumber(true)
+          setIsSending(false)
+        })
+        .catch((err) => {
+          console.log(err)
+          setIsSending(false)
+        })
+      } else {
+        setAleadyEmailWarning(true)
+        setIsSending(false)
+      }
+    })
+  }
+
+  const confirmNumberFilter = (value) => {
+    setConfirmNumberWarning(false)
+    if(value.length > 6){
+      const fixedValue = value.slice(0, 6)
+      setInputConfirmNumber(fixedValue)
+    } else {
+      setInputConfirmNumber(value)
+    }
+  }
+
+  const checkConfirmNumber = () => {
+    setNotConfirmedWarning(false)
+    setConfirmNumberWarning(false)
+    if(Number(inputConfirmNumber) === confirmNumber){
+      setIsConfirmed(true)
+    } else {
+      setConfirmNumberWarning(true)
+    }
+  }
+
+=======
+  const handleInputValue = (key) => (e) => {
+    setuserinfo({ ...userinfo, [key]: e.target.value });
+  };
+  const handleSignup = () => {
+    // TODO : 서버에 회원가입을 요청 후 로그인 페이지로 이동하세요.
+    //        회원가입 성공 후 로그인 페이지 이동은 다음 코드를 이용하세요.
+    //        history.push("/");
+    // TODO : 모든 항목을 입력하지 않았을 경우 에러를 표시해야 합니다.
+    if (
+      userinfo.email === "" ||
+      userinfo.password === "" ||
+      userinfo.username === ""
+    ) {
+      console.log("test-----");
+      setErrorMessage("모든 항목은 필수입니다");
+    } else {
+      axios
+        .post("http://localhost:4000/users/signup", {
+          email: userinfo.email,
+          password: userinfo.password,
+          username: userinfo.username,
+        })
+        .then((res) => {
+          history.push("/signin");
+          console.log(res);
+        });
+    }
+  };
+  // useEffect(()=> {
+  //   axios.post("http://localhost:4000/users/signup", {
+  //       email: userinfo.email,
+  //       password: userinfo.password,
+  //       username: userinfo.username,
+  //     })
+  //     // .then((res) => {
+  //     //   console.log(res)
+  //     // });
+  // }, [])
+>>>>>>> feature/server
+  return (
+    <SignUpPageWrap>
+        <div className="signin_section">
+        {isDesktop? 
+            <button className="cancle-button" onClick={cancle}>취소</button>
+            : <div className='cancle-icon' onClick={cancle}/>}
+          <div className="signin_container">
+            <img
+              className="BC_logo"
+              src="images/bucketscombine_logo.png"
+              alt="no"
+              width="120px"
+              height="120px"
+            ></img>
+            <div className="login_title">BucketsCombine</div>
+<<<<<<< HEAD
+            <div className='list' onSubmit={(e) => e.preventDefault()}>
+              {isSendConfirmNumber?
+              <div
+              className="email-locked"
+              style={isConfirmed? {backgroundColor:'#59CA32'} : {backgroundColor:'gray'}}
+            >{inputEmail}</div>
+              : <input
+              className="input-area"
+              type="email"
+              placeholder="이메일"
+              onChange={(e) => {emailFilter(e.target.value)}}
+              value={inputEmail}
+              maxLength='40'
+            />
+              }
+              <div className="warning-message">
+              {emailWarning? "이메일 형식이 올바르지 않습니다." : "" }
+            </div>
+            <div className="warning-message">
+              {emptyEmailWarning? "이메일을 입력해주세요." : "" }
+            </div>
+            <div className="warning-message">
+              {aleadyEmailWarning? "이미 사용중인 이메일입니다." : "" }
+            </div>
+            {isSendConfirmNumber && !isConfirmed? 
+            <input
+              className="input-area"
+              type="number"
+              placeholder="이메일 인증번호"
+              onChange={(e) => {confirmNumberFilter(e.target.value)}}
+              value={inputConfirmNumber}
+              maxLength='40'
+              />
+              : null}
+              <div className="warning-message">
+              {confirmNumberWarning? "인증번호가 일치하지 않습니다." : "" }
+            </div>
+             {isSendConfirmNumber? null 
+              : isemailOK? isSending? <button className="sending-confirmNumber-button">인증번호 전송중</button> 
+                : <button className="send-confirmNumber-button" onClick={sendConfirmNumber}>이메일 인증</button> 
+                  : <button className="confirmNumber-button">이메일 인증</button>
+            }
+            <div className="warning-message">
+              {notConfirmedWarning? "이메일을 인증해주세요." : "" }
+            </div>
+            {isSendConfirmNumber && !isConfirmed? <button className="send-confirmNumber-button" onClick={checkConfirmNumber}>확인</button> : null}
+            <input
+              className="input-area"
+              type="username"
+              placeholder="별명"
+              onChange={(e) => {usernameFilter(e.target.value)}}
+              value={inputUsername}
+            />
+            <div className="warning-message">
+              {aleadyUsernameWarning? "이미 사용중인 별명입니다." : "" }
+            </div>
+            <div className="warning-message">
+              {emptyUsernameWarning? "별명을 입력해주세요." : "" }
+            </div>
+            <form>
+            <input
+              className="input-area"
+              type="password"
+              placeholder="비밀번호"
+              onChange={(e) => {passwordFilter(e.target.value)}}
+              autoComplete="off"
+              value={inputPassword}
+            />
+            </form>
+            <div className="warning-message">
+              {passwordWarning? "비밀번호는 6자 이상 12자 이하여야 합니다." : "" }
+            </div>
+            <div className="warning-message">
+              {emptyPasswordWarning? "비밀번호를 입력해주세요" : "" }
+            </div>
+            <form>
+            <input
+              className="input-area"
+              type="password"
+              placeholder="비밀번호 확인"
+              onChange={(e) => {repasswordFilter(e.target.value)}}
+              autoComplete="off"
+              value={inputRepassword}
+            />
+            </form>
+            <div className="warning-message">
+              {rePasswordWarning? "비밀번호가 일치하지 않습니다." : "" }
+            </div>
+            <select className="btn_old" onChange={(e) => {
+              setAgeWarning(false)
+              setInputAge(e.target.value)
+              }} method="get" required>
+              <option value="">연령대</option>
+              <option value="10대">10대</option>
+              <option value="20대">20대</option>
+              <option value="30대">30대</option>
+              <option value="40대">40대</option>
+              <option value="50대">50대</option>
+              <option value="60대">60대</option>
+              <option value="70대">70대</option>
+              <option value="80대">80대</option>
+              <option value="90대">90대</option>
+              <option value="100세 이상">100세 이상</option>
+            </select>
+            <div className="warning-message">
+              {ageWaring? "연령대를 선택해주세요." : "" }
+            </div>
+            <select className="btn_gender" onChange={(e) => {
+              setGenderWarning(false)
+              setInputGender(e.target.value)
+              }} method="get" required>
+              <option value="">성별</option>
+              <option value="남성">남성</option>
+              <option value="여성">여성</option>
+              <option value="선택안함">선택안함</option>
+		        </select>
+            <div className="warning-message">
+              {genderWarning? "성별을 선택해주세요." : "" }
+            </div>
+            <button
+              className="signup-button"
+              onClick={signUp}
+            >
+              가입하기
+            </button>
+            </div>
+=======
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input
+                id="email"
+                type="email"
+                placeholder="이메일"
+                onChange={handleInputValue("email")}
+              />
+              <input
+                id="password"
+                type="password"
+                placeholder="비밀번호"
+                onChange={handleInputValue("password")}
+              />
+              <input
+                id="username"
+                type="username"
+                placeholder="닉네임"
+                onChange={handleInputValue("username")}
+              />
+
+              <button className="signup" type="submit" onClick={handleSignup}>
+                가입하기
+              </button>
+              <div className="alert-box">{errorMessage}</div>
+            </form>
+>>>>>>> feature/server
+          </div>
+        </div>
+    </SignUpPageWrap>
+  );
+}
