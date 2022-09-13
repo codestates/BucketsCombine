@@ -218,6 +218,7 @@ const SignUpPageWrap = styled.div`
 `
 export default function SignUpPage() {
   const history = useHistory();
+<<<<<<< HEAD
 
   const cancle = () => {
     history.push('/signin')
@@ -459,6 +460,46 @@ export default function SignUpPage() {
     }
   }
 
+=======
+  const handleInputValue = (key) => (e) => {
+    setuserinfo({ ...userinfo, [key]: e.target.value });
+  };
+  const handleSignup = () => {
+    // TODO : 서버에 회원가입을 요청 후 로그인 페이지로 이동하세요.
+    //        회원가입 성공 후 로그인 페이지 이동은 다음 코드를 이용하세요.
+    //        history.push("/");
+    // TODO : 모든 항목을 입력하지 않았을 경우 에러를 표시해야 합니다.
+    if (
+      userinfo.email === "" ||
+      userinfo.password === "" ||
+      userinfo.username === ""
+    ) {
+      console.log("test-----");
+      setErrorMessage("모든 항목은 필수입니다");
+    } else {
+      axios
+        .post("http://localhost:4000/users/signup", {
+          email: userinfo.email,
+          password: userinfo.password,
+          username: userinfo.username,
+        })
+        .then((res) => {
+          history.push("/signin");
+          console.log(res);
+        });
+    }
+  };
+  // useEffect(()=> {
+  //   axios.post("http://localhost:4000/users/signup", {
+  //       email: userinfo.email,
+  //       password: userinfo.password,
+  //       username: userinfo.username,
+  //     })
+  //     // .then((res) => {
+  //     //   console.log(res)
+  //     // });
+  // }, [])
+>>>>>>> feature/server
   return (
     <SignUpPageWrap>
         <div className="signin_section">
@@ -474,6 +515,7 @@ export default function SignUpPage() {
               height="120px"
             ></img>
             <div className="login_title">BucketsCombine</div>
+<<<<<<< HEAD
             <div className='list' onSubmit={(e) => e.preventDefault()}>
               {isSendConfirmNumber?
               <div
@@ -600,6 +642,33 @@ export default function SignUpPage() {
               가입하기
             </button>
             </div>
+=======
+            <form onSubmit={(e) => e.preventDefault()}>
+              <input
+                id="email"
+                type="email"
+                placeholder="이메일"
+                onChange={handleInputValue("email")}
+              />
+              <input
+                id="password"
+                type="password"
+                placeholder="비밀번호"
+                onChange={handleInputValue("password")}
+              />
+              <input
+                id="username"
+                type="username"
+                placeholder="닉네임"
+                onChange={handleInputValue("username")}
+              />
+
+              <button className="signup" type="submit" onClick={handleSignup}>
+                가입하기
+              </button>
+              <div className="alert-box">{errorMessage}</div>
+            </form>
+>>>>>>> feature/server
           </div>
         </div>
     </SignUpPageWrap>

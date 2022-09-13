@@ -8,28 +8,42 @@ const fs = require("fs");
 const app = express();
 const port = 80;
 const indexRouter = require("./router");
+<<<<<<< HEAD
 const port = 4000;
 const indexRoute = "./route";
+=======
+>>>>>>> feature/server
 const mysql = require("mysql");
-// const controllers = require("./controllers");
 const cookieParser = require("cookie-parser");
+<<<<<<< HEAD
 const { result } = require("lodash");
 require("dotenv").config();
 
 const indexRouter = require("./router/index");
 
+=======
+const router = require("./router");
+
+require("dotenv").config();
+>>>>>>> feature/server
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
+<<<<<<< HEAD
     origin: ["http://localhost:3000", "http://localhost:80"],
     origin: ["http://localhost:3000"],
     // origin: true,
+=======
+    origin: true,
+>>>>>>> feature/server
     credentials: true,
-    methods: ["GET", "POST", "OPTIONS"],
+    methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
+    allowedHeaders: ["code", "Content-Type", "authorization", "*"],
   })
 );
 app.use(cookieParser());
+<<<<<<< HEAD
 
 app.use("/", indexRouter);
 
@@ -57,6 +71,14 @@ app.use("/", indexRouter);
 // });
 
 // "hello World" 를 데이터베이스에서 찾아 변수에 저장한 뒤 사용 가능
+=======
+function a(req, res) {
+  res.send("안녕하세요 정확한 패쓰루트를 써보세요");
+}
+router.get("/", a);
+app.use("/", indexRouter);
+
+>>>>>>> feature/server
 app.listen(port, () => {
   console.log("server on! http://localhost:" + port);
 });

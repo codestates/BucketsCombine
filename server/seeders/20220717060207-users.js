@@ -12,6 +12,8 @@ module.exports = {
         userphotourl: "server/src/dohoonkim.jpeg",
         createdAt: new Date(),
         updatedAt: new Date(),
+        age: "20대",
+        gender: "남성",
       },
       {
         username: "윤태영",
@@ -22,6 +24,8 @@ module.exports = {
         userphotourl: "server/src/taehoon.jpeg",
         createdAt: new Date(),
         updatedAt: new Date(),
+        age: "20대",
+        gender: "남성",
       },
       {
         username: "이태훈",
@@ -32,6 +36,8 @@ module.exports = {
         userphotourl: "server/src/teayoung.jpeg",
         createdAt: new Date(),
         updatedAt: new Date(),
+        age: "20대",
+        gender: "남성",
       },
       {
         username: "이윤창",
@@ -42,6 +48,8 @@ module.exports = {
         userphotourl: "server/src/hujy4023.jpeg",
         createdAt: new Date(),
         updatedAt: new Date(),
+        age: "20대",
+        gender: "남성",
       },
       {
         username: "이현석",
@@ -52,6 +60,8 @@ module.exports = {
         userphotourl: "server/src/leehunds.jpeg",
         createdAt: new Date(),
         updatedAt: new Date(),
+        age: "20대",
+        gender: "남성",
       },
     ]);
   },

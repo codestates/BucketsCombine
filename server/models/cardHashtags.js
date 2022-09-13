@@ -10,6 +10,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       //models 는 db 객체 testdb.users 의미
       // define association here
+      cardHashtags.belongsTo(models.cards, {
+        foreignKey: { name: "cards_id", allowNull: true },
+        onDelete: "CASCADE",
+      });
+      cardHashtags.belongsTo(models.hashtags, {
+        foreignKey: { name: "hashtags_id", allowNull: true },
+        onDelete: "CASCADE",
+      });
     }
   }
   //n:m관계에서 Query문을 날릴 땐, through와 구체적인 attributes를 명시

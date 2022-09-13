@@ -9,6 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       username: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       email: {
@@ -24,6 +25,12 @@ module.exports = {
         type: Sequelize.STRING,
       },
       userphotourl: {
+        type: Sequelize.STRING,
+      },
+      gender: {
+        type: Sequelize.STRING,
+      },
+      age: {
         type: Sequelize.STRING,
       },
       createdAt: {
