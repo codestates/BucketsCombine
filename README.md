@@ -2,6 +2,9 @@
 ## Logo
 ![buckets_combine](https://user-images.githubusercontent.com/93623572/174527985-d2498ce2-db94-425a-a277-d97539318537.jpg)
 
+## 📎 배포링크
+[BucketsCombine](https://bucketscombine.com/)
+
 ## 💭 About
 ### ✅ 사람들과 함께 버킷리스트를 이뤄보세요!
 
@@ -36,10 +39,6 @@
 5. 진행이 완료된 카드에 사진을 추가하면 도장이 찍혀 성취감을 얻을 수 있고 모험담을 공유할 수도 있습니다.
 6. 카드에 참여한 맴버들과 실시간 채팅을 할 수 있습니다.
 
-
-## 📎 배포링크
-[BucketsCombine](https://bucketscombine.com/)
-
 ## 🛠 기술 스택
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"/></a>
@@ -66,16 +65,18 @@
 
 ## 👨‍👦‍👦 Team 'DarkCircles'
 
+[Work Logs](https://github.com/codestates/BucketsCombine/wiki/Work-logs)
+
 ### 팀장
-Name | Position | GitHub ID | E-mail | Blog
+Name | Position | GitHub | E-mail | Blog
 -- | -- | -- | -- | --
-윤태영 | Front-end | SHREWDIE-38 | tyoon225@gmail.com | https://velog.io/@tyoon225
+윤태영 | Front-end | [SHREWDIE-38](https://github.com/SHREWDIE-38) | tyoon225@gmail.com | https://velog.io/@tyoon225
 
 ### 팀원
-Name | Position | GitHub ID | E-mail | Blog
+Name | Position | GitHub | E-mail | Blog
 -- | -- | -- | -- | --
-이현석 | Front-end | leehunds | leehyunseok92@gamil.com | https://velog.io/@leehunds
-이윤창 | Front-end | hujy4023 | hujy4023@gamil.com | https://velog.io/@hujy4023
-김도훈 | Back-end | mianhe89 | mianhe89@gmail.com | https://blog.naver.com/mianhe89
-이태훈 | Back-end | beggin0 | beggin823@gmail.com | https://velog.io/@ostar
+이윤창 | Front-end | [hujy4023](https://github.com/hujy4023) | hujy4023@gamil.com | https://velog.io/@hujy4023
+이현석 | Front-end | [leehunds](https://github.com/leehunds) | leehyunseok92@gamil.com | https://velog.io/@leehunds
+김도훈 | Back-end | [mianhe89](https://github.com/mianhe89) | mianhe89@gmail.com | https://blog.naver.com/mianhe89
+이태훈 | Back-end | [beggin0](https://github.com/beggin0) | beggin823@gmail.com | https://velog.io/@ostar
 ---
