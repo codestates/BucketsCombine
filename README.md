@@ -17,15 +17,18 @@
 여러분의 성취 Buckets Combine이 도와드립니다.<br>
 
 ### ✏️ 이루고 싶은 일을 카드에 적어 공유하세요!
-![bc01](https://user-images.githubusercontent.com/93623572/174530845-b26f3a0b-25e2-4882-bbf1-436079ac7956.png)
+<div align=center>
+<img width="720" alt="bucketscombine-cards" src="https://user-images.githubusercontent.com/93623572/190840492-d8f7f579-f1f5-4d59-803d-2901bf1749f5.png">
+</div>
 
 나의 버킷에 새로운 카드를 만들 담을 수도 있고 다른사람들의 카드를 담을 수도 있습니다.
 
 카드에는 자신의 버킷에 담은 사람들의 정보가 있어 모임을 만들기 수월합니다.
 
 ### 🌠 여러분의 성취를 자랑해보세요!
-![bc02](https://user-images.githubusercontent.com/93623572/174530887-7dc1b1a1-f247-4985-8890-aefa564bdf8a.png)
-
+<div align=center>
+<img width="720" alt="bucketscombine-stamped" src="https://user-images.githubusercontent.com/93623572/190840499-a2f8825e-2ac1-4828-aaca-cb488f1ba0aa.png">
+</div>
 
 달성하신 카드는 Buckets Combine이 도장을 찍어드려요.
 
@@ -59,7 +62,7 @@
 
 ## ⛳️ Flow Chart
 ### Front-end
-![스크린샷 2022-07-01 오전 10 33 26](https://user-images.githubusercontent.com/93623572/176805223-de71d62a-759c-4134-a047-e56259730310.png)
+![image](https://user-images.githubusercontent.com/93623572/190840587-d8f29e8f-0957-480d-a403-62d4588f254f.png)
 ### Back-end
 ![My First Board](https://user-images.githubusercontent.com/93623572/176633736-b49b5223-cdaf-4dfc-932d-07134880adc6.jpg)
 
